@@ -92,15 +92,15 @@
   
 ## UI
 - Home Page
-    -Create User
-    -If Logged in
+    - Create User
+    - If Logged in
         - Will display Play Online Button
           -Create Room
           -Enter Room
         - Display Play vs Computer Button
         - Manage User (Only if admin)
         - Log Out
-    -Logged out
+    - Logged out
         - Will Display Global Ranking
         - Login Button
 - User Details (Only if logged in)
