@@ -71,7 +71,9 @@ public class PlayerJdbcTemplateRepository implements PlayerRepository {
 
     @Override
     public boolean deleteById(int profileId) {
-        jdbcTemplate.update("delete from player_profile where player_profile_id = ?;", profileId);
-        return jdbcTemplate.update("delete from player_profile where player_profile_id = ?;", profileId) > 0;
+        final String sql= "update player_profile set "
+                + "player_profile_delete = true,"
+                + "where player_profile_id = ?;";
+        return jdbcTemplate.update(sql, profileId) > 0;
     }
 }

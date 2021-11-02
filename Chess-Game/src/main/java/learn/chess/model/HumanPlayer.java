@@ -1,9 +1,25 @@
 package learn.chess.model;
 
+import java.util.Objects;
+
 public class HumanPlayer {
 
     private int profileId;
     private String name;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        HumanPlayer that = (HumanPlayer) o;
+        return profileId == that.profileId && Objects.equals(name, that.name) && Objects.equals(email, that.email);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(profileId, name, email);
+    }
+
     private String email;
 
     public int getProfileId() {
