@@ -1,39 +1,37 @@
 package learn.chess.model;
 
 public enum Pieces {
-    WHITE_PAWN(" P ", Color.WHITE),
-    WHITE_BISHOP(" B ",Color.WHITE),
-    WHITE_ROOK(" R ", Color.WHITE),
-    WHITE_KNIGHT(" N ", Color.WHITE),
-    WHITE_QUEEN(" Q ", Color.WHITE),
-    WHITE_KING(" K ", Color.WHITE),
-    BLACK_PAWN(" p ", Color.BLACK),
-    BLACK_BISHOP(" b ", Color.BLACK),
-    BLACK_ROOK(" r ", Color.BLACK),
-    BLACK_KNIGHT(" n ", Color.BLACK),
-    BLACK_QUEEN(" q ", Color.BLACK),
-    BLACK_KING(" k ", Color.BLACK),
-    EMPTY("   ", Color.CLEAR);
+    WHITE_PAWN( Color.WHITE, false),
+    WHITE_BISHOP(Color.WHITE, false),
+    WHITE_ROOK( Color.WHITE, false),
+    WHITE_KNIGHT( Color.WHITE, false),
+    WHITE_QUEEN( Color.WHITE, false),
+    WHITE_KING( Color.WHITE, false),
+    BLACK_PAWN( Color.BLACK, false),
+    BLACK_BISHOP( Color.BLACK, false),
+    BLACK_ROOK( Color.BLACK, false),
+    BLACK_KNIGHT( Color.BLACK, false),
+    BLACK_QUEEN( Color.BLACK, false),
+    BLACK_KING( Color.BLACK, false);
 
-    private String notation;
     private Color color;
-
-    public String getNotation() {
-        return notation;
-    }
+    private boolean hasMoved;
 
     public Color getColor() {
         return color;
     }
 
-    Pieces(String notation, Color color) {
-        this.notation = notation;
+    public void setHasMoved(boolean hasMoved) {
+        this.hasMoved = hasMoved;
+    }
+
+    Pieces(Color color, boolean hasMoved) {
+        this.hasMoved = hasMoved;
         this.color = color;
     }
 
     public enum Color{
         WHITE,
         BLACK,
-        CLEAR
     }
 }
