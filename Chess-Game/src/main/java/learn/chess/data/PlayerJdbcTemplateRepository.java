@@ -6,12 +6,14 @@ import learn.chess.model.Player;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
+import org.springframework.stereotype.Repository;
 
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.Statement;
 import java.util.List;
 
+@Repository
 public class PlayerJdbcTemplateRepository implements PlayerRepository {
 
     private final JdbcTemplate jdbcTemplate;
@@ -23,7 +25,7 @@ public class PlayerJdbcTemplateRepository implements PlayerRepository {
 
     @Override
     public List<HumanPlayer> findAll() {
-        final String sql= "select player_profile_id, player_profile_name, player_profile_email from player_profile limit 1000;";
+        final String sql= "select * from player_profile limit 1000;";
         return jdbcTemplate.query(sql, new PlayerProfileMapper());
     }
 
