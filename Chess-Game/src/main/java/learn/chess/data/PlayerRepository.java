@@ -8,7 +8,7 @@ public interface PlayerRepository {
 
     List<HumanPlayer> findAll();
 
-    HumanPlayer findByEmail(String email);
+    HumanPlayer findById(int profileId);
 
     HumanPlayer addPlayer(HumanPlayer humanPlayer);
 

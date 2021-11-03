@@ -5,6 +5,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.jdbc.core.JdbcTemplate;
 
 import java.util.List;
 
@@ -17,11 +18,15 @@ class PlayerRepositoryTest {
     PlayerJdbcTemplateRepository repository;
 
     @Autowired
-    KnownGoodState knownGoodState;
+    JdbcTemplate jdbcTemplate;
+
+//    @Autowired
+//    KnownGoodState knownGoodState;
 
     @BeforeEach
     void setup() {
-        knownGoodState.set();
+        // set known good state
+        jdbcTemplate.update("call set_known_good_state();");
     }
 
     @Test
@@ -30,6 +35,13 @@ class PlayerRepositoryTest {
         List<HumanPlayer> hp = repository.findAll();
         assertNotNull(hp);
         assertEquals(3, hp.size());
+    }
+
+    @Test
+    void shouldFindById() {
+
+        HumanPlayer humanPlayer = repository.findById(1);
+        assertEquals(humanPlayer.getProfileId(), 1);
     }
 
 }
