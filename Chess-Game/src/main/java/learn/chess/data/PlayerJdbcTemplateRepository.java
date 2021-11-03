@@ -25,29 +25,30 @@ public class PlayerJdbcTemplateRepository implements PlayerRepository {
 
     @Override
     public List<HumanPlayer> findAll() throws DataAccessException {
-        final String sql= "select player_profile_id, player_profile_name, player_profile_email from player_profile limit 1000;";
+        final String sql= "select player_profile_id, player_profile_name, player_password, player_profile_email from player_profile limit 1000;";
         return jdbcTemplate.query(sql, new PlayerProfileMapper());
     }
 
     @Override
-    public HumanPlayer findByEmail(String email) throws DataAccessException {
-        final String sql= "select player_profile_id, player_profile_name, player_profile_email from player_profile "
+    public HumanPlayer findById(int profileId) throws DataAccessException {
+        final String sql= "select player_profile_id, player_profile_name, player_password, player_profile_email from player_profile "
                 + "where player_profile_email = ?;";
-        return jdbcTemplate.query(sql, new PlayerProfileMapper(), email).stream()
+        return jdbcTemplate.query(sql, new PlayerProfileMapper(), profileId).stream()
                 .findFirst()
                 .orElse(null);
     }
 
     @Override
     public HumanPlayer addPlayer(HumanPlayer humanPlayer) throws DataAccessException {
-        final String sql = "insert into player_profile (player_profile_name, player_profile_email) "
-                + " values (?,?);";
+        final String sql = "insert into player_profile (player_profile_name, player_password, player_profile_email) "
+                + " values (?,?,?);";
 
         KeyHolder keyHolder = new GeneratedKeyHolder();
         int rowsAffected = jdbcTemplate.update(connection -> {
             PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             ps.setString(1, humanPlayer.getName());
-            ps.setString(2, humanPlayer.getEmail());
+            ps.setString(2, humanplayer.getPassword());
+            ps.setString(3, humanPlayer.getEmail());
             return ps;
         }, keyHolder);
 
