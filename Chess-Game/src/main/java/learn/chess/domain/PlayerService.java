@@ -1,5 +1,8 @@
 package learn.chess.domain;
 
+import learn.chess.data.DataAccessException;
+
+
 import learn.chess.data.PlayerRepository;
 import learn.chess.model.HumanPlayer;
 import org.springframework.stereotype.Service;
@@ -15,15 +18,16 @@ public class PlayerService {
         this.repository = repository;
     }
 
-    public List<HumanPlayer> findAll(){
+
+    public List<HumanPlayer> findAll() throws DataAccessException {
         return repository.findAll();
     }
 
-    public HumanPlayer findById(int profileId){
+    public HumanPlayer findById(int profileId) throws DataAccessException {
         return repository.findById(profileId);
     }
 
-    public Result<HumanPlayer> addPlayer(HumanPlayer humanPlayer){
+    public Result<HumanPlayer> addPlayer(HumanPlayer humanPlayer) throws DataAccessException {
         Result<HumanPlayer> result = validateNulls(humanPlayer);
         if(!result.isSuccess()) {
             return result;
@@ -40,7 +44,9 @@ public class PlayerService {
         return result;
     }
 
-    public Result<HumanPlayer> updatePlayer(HumanPlayer humanPlayer){
+    public Result<HumanPlayer> updatePlayer(HumanPlayer humanPlayer) throws DataAccessException {
+
+
         Result<HumanPlayer> result = validateNulls(humanPlayer);
 
         if(!result.isSuccess()){
@@ -58,7 +64,9 @@ public class PlayerService {
         return result;
     }
 
-    public boolean deleteById(int profileId){
+    public boolean deleteById(int profileId) throws DataAccessException {
+
+
         return repository.deleteById(profileId);
     }
 

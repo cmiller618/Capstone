@@ -7,6 +7,7 @@ public class HumanPlayer {
     private int profileId;
     private String name;
 
+
     public String getPassword() {
         return password;
     }
@@ -31,7 +32,6 @@ public class HumanPlayer {
         return Objects.hash(profileId, name, email);
     }
 
-
     public int getProfileId() {
         return profileId;
     }
@@ -55,4 +55,5 @@ public class HumanPlayer {
     public void setEmail(String email) {
         this.email = email;
     }
+
 }

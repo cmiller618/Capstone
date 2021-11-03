@@ -1,5 +1,6 @@
 package learn.chess.domain;
 
+import learn.chess.data.DataAccessException;
 import learn.chess.data.PlayerRepository;
 import learn.chess.model.HumanPlayer;
 import org.junit.jupiter.api.Test;
@@ -23,7 +24,7 @@ class PlayerServiceTest {
 
 
     @Test
-    void shouldFindOne() {
+    void shouldFindOne() throws DataAccessException {
         HumanPlayer expected = makePlayer();
         when(repository.findById(3)).thenReturn(expected);
         HumanPlayer actual = service.findById(3);
@@ -32,7 +33,7 @@ class PlayerServiceTest {
     }
 
     @Test
-    void shouldNotFindMissing() {
+    void shouldNotFindMissing() throws DataAccessException {
         HumanPlayer expected = service.findById(10);
         assertNull(expected);
 
@@ -40,7 +41,7 @@ class PlayerServiceTest {
     }
 
     @Test
-    void shouldAddValid() {
+    void shouldAddValid() throws DataAccessException {
         HumanPlayer expected = makePlayer();
 
         HumanPlayer arg = makePlayer();
@@ -54,7 +55,7 @@ class PlayerServiceTest {
     }
 
     @Test
-    void shouldNotAddNullName() {
+    void shouldNotAddNullName() throws DataAccessException {
         HumanPlayer hp = new HumanPlayer();
         hp.setProfileId(0);
         hp.setName(null);
@@ -68,7 +69,7 @@ class PlayerServiceTest {
     }
 
     @Test
-    void shouldNotAddNullEmail() {
+    void shouldNotAddNullEmail() throws DataAccessException {
 
         HumanPlayer hp = new HumanPlayer();
         hp.setProfileId(0);
@@ -84,7 +85,7 @@ class PlayerServiceTest {
     }
 
     @Test
-    void shouldNotAddNullPassword() {
+    void shouldNotAddNullPassword() throws DataAccessException {
 
         HumanPlayer hp = new HumanPlayer();
         hp.setProfileId(0);
@@ -100,7 +101,7 @@ class PlayerServiceTest {
     }
 
     @Test
-    void shouldNotAddPresetId() {
+    void shouldNotAddPresetId() throws DataAccessException {
         HumanPlayer hp = new HumanPlayer();
         hp.setProfileId(10);
         hp.setName("name");
@@ -114,7 +115,7 @@ class PlayerServiceTest {
     }
 
     @Test
-    void shouldUpdateValid() {
+    void shouldUpdateValid() throws DataAccessException {
 
         HumanPlayer hp = new HumanPlayer();
         hp.setProfileId(1);
@@ -129,7 +130,7 @@ class PlayerServiceTest {
     }
 
     @Test
-    void shouldNotUpdateMissing() {
+    void shouldNotUpdateMissing() throws DataAccessException {
         HumanPlayer hp = new HumanPlayer();
         hp.setProfileId(5000);
         hp.setName("name");
@@ -143,7 +144,7 @@ class PlayerServiceTest {
 
     }
     @Test
-    void shouldNotUpdateInvalidId() {
+    void shouldNotUpdateInvalidId() throws DataAccessException {
         HumanPlayer hp = new HumanPlayer();
         hp.setProfileId(-1);
         hp.setName("name");
@@ -157,7 +158,7 @@ class PlayerServiceTest {
     }
 
     @Test
-    void shouldNotUpdateNullName() {
+    void shouldNotUpdateNullName() throws DataAccessException {
         HumanPlayer hp = new HumanPlayer();
         hp.setProfileId(5);
         hp.setName(null);
@@ -171,7 +172,7 @@ class PlayerServiceTest {
     }
 
     @Test
-    void shouldNotUpdateNullEmail() {
+    void shouldNotUpdateNullEmail() throws DataAccessException {
         HumanPlayer hp = new HumanPlayer();
         hp.setProfileId(5);
         hp.setName("name");
@@ -185,7 +186,7 @@ class PlayerServiceTest {
     }
 
     @Test
-    void shouldNotUpdateNullPassword() {
+    void shouldNotUpdateNullPassword() throws DataAccessException {
         HumanPlayer hp = new HumanPlayer();
         hp.setProfileId(5);
         hp.setName("name");
@@ -199,13 +200,13 @@ class PlayerServiceTest {
     }
 
     @Test
-    void shouldDeleteValid() {
+    void shouldDeleteValid() throws DataAccessException {
         when(repository.deleteById(1)).thenReturn(true);
         assertTrue(service.deleteById(1));
     }
 
     @Test
-    void shouldNotDeleteMissing() {
+    void shouldNotDeleteMissing() throws DataAccessException {
         when(repository.deleteById(25)).thenReturn(false);
         assertFalse(service.deleteById(25));
     }
