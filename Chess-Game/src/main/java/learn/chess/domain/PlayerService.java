@@ -1,5 +1,10 @@
 package learn.chess.domain;
 
+ capstone-chess-chris
+import learn.chess.data.DataAccessException;
+
+import learn.chess.data.DataAccessException;
+ master
 import learn.chess.data.PlayerRepository;
 import learn.chess.model.HumanPlayer;
 
@@ -13,6 +18,17 @@ public class PlayerService {
         this.repository = repository;
     }
 
+capstone-chess-chris
+    public List<HumanPlayer> findAll() throws DataAccessException {
+        return repository.findAll();
+    }
+
+    public HumanPlayer findById(int profileId) throws DataAccessException {
+        return repository.findByEmail(email);
+    }
+
+    public Result<HumanPlayer> addPlayer(HumanPlayer humanPlayer) throws DataAccessException {
+
     public List<HumanPlayer> findAll(){
         return repository.findAll();
     }
@@ -22,6 +38,7 @@ public class PlayerService {
     }
 
     public Result<HumanPlayer> addPlayer(HumanPlayer humanPlayer){
+ master
         Result<HumanPlayer> result = validateNulls(humanPlayer);
 
         if(result.isSuccess()){
@@ -31,7 +48,11 @@ public class PlayerService {
         return result;
     }
 
-    public Result<HumanPlayer> updatePlayer(HumanPlayer humanPlayer){
+ capstone-chess-chris
+    public Result<HumanPlayer> updatePlayer(HumanPlayer humanPlayer) throws DataAccessException {
+
+    public Result<HumanPlayer> updatePlayer(HumanPlayer humanPlayer) throws DataAccessException {
+ master
         Result<HumanPlayer> result = validateNulls(humanPlayer);
 
         if(!result.isSuccess()){
@@ -45,7 +66,11 @@ public class PlayerService {
         return result;
     }
 
-    public boolean deleteById(int profileId){
+ capstone-chess-chris
+    public boolean deleteById(int profileId) throws DataAccessException {
+
+    public boolean deleteById(int profileId) throws DataAccessException{
+ master
         return repository.deleteById(profileId);
     }
 

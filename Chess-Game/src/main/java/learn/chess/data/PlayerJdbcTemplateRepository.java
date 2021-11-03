@@ -3,7 +3,11 @@ package learn.chess.data;
 import learn.chess.mappers.PlayerProfileMapper;
 import learn.chess.model.HumanPlayer;
 import learn.chess.model.Player;
+ capstone-chess-chris
 import org.springframework.beans.factory.annotation.Autowired;
+
+import org.springframework.beans.factory.annotation.Autowired;
+ master
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
@@ -25,22 +29,37 @@ public class PlayerJdbcTemplateRepository implements PlayerRepository {
 
 
     @Override
-    public List<HumanPlayer> findAll() {
-        final String sql= "select * from player_profile limit 1000;";
+ capstone-chess-chris
+    public List<HumanPlayer> findAll() throws DataAccessException {
+        final String sql= "select player_profile_id, player_profile_name, player_password, player_profile_email from player_profile limit 1000;";
+
+    public List<HumanPlayer> findAll() throws DataAccessException {
+        final String sql= "select player_profile_id, player_profile_name, player_password, player_profile_email from player_profile limit 1000;";
+ master
         return jdbcTemplate.query(sql, new PlayerProfileMapper());
     }
 
     @Override
-    public HumanPlayer findById(int profileId) {
-        final String sql= "select * from player_profile "
-                + "where player_profile_id = ?;";
+ capstone-chess-chris
+    public HumanPlayer findById(int profileId) throws DataAccessException {
+        final String sql= "select player_profile_id, player_profile_name, player_password, player_profile_email from player_profile "
+                + "where player_profile_email = ?;";
+
+    public HumanPlayer findById(int profileId) throws DataAccessException {
+        final String sql= "select player_profile_id, player_profile_name, player_password, player_profile_email from player_profile "
+                + "where player_profile_email = ?;";
+ master
         return jdbcTemplate.query(sql, new PlayerProfileMapper(), profileId).stream()
                 .findFirst()
                 .orElse(null);
     }
 
     @Override
-    public HumanPlayer addPlayer(HumanPlayer humanPlayer) {
+capstone-chess-chris
+    public HumanPlayer addPlayer(HumanPlayer humanPlayer) throws DataAccessException {
+
+    public HumanPlayer addPlayer(HumanPlayer humanPlayer) throws DataAccessException {
+master
         final String sql = "insert into player_profile (player_profile_name, player_password, player_profile_email) "
                 + " values (?,?,?);";
 
@@ -48,7 +67,11 @@ public class PlayerJdbcTemplateRepository implements PlayerRepository {
         int rowsAffected = jdbcTemplate.update(connection -> {
             PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             ps.setString(1, humanPlayer.getName());
+capstone-chess-chris
+            ps.setString(2, humanplayer.getPassword());
+
             ps.setString(2, humanPlayer.getPassword());
+master
             ps.setString(3, humanPlayer.getEmail());
             return ps;
         }, keyHolder);
@@ -65,8 +88,13 @@ public class PlayerJdbcTemplateRepository implements PlayerRepository {
     public boolean updatePlayer(HumanPlayer humanPlayer) {
         final String sql = "update player_profile set "
                 + "player_profile_name = ?, "
-                + "player_password = ?,"
+capstone-chess-chris
+                + "player_password = ?, "
+                + "player_profile_email = ? "
+
+                + "player_password = ?, "
                 + "player_profile_email = ?, "
+master
                 + "where player_profile_id = ?;";
         return jdbcTemplate.update(sql,
                 humanPlayer.getName(),
@@ -78,7 +106,11 @@ public class PlayerJdbcTemplateRepository implements PlayerRepository {
     @Override
     public boolean deleteById(int profileId) {
         final String sql= "update player_profile set "
-                + "player_profile_delete = true,"
+capstone-chess-chris
+                + "player_profile_delete = true "
+
+                + "player_profile_delete = true, "
+master
                 + "where player_profile_id = ?;";
         return jdbcTemplate.update(sql, profileId) > 0;
     }

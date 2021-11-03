@@ -6,13 +6,25 @@ import java.util.List;
 
 public interface PlayerRepository {
 
-    List<HumanPlayer> findAll();
+ capstone-chess-chris
+    List<HumanPlayer> findAll() throws DataAccessException;
 
-    HumanPlayer findById(int profileId);
+    HumanPlayer findByid(int profileId) throws DataAccessException;
 
-    HumanPlayer addPlayer(HumanPlayer humanPlayer);
+    HumanPlayer addPlayer(HumanPlayer humanPlayer) throws DataAccessException;
 
-    boolean updatePlayer(HumanPlayer humanPlayer);
+    boolean updatePlayer(HumanPlayer humanPlayer) throws DataAccessException;
 
-    boolean deleteById(int profileId);
+    boolean deleteById(int profileId) throws DataAccessException;
+
+    List<HumanPlayer> findAll() throws DataAccessException;;
+
+    HumanPlayer findById(int profileId) throws DataAccessException;;
+
+    HumanPlayer addPlayer(HumanPlayer humanPlayer) throws DataAccessException;;
+
+    boolean updatePlayer(HumanPlayer humanPlayer) throws DataAccessException;;
+
+    boolean deleteById(int profileId) throws DataAccessException;;
+ master
 }

@@ -6,6 +6,18 @@ public class HumanPlayer {
 
     private int profileId;
     private String name;
+ capstone-chess-chris
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    private String password;
+    private String email;
+
 
     public String getPassword() {
         return password;
@@ -17,6 +29,7 @@ public class HumanPlayer {
 
     private String password;
     private String email;
+ master
 
     @Override
     public boolean equals(Object o) {
@@ -31,6 +44,11 @@ public class HumanPlayer {
         return Objects.hash(profileId, name, email);
     }
 
+ capstone-chess-chris
+    private String email;
+
+    private String email;
+ master
 
     public int getProfileId() {
         return profileId;
@@ -55,4 +73,8 @@ public class HumanPlayer {
     public void setEmail(String email) {
         this.email = email;
     }
+ capstone-chess-chris
+
+
+ master
 }
