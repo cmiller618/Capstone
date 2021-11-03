@@ -17,7 +17,7 @@ create table `match` (
 	match_id int primary key auto_increment,
     match_player1_id int not null,
     match_player2_id int not null,
-    match_winner int null,
+    match_winner int not null default 0,
     match_start_time time not null,
     match_end_time time null,
     constraint fk_match_player_profile_id1
@@ -27,6 +27,8 @@ create table `match` (
 		foreign key (match_player2_id)
         references player_profile(player_profile_id)    
 );
+
+-- #######################################################
 
 delimiter //
 create procedure set_known_good_state()
@@ -46,7 +48,13 @@ begin
 	insert into `match`(match_player1_id, match_player2_id, match_winner,match_start_time, match_end_time) values
 		(1,2,2,"8:00:00","10:25:00"),
 		(2,3,2,"10:30:00","10:55:00"),
-		(3,1,3,"11:00:00","11:45:00");
+		(3,1,0,"11:00:00",null);
         
 end //
 delimiter ;        
+
+-- #######################################################
+
+select * from `match`;
+
+select * from player_profile;
