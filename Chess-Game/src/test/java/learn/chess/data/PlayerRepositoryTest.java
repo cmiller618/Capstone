@@ -6,11 +6,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.util.List;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-@SpringBootTest (webEnvironment = SpringBootTest.WebEnvironment.NONE)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
 class PlayerRepositoryTest {
 
     @Autowired
@@ -26,10 +24,12 @@ class PlayerRepositoryTest {
 
     @Test
     void shouldFindAll() {
-
-        List<HumanPlayer> hp = repository.findAll();
-        assertNotNull(hp);
-        assertEquals(3, hp.size());
+        HumanPlayer humanPlayer = new HumanPlayer();
+        humanPlayer.setProfileId(1);
+        humanPlayer.setName("SuperMario");
+        humanPlayer.setEmail("supermario@gmail.com");
+        HumanPlayer expected = repository.findByEmail("supermario@gmail.com");
+        assertEquals(humanPlayer,expected);
     }
 
 }
