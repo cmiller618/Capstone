@@ -16,7 +16,5 @@ public class KnownGoodState {
             hasRun = true;
             jdbcTemplate.update("call set_known_good_state();");
         }
-
-        hasRun = false;
     }
 }
