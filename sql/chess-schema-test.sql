@@ -32,10 +32,10 @@ delimiter //
 create procedure set_known_good_state()
 begin
 
-	delete from player_profile;
-	alter table player_profile auto_increment = 1;
 	delete from `match`;
     alter table `match` auto_increment = 1;
+	delete from player_profile;
+	alter table player_profile auto_increment = 1;
     
     insert into player_profile(player_profile_name, player_password, player_profile_email) values
 	('SuperMario', "P@ssw0rd!", 'supermario@gmail.com'),
