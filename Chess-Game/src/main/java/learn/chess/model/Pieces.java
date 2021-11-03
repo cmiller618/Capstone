@@ -1,18 +1,18 @@
 package learn.chess.model;
 
 public enum Pieces {
-    WHITE_PAWN( Color.WHITE, false),
-    WHITE_BISHOP(Color.WHITE, false),
-    WHITE_ROOK( Color.WHITE, false),
-    WHITE_KNIGHT( Color.WHITE, false),
-    WHITE_QUEEN( Color.WHITE, false),
-    WHITE_KING( Color.WHITE, false),
-    BLACK_PAWN( Color.BLACK, false),
-    BLACK_BISHOP( Color.BLACK, false),
-    BLACK_ROOK( Color.BLACK, false),
-    BLACK_KNIGHT( Color.BLACK, false),
-    BLACK_QUEEN( Color.BLACK, false),
-    BLACK_KING( Color.BLACK, false);
+    WHITE_PAWN( Color.WHITE),
+    WHITE_BISHOP(Color.WHITE),
+    WHITE_ROOK( Color.WHITE),
+    WHITE_KNIGHT( Color.WHITE),
+    WHITE_QUEEN( Color.WHITE),
+    WHITE_KING( Color.WHITE),
+    BLACK_PAWN( Color.BLACK),
+    BLACK_BISHOP( Color.BLACK),
+    BLACK_ROOK( Color.BLACK),
+    BLACK_KNIGHT( Color.BLACK),
+    BLACK_QUEEN( Color.BLACK),
+    BLACK_KING( Color.BLACK);
 
     private Color color;
     private boolean hasMoved;
@@ -25,8 +25,11 @@ public enum Pieces {
         this.hasMoved = hasMoved;
     }
 
-    Pieces(Color color, boolean hasMoved) {
-        this.hasMoved = hasMoved;
+    public boolean getHasMoved() {
+        return hasMoved;
+    }
+
+    Pieces(Color color) {
         this.color = color;
     }
 
