@@ -20,9 +20,6 @@ class PlayerRepositoryTest {
     @Autowired
     JdbcTemplate jdbcTemplate;
 
-//    @Autowired
-//    KnownGoodState knownGoodState;
-
     @BeforeEach
     void setup() {
         // set known good state
@@ -30,7 +27,7 @@ class PlayerRepositoryTest {
     }
 
     @Test
-    void shouldFindAll() {
+    void shouldFindAll() throws DataAccessException {
         List<HumanPlayer> hp = repository.findAll();
         assertNotNull(hp);
         assertEquals(3, hp.size());
@@ -38,20 +35,20 @@ class PlayerRepositoryTest {
     }
 
     @Test
-    void shouldFindById() {
+    void shouldFindById() throws DataAccessException {
 
         HumanPlayer humanPlayer = repository.findById(1);
         assertEquals(humanPlayer.getProfileId(), 1);
     }
 
     @Test
-    void shouldNotFindMissingId() {
+    void shouldNotFindMissingId() throws DataAccessException {
         HumanPlayer humanPlayer = repository.findById(15);
         assertNull(humanPlayer);
     }
 
     @Test
-    void shouldAddPlayer() {
+    void shouldAddPlayer() throws DataAccessException {
         HumanPlayer hp = new HumanPlayer();
         hp.setProfileId(4);
         hp.setName("Test");
