@@ -30,7 +30,7 @@ public class PlayerController {
     }
 
     @GetMapping("{/profileId}")
-    public ResponseEntity<HumanPlayer> findByEmail(@PathVariable int profileId) throws DataAccessException {
+    public ResponseEntity<HumanPlayer> findById(@PathVariable int profileId) throws DataAccessException {
         HumanPlayer player = service.findById(profileId);
         if(player == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
