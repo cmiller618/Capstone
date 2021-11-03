@@ -4,6 +4,7 @@ import learn.chess.data.DataAccessException;
 import learn.chess.domain.PlayerService;
 import learn.chess.domain.Result;
 import learn.chess.model.HumanPlayer;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -19,7 +20,6 @@ public class PlayerController {
 
     private final PlayerService service;
 
-
     public PlayerController(PlayerService service) {
         this.service = service;
     }
@@ -29,9 +29,9 @@ public class PlayerController {
         return service.findAll();
     }
 
-    @GetMapping("{/email}")
-    public ResponseEntity<HumanPlayer> findByEmail(@PathVariable String email) throws DataAccessException {
-        HumanPlayer player = service.findByEmail(email);
+    @GetMapping("{/profileId}")
+    public ResponseEntity<HumanPlayer> findByEmail(@PathVariable int profileId) throws DataAccessException {
+        HumanPlayer player = service.findById(profileId);
         if(player == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
