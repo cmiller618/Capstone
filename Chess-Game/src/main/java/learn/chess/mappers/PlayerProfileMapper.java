@@ -12,6 +12,7 @@ public class PlayerProfileMapper implements RowMapper<HumanPlayer> {
         HumanPlayer humanPlayer = new HumanPlayer();
         humanPlayer.setProfileId(resultSet.getInt("player_profile_id"));
         humanPlayer.setName(resultSet.getString("player_profile_name"));
+        humanPlayer.setPassword(resultSet.getString("player_profile_password"));
         humanPlayer.setEmail(resultSet.getString("player_profile_email"));
         return humanPlayer;
     }

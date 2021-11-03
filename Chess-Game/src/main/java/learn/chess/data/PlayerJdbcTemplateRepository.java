@@ -41,14 +41,15 @@ public class PlayerJdbcTemplateRepository implements PlayerRepository {
 
     @Override
     public HumanPlayer addPlayer(HumanPlayer humanPlayer) {
-        final String sql = "insert into player_profile (player_profile_name, player_profile_email) "
-                + " values (?,?);";
+        final String sql = "insert into player_profile (player_profile_name, player_password, player_profile_email) "
+                + " values (?,?,?);";
 
         KeyHolder keyHolder = new GeneratedKeyHolder();
         int rowsAffected = jdbcTemplate.update(connection -> {
             PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             ps.setString(1, humanPlayer.getName());
-            ps.setString(2, humanPlayer.getEmail());
+            ps.setString(2, humanPlayer.getPassword());
+            ps.setString(3, humanPlayer.getEmail());
             return ps;
         }, keyHolder);
 
@@ -64,10 +65,12 @@ public class PlayerJdbcTemplateRepository implements PlayerRepository {
     public boolean updatePlayer(HumanPlayer humanPlayer) {
         final String sql = "update player_profile set "
                 + "player_profile_name = ?, "
+                + "player_password = ?,"
                 + "player_profile_email = ?, "
                 + "where player_profile_id = ?;";
         return jdbcTemplate.update(sql,
                 humanPlayer.getName(),
+                humanPlayer.getPassword(),
                 humanPlayer.getEmail(),
                 humanPlayer.getProfileId()) > 0;
     }

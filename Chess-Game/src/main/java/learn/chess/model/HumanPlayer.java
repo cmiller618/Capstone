@@ -7,6 +7,17 @@ public class HumanPlayer {
     private int profileId;
     private String name;
 
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    private String password;
+    private String email;
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -20,7 +31,6 @@ public class HumanPlayer {
         return Objects.hash(profileId, name, email);
     }
 
-    private String email;
 
     public int getProfileId() {
         return profileId;

@@ -17,8 +17,8 @@ public class PlayerService {
         return repository.findAll();
     }
 
-    public HumanPlayer findByEmail(String email){
-        return repository.findByEmail(email);
+    public HumanPlayer findById(int profileId){
+        return repository.findById(profileId);
     }
 
     public Result<HumanPlayer> addPlayer(HumanPlayer humanPlayer){
