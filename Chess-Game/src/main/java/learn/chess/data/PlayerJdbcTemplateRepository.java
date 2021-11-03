@@ -26,13 +26,13 @@ public class PlayerJdbcTemplateRepository implements PlayerRepository {
 
     @Override
     public List<HumanPlayer> findAll() {
-        final String sql= "select * from player_profile limit 1000;";
+        final String sql= "select player_profile_id, player_profile_name, player_password, player_profile_email from player_profile limit 1000;";
         return jdbcTemplate.query(sql, new PlayerProfileMapper());
     }
 
     @Override
     public HumanPlayer findById(int profileId) {
-        final String sql= "select * from player_profile "
+        final String sql= "select player_profile_id, player_profile_name, player_password, player_profile_email from player_profile "
                 + "where player_profile_id = ?;";
         return jdbcTemplate.query(sql, new PlayerProfileMapper(), profileId).stream()
                 .findFirst()
