@@ -3,6 +3,7 @@ package learn.chess.data;
 import learn.chess.mappers.PlayerProfileMapper;
 import learn.chess.model.HumanPlayer;
 import learn.chess.model.Player;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
@@ -30,10 +31,10 @@ public class PlayerJdbcTemplateRepository implements PlayerRepository {
     }
 
     @Override
-    public HumanPlayer findByEmail(String email) {
-        final String sql= "select player_profile_id, player_profile_name, player_profile_email from player_profile "
-                + "where player_profile_email = ?;";
-        return jdbcTemplate.query(sql, new PlayerProfileMapper(), email).stream()
+    public HumanPlayer findById(int profileId) {
+        final String sql= "select * from player_profile "
+                + "where player_profile_id = ?;";
+        return jdbcTemplate.query(sql, new PlayerProfileMapper(), profileId).stream()
                 .findFirst()
                 .orElse(null);
     }
