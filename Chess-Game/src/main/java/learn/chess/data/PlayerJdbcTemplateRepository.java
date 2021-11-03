@@ -65,8 +65,8 @@ public class PlayerJdbcTemplateRepository implements PlayerRepository {
     public boolean updatePlayer(HumanPlayer humanPlayer) {
         final String sql = "update player_profile set "
                 + "player_profile_name = ?, "
-                + "player_password = ?,"
-                + "player_profile_email = ?, "
+                + "player_password = ?, "
+                + "player_profile_email = ? "
                 + "where player_profile_id = ?;";
         return jdbcTemplate.update(sql,
                 humanPlayer.getName(),
@@ -78,7 +78,7 @@ public class PlayerJdbcTemplateRepository implements PlayerRepository {
     @Override
     public boolean deleteById(int profileId) {
         final String sql= "update player_profile set "
-                + "player_profile_delete = true,"
+                + "player_profile_delete = true "
                 + "where player_profile_id = ?;";
         return jdbcTemplate.update(sql, profileId) > 0;
     }

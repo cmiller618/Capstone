@@ -63,4 +63,31 @@ class PlayerRepositoryTest {
         assertEquals(hp, actual);
     }
 
+    @Test
+    void shouldUpdate() {
+        HumanPlayer hp = new HumanPlayer();
+        hp.setProfileId(1);
+        hp.setName("Updated");
+        hp.setPassword("updatedpass");
+        hp.setEmail("supermario@gmail.com");
+        boolean actual = repository.updatePlayer(hp);
+
+        assertTrue(actual);
+
+    }
+
+    @Test
+    void shouldSoftDelete() {
+
+        boolean actual = repository.deleteById(2);
+        assertTrue(actual);
+    }
+
+    @Test
+    void shouldNotSoftDeleteMissing() {
+
+        boolean actual = repository.deleteById(25);
+        assertFalse(actual);
+    }
+
 }
