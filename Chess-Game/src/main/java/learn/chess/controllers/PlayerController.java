@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
+@CrossOrigin(origins = {"http://localhost:3000"})
 @RequestMapping("/game/players")
 public class PlayerController {
 
@@ -29,7 +30,7 @@ public class PlayerController {
         return service.findAll();
     }
 
-    @GetMapping("{/profileId}")
+    @GetMapping("/{profileId}")
     public ResponseEntity<HumanPlayer> findById(@PathVariable int profileId) throws DataAccessException {
         HumanPlayer player = service.findById(profileId);
         if(player == null) {
