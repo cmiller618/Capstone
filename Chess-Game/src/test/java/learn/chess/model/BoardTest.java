@@ -37,6 +37,7 @@ class BoardTest {
         pieces[5][1] = null;
         assertTrue(board.queenValidMovement(4, 0, 4, 2));
         assertTrue(board.queenValidMovement(4, 0, 5, 1));
+        assertTrue(board.queenValidMovement(4,4,3,5));
 
     }
 
@@ -46,6 +47,8 @@ class BoardTest {
         assertFalse(board.rookValidMovement(0,0,2,3));
 
         assertFalse(board.rookValidMovement(0,0, 7,0));
+        assertFalse(board.rookValidMovement(7,0,0,0));
+
     }
 
     @Test
@@ -66,6 +69,7 @@ class BoardTest {
     void bishopMoveShouldBeValid(){
         pieces[3][1] = null;
         assertTrue(board.bishopValidMovement(2,0, 3,1));
+        assertTrue(board.bishopValidMovement(4,4,3,5));
     }
 
     @Test

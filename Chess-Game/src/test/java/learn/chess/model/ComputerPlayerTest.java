@@ -57,10 +57,19 @@ class ComputerPlayerTest {
 
         player.getBestMove(board, true);
 
-        Pieces[][] pieces = board.getBoard();
+        player.getBestMove(board, true);
+        player.getBestMove(board, true);
+        Pieces[][] pieces = board.getCurrentBoard();
 
-        assertNotNull(pieces);
-        assertEquals(pieces[2][2], Pieces.BLACK_KNIGHT);
+        for(int i = 0; i < 8; i++){
+            for(int j = 0; j < 8; j++){
+                if(pieces[i][j] != null){
+                    System.out.print("  ");
+                }
+                System.out.print(" "+ pieces[i][j]+ " ");
+            }
+            System.out.print("\n");
+        }
     }
 
 

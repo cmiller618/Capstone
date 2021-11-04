@@ -168,7 +168,7 @@ public class ComputerPlayer implements Player {
             //Finding all the legal move then will use the minimax algorithm
             for(int i = 0; i < 8; i++){
                 for(int j = 0; j < 8; j++){
-                    if(pieces[i][j].equals(Pieces.BLACK_PAWN)){
+                    if(pieces[i][j] != null && pieces[i][j].equals(Pieces.BLACK_PAWN)){
                         if(board.pawnValidMovement(i, j, i+2, j)){
                             findBestMove.add(Math.abs(pieces[i][j].getPieceValue() + pawn[i+2][j]));
                             x.add(i);
@@ -183,8 +183,8 @@ public class ComputerPlayer implements Player {
                             endY.add(j);
 
                         }
-                    }if(pieces[i][j].equals(Pieces.BLACK_ROOK)){
-                        int k = 0;
+                    }if(pieces[i][j] != null && pieces[i][j].equals(Pieces.BLACK_ROOK)){
+                        int k = 1;
                         while (k <= 7){
                             if(board.rookValidMovement(i, j, i, k)){
                                 findBestMove.add(Math.abs(pieces[i][j].getPieceValue() + rook[i][k]));
@@ -201,7 +201,7 @@ public class ComputerPlayer implements Player {
                             }
                             k++;
                         }
-                    }if(pieces[i][j].equals(Pieces.BLACK_KNIGHT)){
+                    }if(pieces[i][j] != null && pieces[i][j].equals(Pieces.BLACK_KNIGHT)){
                         if(board.knightValidMovement(i, j, i+1, j+2)){
                             findBestMove.add(Math.abs(pieces[i][j].getPieceValue() + knight[i + 1][j + 2]));
                             x.add(i);
@@ -251,9 +251,9 @@ public class ComputerPlayer implements Player {
                             endX.add(i-2);
                             endY.add(j-1);
                         }
-                    }if(pieces[i][j].equals(Pieces.BLACK_BISHOP)){
-                        int k = 0;
-                        int l = 0;
+                    }if(pieces[i][j] != null && pieces[i][j].equals(Pieces.BLACK_BISHOP)){
+                        int k = 1;
+                        int l = 1;
                         while (k <= 7 && l <= 7){
                             if(board.bishopValidMovement(i, j, i+k, j+l)){
                                 findBestMove.add(Math.abs(pieces[i][j].getPieceValue() + bishop[i + k][j + l]));
@@ -284,9 +284,9 @@ public class ComputerPlayer implements Player {
                             l++;
                         }
 
-                    }if(pieces[i][j].equals(Pieces.BLACK_QUEEN)){
-                        int k = 0;
-                        int l = 0;
+                    }if(pieces[i][j] != null && pieces[i][j].equals(Pieces.BLACK_QUEEN)){
+                        int k = 1;
+                        int l = 1;
                         while (k <= 7 && l <= 7){
                             if(board.queenValidMovement(i, j, i+k, j+l)){
                                 findBestMove.add(Math.abs(pieces[i][j].getPieceValue() + queen[i + k][j + l]));
@@ -341,7 +341,7 @@ public class ComputerPlayer implements Player {
                             l++;
                         }
 
-                    }if(pieces[i][j].equals(Pieces.BLACK_KING)){
+                    }if(pieces[i][j] != null && pieces[i][j].equals(Pieces.BLACK_KING)){
                         if(board.kingValidMovement(i, j, i+1, j+1)){
                             findBestMove.add(Math.abs(pieces[i][j].getPieceValue() + king[i + 1][j + 1]));
                             x.add(i);
@@ -397,7 +397,7 @@ public class ComputerPlayer implements Player {
         }else{
             for(int i = 0; i < 8; i++){
                 for(int j = 0; j < 8; j++){
-                    if(pieces[i][j].equals(Pieces.WHITE_PAWN)) {
+                    if(pieces[i][j] != null && pieces[i][j].equals(Pieces.WHITE_PAWN)) {
                         if (board.pawnValidMovement(i, j, i + 2, j)) {
                             findBestMove.add(Math.abs(pieces[i][j].getPieceValue() + pawn[i + 2][j]));
                             x.add(i);
@@ -413,7 +413,7 @@ public class ComputerPlayer implements Player {
                             endY.add(j);
 
                         }
-                    }if(pieces[i][j].equals(Pieces.WHITE_ROOK)){
+                    }if(pieces[i][j] != null && pieces[i][j].equals(Pieces.WHITE_ROOK)){
                         int k = 1;
                         while (k <= 7){
                             if(board.rookValidMovement(i, j, i, k)){
@@ -431,7 +431,7 @@ public class ComputerPlayer implements Player {
                             }
                             k++;
                         }
-                    }if(pieces[i][j].equals(Pieces.WHITE_KNIGHT)){
+                    }if(pieces[i][j] != null && pieces[i][j].equals(Pieces.WHITE_KNIGHT)){
                         if(board.knightValidMovement(i, j, i+1, j+2)){
                             findBestMove.add(Math.abs(pieces[i][j].getPieceValue() + knight[i + 1][j + 2]));
                             x.add(i);
@@ -481,7 +481,7 @@ public class ComputerPlayer implements Player {
                             endX.add(i-2);
                             endY.add(j-1);
                         }
-                    }if(pieces[i][j].equals(Pieces.WHITE_BISHOP)){
+                    }if(pieces[i][j] != null && pieces[i][j].equals(Pieces.WHITE_BISHOP)){
                         int k = 1;
                         int l = 1;
                         while (k <= 7 && l <= 7){
@@ -514,7 +514,7 @@ public class ComputerPlayer implements Player {
                             l++;
                         }
 
-                    }if(pieces[i][j].equals(Pieces.WHITE_QUEEN)){
+                    }if(pieces[i][j] != null && pieces[i][j].equals(Pieces.WHITE_QUEEN)){
                         int k = 1;
                         int l = 1;
                         while (k <= 7 && l <= 7){
@@ -571,7 +571,7 @@ public class ComputerPlayer implements Player {
                             l++;
                         }
 
-                    }if(pieces[i][j].equals(Pieces.WHITE_KING)){
+                    }if(pieces[i][j] != null && pieces[i][j].equals(Pieces.WHITE_KING)){
                         if(board.kingValidMovement(i, j, i+1, j+1)){
                             findBestMove.add(Math.abs(pieces[i][j].getPieceValue() + king[i + 1][j + 1]));
                             x.add(i);
