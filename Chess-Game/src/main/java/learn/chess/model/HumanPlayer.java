@@ -7,6 +7,15 @@ public class HumanPlayer {
     private int profileId;
     private String name;
 
+    public PlayerStats getPlayerMatch() {
+        return playerStats;
+    }
+
+    public void setPlayerMatch(PlayerStats playerStats) {
+        this.playerStats = playerStats;
+    }
+
+    private PlayerStats playerStats;
 
     public String getPassword() {
         return password;
