@@ -21,28 +21,11 @@ function App() {
     }
   }, []);
 
-  const login = (candidate) => {
-    let creds;
+  const login = (creds) => {
+    setCredentials(creds);
+   
 
-    if(candidate.username === "user" && candidate.password === "user"){
-      creds = {
-        username: candidate.username,
-        role: "USER"
-      }
-    }else if(candidate.username === "admin" && candidate.password === "admin"){
-      creds = {
-        username: candidate.username,
-        role: "ADMIN"
-      }
-    }
 
-    if(creds){
-      setCredentials(creds);
-      localStorage.setItem(CREDENTIALS_KEY, JSON.stringify(creds));
-      return true;
-    }
-
-    return false;
   };
 
   const logout = () => {
@@ -78,11 +61,11 @@ function App() {
           </Route>
 
           <Route path="/game/pvp">
-            <PvP />
+            {credentials ? <PvP /> : <Redirect to="/login" />}
           </Route>
 
           <Route path="/game/pvc">
-            <PvC />
+            {credentials ? <PvC /> : <Redirect to="/login" />}
           </Route>
 
         </Switch>
