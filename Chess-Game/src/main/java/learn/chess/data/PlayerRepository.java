@@ -15,5 +15,4 @@ public interface PlayerRepository {
     boolean updatePlayer(HumanPlayer humanPlayer) throws DataAccessException;
 
     boolean deleteById(int profileId) throws DataAccessException;
-
 }

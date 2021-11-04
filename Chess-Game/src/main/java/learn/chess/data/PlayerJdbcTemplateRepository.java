@@ -3,9 +3,7 @@ package learn.chess.data;
 import learn.chess.mappers.PlayerProfileMapper;
 import learn.chess.model.HumanPlayer;
 import learn.chess.model.Player;
-
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
@@ -27,27 +25,22 @@ public class PlayerJdbcTemplateRepository implements PlayerRepository {
 
 
     @Override
-
     public List<HumanPlayer> findAll() throws DataAccessException {
         final String sql= "select player_profile_id, player_profile_name, player_password, player_profile_email from player_profile limit 1000;";
-
         return jdbcTemplate.query(sql, new PlayerProfileMapper());
     }
 
     @Override
     public HumanPlayer findById(int profileId) throws DataAccessException {
         final String sql= "select player_profile_id, player_profile_name, player_password, player_profile_email from player_profile "
-                + "where player_profile_email = ?;";
-
+                + "where player_profile_id = ?;";
         return jdbcTemplate.query(sql, new PlayerProfileMapper(), profileId).stream()
                 .findFirst()
                 .orElse(null);
     }
 
     @Override
-
     public HumanPlayer addPlayer(HumanPlayer humanPlayer) throws DataAccessException {
-
         final String sql = "insert into player_profile (player_profile_name, player_password, player_profile_email) "
                 + " values (?,?,?);";
 
@@ -56,7 +49,6 @@ public class PlayerJdbcTemplateRepository implements PlayerRepository {
             PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             ps.setString(1, humanPlayer.getName());
             ps.setString(2, humanPlayer.getPassword());
-
             ps.setString(3, humanPlayer.getEmail());
             return ps;
         }, keyHolder);
@@ -86,7 +78,7 @@ public class PlayerJdbcTemplateRepository implements PlayerRepository {
     @Override
     public boolean deleteById(int profileId) {
         final String sql= "update player_profile set "
-                + "player_profile_delete = true, "
+                + "player_profile_delete = true "
                 + "where player_profile_id = ?;";
         return jdbcTemplate.update(sql, profileId) > 0;
     }
