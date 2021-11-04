@@ -9,7 +9,7 @@ class ComputerPlayerTest {
     ComputerPlayer player;
     @Test
     void engineShouldStart(){
-        System.out.println(player.startingEngine());
+        //System.out.println(player.startingEngine());
     }
 
 }

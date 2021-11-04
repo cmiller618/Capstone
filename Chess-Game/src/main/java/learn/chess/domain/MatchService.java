@@ -2,7 +2,9 @@ package learn.chess.domain;
 
 import learn.chess.data.DataAccessException;
 import learn.chess.data.MatchRepository;
+import learn.chess.model.HumanPlayer;
 import learn.chess.model.Match;
+import learn.chess.model.PlayerStats;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalTime;
@@ -19,6 +21,10 @@ public class MatchService {
 
     public List<Match> findAll() throws DataAccessException {
         return repository.findAll();
+    }
+
+    public List<PlayerStats> findTopFive() throws DataAccessException {
+        return repository.findTopFive();
     }
 
     public List<Match> findMatchesByProfileId(int profileId) throws DataAccessException {
