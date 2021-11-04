@@ -210,7 +210,6 @@ public class Board {
                 }
             }
         }
-        //board[startX][startY].setHasMoved(true);
         return true;
     }
 
