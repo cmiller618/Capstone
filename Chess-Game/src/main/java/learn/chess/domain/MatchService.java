@@ -3,10 +3,12 @@ package learn.chess.domain;
 import learn.chess.data.DataAccessException;
 import learn.chess.data.MatchRepository;
 import learn.chess.model.Match;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalTime;
 import java.util.List;
 
+@Service
 public class MatchService {
 
     private final MatchRepository repository;
@@ -19,17 +21,25 @@ public class MatchService {
         return repository.findAll();
     }
 
-    public List<Match> findMatchesByProfileId(int profileId) {
+    public List<Match> findMatchesByProfileId(int profileId) throws DataAccessException {
         return repository.findMatchesByProfileId(profileId);
     }
 
-    public Result<Match> addMatch(Match match) {
+    public Result<Match> addMatch(Match match) throws DataAccessException{
         Result<Match> result = validateNulls(match);
         if(!result.isSuccess()) {
             return result;
         }
         if(match.getMatchId() != 0) {
             result.addMessage("Match id cannot be set for 'add' operation.", ResultType.INVALID);
+            return result;
+        }
+        if(match.getPlayer1Id() == match.getPlayer2Id()) {
+            result.addMessage("Player id's must be different.", ResultType.INVALID);
+            return result;
+        }
+        if(match.getEndTime() != null) {
+            result.addMessage("Match end time cannot be set for 'add' operation", ResultType.INVALID);
             return result;
         }
         if(result.isSuccess()) {
@@ -47,6 +57,20 @@ public class MatchService {
         }
         if(match.getMatchId() <= 0) {
             result.addMessage("Match id must be set for 'update' operation.", ResultType.INVALID);
+            return result;
+        }
+        if(match.getPlayer1Id() == match.getPlayer2Id()) {
+            result.addMessage("Player id's must be different.", ResultType.INVALID);
+            return result;
+        }
+        if(match.getPlayerWinnerId() != match.getPlayer1Id() &&
+                match.getPlayerWinnerId() != match.getPlayer2Id()
+                && (match.getPlayerWinnerId() != 0)) {
+            result.addMessage("The winner cannot be a player that did not participate in the game.", ResultType.INVALID);
+            return result;
+        }
+        if(match.getPlayerWinnerId() != 0 && match.getEndTime() == null) {
+            result.addMessage("Cannot update match in progress.", ResultType.INVALID);
             return result;
         }
         if(!repository.updateMatch(match)) {
@@ -67,8 +91,8 @@ public class MatchService {
             result.addMessage("Player 2 must have a valid id", ResultType.INVALID);
             return result;
         }
-        if(match.getStartTime() == null || match.getStartTime().isAfter(LocalTime.now())) {
-            result.addMessage("Match start time cannot be in the future.", ResultType.INVALID);
+        if(match.getStartTime() == null) {
+            result.addMessage("Match start time cannot be null", ResultType.INVALID);
             return result;
         }
         return result;

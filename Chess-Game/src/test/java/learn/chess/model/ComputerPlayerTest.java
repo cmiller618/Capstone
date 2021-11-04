@@ -6,10 +6,10 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class ComputerPlayerTest {
 
-    ComputerPlayer player;
-    @Test
-    void engineShouldStart(){
-        System.out.println(player.startingEngine());
-    }
+//    ComputerPlayer player;
+//    @Test
+//    void engineShouldStart(){
+//        System.out.println(player.startingEngine());
+//    }
 
 }

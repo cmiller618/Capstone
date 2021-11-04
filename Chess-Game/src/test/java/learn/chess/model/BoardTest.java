@@ -69,7 +69,7 @@ class BoardTest {
     @Test
     void pawnMoveShouldBeValid(){
         assertTrue(board.pawnValidMovement(1, 1, 3, 1));
-        pieces[1][1].setHasMoved(true);
+       // pieces[1][1].setHasMoved(true);
         board.setBoard(pieces);
         assertTrue(board.pawnValidMovement(1,1, 2,1));
     }
