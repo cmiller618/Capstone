@@ -44,6 +44,8 @@ class BoardTest {
     void rookMoveShouldNotBeValid(){
         assertFalse(board.rookValidMovement(1,0,1,3));
         assertFalse(board.rookValidMovement(0,0,2,3));
+
+        assertFalse(board.rookValidMovement(0,0, 7,0));
     }
 
     @Test

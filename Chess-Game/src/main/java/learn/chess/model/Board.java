@@ -13,8 +13,12 @@ public class Board {
 
     private Pieces[][] board = new Pieces[8][8];
 
-
-
+    public Pieces[][] getCurrentBoard(){
+        return board;
+    }
+    public void setCurrentBoard(Pieces[][] board){
+        this.board = board;
+    }
 
     public Pieces[][] getNewBoard(){
         for(int i = 0; i < 8; i++){
@@ -162,7 +166,7 @@ public class Board {
                         }
                         j++;
                     }
-                }else if(startX > endX){
+                }else if(startX >= endX){
                     int j = endY;
                     for (int i = endX; i <= startX; i++) {
                         if (board[i][j] != null) {
