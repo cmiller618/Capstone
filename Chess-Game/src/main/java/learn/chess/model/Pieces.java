@@ -27,6 +27,7 @@ public enum Pieces {
 
     Pieces(Color color, int pieceValue ) {
         this.color = color;
+        this.pieceValue = pieceValue;
     }
 
     public enum Color{

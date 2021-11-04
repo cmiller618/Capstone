@@ -154,10 +154,11 @@ public class ComputerPlayer implements Player {
         return name;
     }
 
-    public void generateMove(boolean isBlack) {
-        setPiecePrecedence(isBlack);
-
-
+    public void evaluateBoard(){
+        
     }
+
+
+
 
 }
