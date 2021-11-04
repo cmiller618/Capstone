@@ -5,14 +5,11 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-
-
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
-
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
 class PlayerRepositoryTest {
@@ -21,32 +18,25 @@ class PlayerRepositoryTest {
     PlayerJdbcTemplateRepository repository;
 
     @Autowired
-
     JdbcTemplate jdbcTemplate;
 
-//    @Autowired
-//    KnownGoodState knownGoodState;
+    @Autowired
+    KnownGoodState knownGoodState;
 
     @BeforeEach
-    void setup() throws DataAccessException {
-        // set known good state
-        jdbcTemplate.update("call set_known_good_state();");
-
-        JdbcTemplate jdbcTemplate;
+    void setup(){
+        knownGoodState.set();
     }
 
     @Test
     void shouldFindAll() throws DataAccessException {
-
         List<HumanPlayer> hp = repository.findAll();
         assertNotNull(hp);
-        assertEquals(3, hp.size());
-
+        assertTrue(hp.size() >=2 && hp.size()<=4);
     }
 
     @Test
     void shouldFindById() throws DataAccessException {
-
         HumanPlayer humanPlayer = repository.findById(1);
         assertEquals(humanPlayer.getProfileId(), 1);
     }
@@ -68,34 +58,30 @@ class PlayerRepositoryTest {
 
         assertNotNull(actual);
         assertEquals(hp, actual);
-
-        List<HumanPlayer> humanPlayers = repository.findAll();
-        assertNotNull(humanPlayers);
-        assertEquals(3, humanPlayers.size());
-
     }
 
     @Test
-    void shouldUpdate() throws DataAccessException {
+    void shouldUpdate() {
         HumanPlayer hp = new HumanPlayer();
         hp.setProfileId(1);
         hp.setName("Updated");
         hp.setPassword("updatedpass");
         hp.setEmail("supermario@gmail.com");
         boolean actual = repository.updatePlayer(hp);
+
         assertTrue(actual);
 
     }
 
     @Test
-    void shouldSoftDelete() throws DataAccessException {
+    void shouldSoftDelete() {
 
         boolean actual = repository.deleteById(2);
         assertTrue(actual);
     }
 
     @Test
-    void shouldNotSoftDeleteMissing() throws DataAccessException {
+    void shouldNotSoftDeleteMissing() {
 
         boolean actual = repository.deleteById(25);
         assertFalse(actual);
