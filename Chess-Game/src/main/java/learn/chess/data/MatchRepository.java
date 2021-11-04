@@ -1,12 +1,15 @@
 package learn.chess.data;
 
 import learn.chess.model.Match;
+import learn.chess.model.PlayerStats;
 
 import java.util.List;
 
 public interface MatchRepository {
 
     List<Match> findAll();
+
+    List<PlayerStats> findTopFive();
 
     List<Match> findMatchesByProfileId(int profileId);
 
