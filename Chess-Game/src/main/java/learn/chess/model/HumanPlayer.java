@@ -6,6 +6,7 @@ public class HumanPlayer {
 
     private int profileId;
     private String name;
+    private Board board;
 
     public PlayerStats getPlayerMatch() {
         return playerStats;
@@ -63,6 +64,10 @@ public class HumanPlayer {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public boolean generatePlayerMove(int startX, int startY, int endX, int endY){
+        return board.generateMove(startX, startY, endX, endY);
     }
 
 }
