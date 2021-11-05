@@ -158,140 +158,238 @@ public class ComputerPlayer implements Player {
 
     public void getBestMove(Board board, boolean isBlack){
         List<Integer> findBestMove = new ArrayList<>();
-        int endX;
-        int endY;
+        List<Integer> endX = new ArrayList<>();
+        List<Integer> endY = new ArrayList<>();
         int bestMove;
-        int index = 0;
         Pieces[][] pieces = board.getBoard();
+        List<Integer> x = new ArrayList<>();
+        List<Integer> y = new ArrayList<>();
         if(isBlack){
             //Finding all the legal move then will use the minimax algorithm
             for(int i = 0; i < 8; i++){
                 for(int j = 0; j < 8; j++){
-                    if(pieces[i][j].equals(Pieces.BLACK_PAWN)){
+                    if(pieces[i][j] != null && pieces[i][j].equals(Pieces.BLACK_PAWN)){
                         if(board.pawnValidMovement(i, j, i+2, j)){
-                            findBestMove.set(index, Math.abs(pieces[i][j].getPieceValue() + pawn[i+2][j]));
-                            index++;
+                            findBestMove.add(Math.abs(pieces[i][j].getPieceValue() + pawn[i+2][j]));
+                            x.add(i);
+                            y.add(j);
+                            endX.add(i+2);
+                            endY.add(j);
                         }if(board.pawnValidMovement(i, j, i+1, j+1)){
-                            findBestMove.set(index, Math.abs(pieces[i][j].getPieceValue() + pawn[i+1][j]));
-                            index++;
+                            findBestMove.add(Math.abs(pieces[i][j].getPieceValue() + pawn[i+1][j]));
+                            x.add(i);
+                            y.add(j);
+                            endX.add(i+1);
+                            endY.add(j);
+
                         }
-                    }if(pieces[i][j].equals(Pieces.BLACK_ROOK)){
-                        int k = 0;
+                    }if(pieces[i][j] != null && pieces[i][j].equals(Pieces.BLACK_ROOK)){
+                        int k = 1;
                         while (k <= 7){
                             if(board.rookValidMovement(i, j, i, k)){
-                                findBestMove.set(index, Math.abs(pieces[i][j].getPieceValue() + rook[i][k]));
-                                index++;
-                            }if(board.rookValidMovement(i, j, k, i)) {
-                                findBestMove.set(index, Math.abs(pieces[i][j].getPieceValue() + rook[k][i]));
-                                index++;
+                                findBestMove.add(Math.abs(pieces[i][j].getPieceValue() + rook[i][k]));
+                                x.add(i);
+                                y.add(j);
+                                endX.add(i);
+                                endY.add(k);
+                            }if(board.rookValidMovement(i, j, k, j)) {
+                                findBestMove.add(Math.abs(pieces[i][j].getPieceValue() + rook[k][j]));
+                                x.add(i);
+                                y.add(j);
+                                endX.add(k);
+                                endY.add(j);
                             }
                             k++;
                         }
-                    }if(pieces[i][j].equals(Pieces.BLACK_KNIGHT)){
+                    }if(pieces[i][j] != null && pieces[i][j].equals(Pieces.BLACK_KNIGHT)){
                         if(board.knightValidMovement(i, j, i+1, j+2)){
-                            findBestMove.set(index, Math.abs(pieces[i][j].getPieceValue() + knight[i + 1][j + 2]));
-                            index++;
+                            findBestMove.add(Math.abs(pieces[i][j].getPieceValue() + knight[i + 1][j + 2]));
+                            x.add(i);
+                            y.add(j);
+                            endX.add(i+1);
+                            endY.add(j+2);
                         }if(board.knightValidMovement(i,j, i+2, j+1)) {
-                            findBestMove.set(index, Math.abs(pieces[i][j].getPieceValue() + knight[i + 2][j + 1]));
-                            index++;
+                            findBestMove.add(Math.abs(pieces[i][j].getPieceValue() + knight[i + 2][j + 1]));
+                            x.add(i);
+                            y.add(j);
+                            endX.add(i+2);
+                            endY.add(j+1);
                         }if(board.knightValidMovement(i,j, i+1, j-2)) {
-                            findBestMove.set(index, Math.abs(pieces[i][j].getPieceValue() + knight[i + 1][j - 2]));
-                            index++;
+                            findBestMove.add(Math.abs(pieces[i][j].getPieceValue() + knight[i + 1][j - 2]));
+                            x.add(i);
+                            y.add(j);
+                            endX.add(i+1);
+                            endY.add(j-2);
                         }if(board.knightValidMovement(i,j, i-1, j-2)) {
-                            findBestMove.set(index, Math.abs(pieces[i][j].getPieceValue() + knight[i - 1][j - 2]));
-                            index++;
+                            findBestMove.add(Math.abs(pieces[i][j].getPieceValue() + knight[i - 1][j - 2]));
+                            x.add(i);
+                            y.add(j);
+                            endX.add(i-1);
+                            endY.add( j-2);
                         }if(board.knightValidMovement(i,j, i-1, j+2)) {
-                            findBestMove.set(index, Math.abs(pieces[i][j].getPieceValue() + knight[i - 1][j + 2]));
-                            index++;
+                            findBestMove.add(Math.abs(pieces[i][j].getPieceValue() + knight[i - 1][j + 2]));
+                            x.add(i);
+                            y.add(j);
+                            endX.add(i-1);
+                            endY.add(j+2);
                         }if(board.knightValidMovement(i,j, i+2, j-1)) {
-                            findBestMove.set(index, Math.abs(pieces[i][j].getPieceValue() + knight[i + 2][j - 1]));
-                            index++;
+                            findBestMove.add(Math.abs(pieces[i][j].getPieceValue() + knight[i + 2][j - 1]));
+                            x.add(i);
+                            y.add(j);
+                            endX.add(i+2);
+                            endY.add(j-1);
                         }if(board.knightValidMovement(i,j, i-2, j+1)) {
-                        findBestMove.set(index, Math.abs(pieces[i][j].getPieceValue() + knight[i - 2][j + 1]));
-                            index++;
+                        findBestMove.add(Math.abs(pieces[i][j].getPieceValue() + knight[i - 2][j + 1]));
+                            x.add(i);
+                            y.add(j);
+                            endX.add( i-2);
+                            endY.add( j+1);
                         }if(board.knightValidMovement(i,j, i-2, j-1)) {
-                        findBestMove.set(index, Math.abs(pieces[i][j].getPieceValue() + knight[i - 2][j - 1]));
-                            index++;
+                        findBestMove.add(Math.abs(pieces[i][j].getPieceValue() + knight[i - 2][j - 1]));
+                            x.add(i);
+                            y.add(j);
+                            endX.add(i-2);
+                            endY.add(j-1);
                         }
-                    }if(pieces[i][j].equals(Pieces.BLACK_BISHOP)){
-                        int x = 0;
-                        int y = 0;
-                        while (x <= 7 && y <= 7){
-                            if(board.bishopValidMovement(i, j, i+x, j+y)){
-                                findBestMove.set(index, Math.abs(pieces[i][j].getPieceValue() + bishop[i + x][j + y]));
-                                index++;
-                            }if(board.bishopValidMovement(i, j, i-x, j+y)){
-                                findBestMove.set(index, Math.abs(pieces[i][j].getPieceValue() + bishop[i - x][j + y]));
-                                index++;
-                            }if(board.bishopValidMovement(i, j, i-x, j-y)){
-                                findBestMove.set(index, Math.abs(pieces[i][j].getPieceValue() + bishop[i - x][j - y]));
-                                index++;
-                            }if(board.bishopValidMovement(i, j, i+x, j-y)){
-                                findBestMove.set(index, Math.abs(pieces[i][j].getPieceValue() + bishop[i - x][j + y]));
-                                index++;
+                    }if(pieces[i][j] != null && pieces[i][j].equals(Pieces.BLACK_BISHOP)){
+                        int k = 1;
+                        int l = 1;
+                        while (k <= 7 && l <= 7){
+                            if(board.bishopValidMovement(i, j, i+k, j+l)){
+                                findBestMove.add(Math.abs(pieces[i][j].getPieceValue() + bishop[i + k][j + l]));
+                                x.add(i);
+                                y.add(j);
+                                endX.add(i+k);
+                                endY.add(j+l);
+                            }if(board.bishopValidMovement(i, j, i-k, j+l)){
+                                findBestMove.add(Math.abs(pieces[i][j].getPieceValue() + bishop[i - k][j + l]));
+                                x.add(i);
+                                y.add(j);
+                                endX.add(i-k);
+                                endY.add(j+l);
+                            }if(board.bishopValidMovement(i, j, i-k, j-l)){
+                                findBestMove.add(Math.abs(pieces[i][j].getPieceValue() + bishop[i - k][j - l]));
+                                x.add(i);
+                                y.add(j);
+                                endX.add(i-k);
+                                endY.add(j-l);
+                            }if(board.bishopValidMovement(i, j, i+k, j-l)){
+                                findBestMove.add( Math.abs(pieces[i][j].getPieceValue() + bishop[i - k][j + l]));
+                                x.add(i);
+                                y.add(j);
+                                endX.add(i-k);
+                                endY.add(j+l);
                             }
-                            x++;
-                            y++;
+                            k++;
+                            l++;
                         }
 
-                    }if(pieces[i][j].equals(Pieces.BLACK_QUEEN)){
-                        int x = 0;
-                        int y = 0;
-                        while (x <= 7 && y <= 7){
-                            if(board.queenValidMovement(i, j, i+x, j+y)){
-                                findBestMove.set(index, Math.abs(pieces[i][j].getPieceValue() + queen[i + x][j + y]));
-                                index++;
-                            }if(board.queenValidMovement(i, j, i-x, j+y)){
-                                findBestMove.set(index, Math.abs(pieces[i][j].getPieceValue() + queen[i - x][j + y]));
-                                index++;
-                            }if(board.queenValidMovement(i, j, i-x, j-y)){
-                                findBestMove.set(index, Math.abs(pieces[i][j].getPieceValue() + queen[i - x][j - y]));
-                                index++;
-                            }if(board.queenValidMovement(i, j, i+x, j-y)){
-                                findBestMove.set(index, Math.abs(pieces[i][j].getPieceValue() + queen[i - x][j + y]));
-                                index++;
-                            }if(board.queenValidMovement(i, j, i, j-y)) {
-                                findBestMove.set(index, Math.abs(pieces[i][j].getPieceValue() + queen[i][j - y]));
-                                index++;
-                            }if(board.queenValidMovement(i, j, i+x, j)) {
-                                findBestMove.set(index, Math.abs(pieces[i][j].getPieceValue() + queen[i + x][j]));
-                                index++;
-                            }if(board.queenValidMovement(i, j, i-x, j)) {
-                                findBestMove.set(index, Math.abs(pieces[i][j].getPieceValue() + queen[i - x][j]));
-                                index++;
-                            }if(board.queenValidMovement(i, j, i, j+y)) {
-                                findBestMove.set(index, Math.abs(pieces[i][j].getPieceValue() + queen[i][j + y]));
-                                index++;
+                    }if(pieces[i][j] != null && pieces[i][j].equals(Pieces.BLACK_QUEEN)){
+                        int k = 1;
+                        int l = 1;
+                        while (k <= 7 && l <= 7){
+                            if(board.queenValidMovement(i, j, i+k, j+l)){
+                                findBestMove.add(Math.abs(pieces[i][j].getPieceValue() + queen[i + k][j + l]));
+                                x.add(i);
+                                y.add(j);
+                                endX.add(i+k);
+                                endY.add(j+l);
+                            }if(board.queenValidMovement(i, j, i-k, j+l)){
+                                findBestMove.add(Math.abs(pieces[i][j].getPieceValue() + queen[i - k][j + l]));
+                                x.add(i);
+                                y.add(j);
+                                endX.add(i-k);
+                                endY.add(j+l);
+                            }if(board.queenValidMovement(i, j, i-k, j-l)){
+                                findBestMove.add(Math.abs(pieces[i][j].getPieceValue() + queen[i - k][j - l]));
+                                x.add(i);
+                                y.add(j);
+                                endX.add(i-k);
+                                endY.add(j-l);
+                            }if(board.queenValidMovement(i, j, i+k, j-l)){
+                                findBestMove.add(Math.abs(pieces[i][j].getPieceValue() + queen[i - k][j + l]));
+                                x.add(i);
+                                y.add(j);
+                                endX.add(i-k);
+                                endY.add(j+l);
+                            }if(board.queenValidMovement(i, j, i, j-l)) {
+                                findBestMove.add(Math.abs(pieces[i][j].getPieceValue() + queen[i][j - l]));
+                                x.add(i);
+                                y.add(j);
+                                endX.add(i);
+                                endY.add(j-l);
+                            }if(board.queenValidMovement(i, j, i+k, j)) {
+                                findBestMove.add(Math.abs(pieces[i][j].getPieceValue() + queen[i + k][j]));
+                                x.add(i);
+                                y.add(j);
+                                endX.add(i+k);
+                                endY.add(j);
+                            }if(board.queenValidMovement(i, j, i-k, j)) {
+                                findBestMove.add(Math.abs(pieces[i][j].getPieceValue() + queen[i - k][j]));
+                                x.add(i);
+                                y.add(j);
+                                endX.add(i-k);
+                                endY.add(j);
+                            }if(board.queenValidMovement(i, j, i, j+l)) {
+                                findBestMove.add(Math.abs(pieces[i][j].getPieceValue() + queen[i][j + l]));
+                                x.add(i);
+                                y.add(j);
+                                endX.add(i);
+                                endY.add(j+l);
                             }
-                            x++;
-                            y++;
+                            k++;
+                            l++;
                         }
 
-                    }if(pieces[i][j].equals(Pieces.BLACK_KING)){
-                        if(board.queenValidMovement(i, j, i+1, j+1)){
-                            findBestMove.set(index, Math.abs(pieces[i][j].getPieceValue() + queen[i + 1][j + 1]));
-                            index++;
-                        }if(board.queenValidMovement(i, j, i-1, j+1)){
-                            findBestMove.set(index, Math.abs(pieces[i][j].getPieceValue() + queen[i - 1][j + 1]));
-                            index++;
-                        }if(board.queenValidMovement(i, j, i-1, j-1)){
-                            findBestMove.set(index, Math.abs(pieces[i][j].getPieceValue() + queen[i - 1][j - 1]));
-                            index++;
-                        }if(board.queenValidMovement(i, j, i+1, j-1)){
-                            findBestMove.set(index, Math.abs(pieces[i][j].getPieceValue() + queen[i - 1][j + 1]));
-                            index++;
-                        }if(board.queenValidMovement(i, j, i, j-1)) {
-                            findBestMove.set(index, Math.abs(pieces[i][j].getPieceValue() + queen[i][j - 1]));
-                            index++;
-                        }if(board.queenValidMovement(i, j, i+1, j)) {
-                            findBestMove.set(index, Math.abs(pieces[i][j].getPieceValue() + queen[i + 1][j]));
-                            index++;
-                        }if(board.queenValidMovement(i, j, i-1, j)) {
-                            findBestMove.set(index, Math.abs(pieces[i][j].getPieceValue() + queen[i - 1][j]));
-                            index++;
-                        }if(board.queenValidMovement(i, j, i, j+1)) {
-                            findBestMove.set(index, Math.abs(pieces[i][j].getPieceValue() + queen[i][j + 1]));
-                            index++;
+                    }if(pieces[i][j] != null && pieces[i][j].equals(Pieces.BLACK_KING)){
+                        if(board.kingValidMovement(i, j, i+1, j+1)){
+                            findBestMove.add(Math.abs(pieces[i][j].getPieceValue() + king[i + 1][j + 1]));
+                            x.add(i);
+                            y.add(j);
+                            endX.add(i+1);
+                            endY.add(j+1);
+                        }if(board.kingValidMovement(i, j, i-1, j+1)){
+                            findBestMove.add(Math.abs(pieces[i][j].getPieceValue() + king[i - 1][j + 1]));
+                            x.add(i);
+                            y.add(j);
+                            endX.add(i-1);
+                            endY.add(j+1);
+                        }if(board.kingValidMovement(i, j, i-1, j-1)){
+                            findBestMove.add(Math.abs(pieces[i][j].getPieceValue() + king[i - 1][j - 1]));
+                            x.add(i);
+                            y.add(j);
+                            endX.add(i-1);
+                            endY.add(j-1);
+                        }if(board.kingValidMovement(i, j, i+1, j-1)){
+                            findBestMove.add(Math.abs(pieces[i][j].getPieceValue() + king[i - 1][j + 1]));
+                            x.add(i);
+                            y.add(j);
+                            endX.add(i-1);
+                            endY.add(j+1);
+                        }if(board.kingValidMovement(i, j, i, j-1)) {
+                            findBestMove.add(Math.abs(pieces[i][j].getPieceValue() + king[i][j - 1]));
+                            x.add(i);
+                            y.add(j);
+                            endX.add(i);
+                            endY.add(j-1);
+                        }if(board.kingValidMovement(i, j, i+1, j)) {
+                            findBestMove.add(Math.abs(pieces[i][j].getPieceValue() + king[i + 1][j]));
+                            x.add(i);
+                            y.add(j);
+                            endX.add(i+1);
+                            endY.add(j);
+                        }if(board.kingValidMovement(i, j, i-1, j)) {
+                            findBestMove.add(Math.abs(pieces[i][j].getPieceValue() + king[i - 1][j]));
+                            x.add(i);
+                            y.add(j);
+                            endX.add(i-1);
+                            endY.add(j);
+                        }if(board.kingValidMovement(i, j, i, j+1)) {
+                            findBestMove.add(Math.abs(pieces[i][j].getPieceValue() + king[i][j + 1]));
+                            x.add(i);
+                            y.add(j);
+                            endX.add(i);
+                            endY.add(j+1);
                         }
                     }
                 }
@@ -299,139 +397,287 @@ public class ComputerPlayer implements Player {
         }else{
             for(int i = 0; i < 8; i++){
                 for(int j = 0; j < 8; j++){
-                    if(pieces[i][j].equals(Pieces.WHITE_PAWN)){
-                        if(board.pawnValidMovement(i, j, i+2, j)){
-                            findBestMove.set(index, Math.abs(pieces[i][j].getPieceValue() + pawn[i+2][j]));
-                            index++;
-                        }if(board.pawnValidMovement(i, j, i+1, j+1)){
-                            findBestMove.set(index, Math.abs(pieces[i][j].getPieceValue() + pawn[i+1][j]));
-                            index++;
+                    if(pieces[i][j] != null && pieces[i][j].equals(Pieces.WHITE_PAWN)) {
+                        if (board.pawnValidMovement(i, j, i + 2, j)) {
+                            findBestMove.add(Math.abs(pieces[i][j].getPieceValue() + pawn[i + 2][j]));
+                            x.add(i);
+                            y.add(j);
+                            endX.add(i + 2);
+                            endY.add(j);
                         }
-                    }if(pieces[i][j].equals(Pieces.WHITE_ROOK)){
-                        int k = 0;
+                        if (board.pawnValidMovement(i, j, i + 1, j + 1)) {
+                            findBestMove.add(Math.abs(pieces[i][j].getPieceValue() + pawn[i + 1][j]));
+                            x.add(i);
+                            y.add(j);
+                            endX.add(i + 1);
+                            endY.add(j);
+
+                        }
+                    }if(pieces[i][j] != null && pieces[i][j].equals(Pieces.WHITE_ROOK)){
+                        int k = 1;
                         while (k <= 7){
                             if(board.rookValidMovement(i, j, i, k)){
-                                findBestMove.set(index, Math.abs(pieces[i][j].getPieceValue() + rook[i][k]));
-                                index++;
-                            }if(board.rookValidMovement(i, j, k, i)) {
-                                findBestMove.set(index, Math.abs(pieces[i][j].getPieceValue() + rook[k][i]));
-                                index++;
+                                findBestMove.add(Math.abs(pieces[i][j].getPieceValue() + rook[i][k]));
+                                x.add(i);
+                                y.add(j);
+                                endX.add(i);
+                                endY.add(k);
+                            }if(board.rookValidMovement(i, j, k, j)) {
+                                findBestMove.add(Math.abs(pieces[i][j].getPieceValue() + rook[k][j]));
+                                x.add(i);
+                                y.add(j);
+                                endX.add(k);
+                                endY.add(j);
                             }
                             k++;
                         }
-                    }if(pieces[i][j].equals(Pieces.WHITE_KNIGHT)){
+                    }if(pieces[i][j] != null && pieces[i][j].equals(Pieces.WHITE_KNIGHT)){
                         if(board.knightValidMovement(i, j, i+1, j+2)){
-                            findBestMove.set(index, Math.abs(pieces[i][j].getPieceValue() + knight[i + 1][j + 2]));
-                            index++;
+                            findBestMove.add(Math.abs(pieces[i][j].getPieceValue() + knight[i + 1][j + 2]));
+                            x.add(i);
+                            y.add(j);
+                            endX.add(i+1);
+                            endY.add(j+2);
                         }if(board.knightValidMovement(i,j, i+2, j+1)) {
-                            findBestMove.set(index, Math.abs(pieces[i][j].getPieceValue() + knight[i + 2][j + 1]));
-                            index++;
+                            findBestMove.add(Math.abs(pieces[i][j].getPieceValue() + knight[i + 2][j + 1]));
+                            x.add(i);
+                            y.add(j);
+                            endX.add(i+2);
+                            endY.add(j+1);
                         }if(board.knightValidMovement(i,j, i+1, j-2)) {
-                            findBestMove.set(index, Math.abs(pieces[i][j].getPieceValue() + knight[i + 1][j - 2]));
-                            index++;
+                            findBestMove.add(Math.abs(pieces[i][j].getPieceValue() + knight[i + 1][j - 2]));
+                            x.add(i);
+                            y.add(j);
+                            endX.add(i+1);
+                            endY.add(j-2);
                         }if(board.knightValidMovement(i,j, i-1, j-2)) {
-                            findBestMove.set(index, Math.abs(pieces[i][j].getPieceValue() + knight[i - 1][j - 2]));
-                            index++;
+                            findBestMove.add(Math.abs(pieces[i][j].getPieceValue() + knight[i - 1][j - 2]));
+                            x.add(i);
+                            y.add(j);
+                            endX.add(i-1);
+                            endY.add( j-2);
                         }if(board.knightValidMovement(i,j, i-1, j+2)) {
-                            findBestMove.set(index, Math.abs(pieces[i][j].getPieceValue() + knight[i - 1][j + 2]));
-                            index++;
+                            findBestMove.add(Math.abs(pieces[i][j].getPieceValue() + knight[i - 1][j + 2]));
+                            x.add(i);
+                            y.add(j);
+                            endX.add(i-1);
+                            endY.add(j+2);
                         }if(board.knightValidMovement(i,j, i+2, j-1)) {
-                            findBestMove.set(index, Math.abs(pieces[i][j].getPieceValue() + knight[i + 2][j - 1]));
-                            index++;
+                            findBestMove.add(Math.abs(pieces[i][j].getPieceValue() + knight[i + 2][j - 1]));
+                            x.add(i);
+                            y.add(j);
+                            endX.add(i+2);
+                            endY.add(j-1);
                         }if(board.knightValidMovement(i,j, i-2, j+1)) {
-                            findBestMove.set(index, Math.abs(pieces[i][j].getPieceValue() + knight[i - 2][j + 1]));
-                            index++;
+                            findBestMove.add(Math.abs(pieces[i][j].getPieceValue() + knight[i - 2][j + 1]));
+                            x.add(i);
+                            y.add(j);
+                            endX.add( i-2);
+                            endY.add( j+1);
                         }if(board.knightValidMovement(i,j, i-2, j-1)) {
-                            findBestMove.set(index, Math.abs(pieces[i][j].getPieceValue() + knight[i - 2][j - 1]));
-                            index++;
+                            findBestMove.add(Math.abs(pieces[i][j].getPieceValue() + knight[i - 2][j - 1]));
+                            x.add(i);
+                            y.add(j);
+                            endX.add(i-2);
+                            endY.add(j-1);
                         }
-                    }if(pieces[i][j].equals(Pieces.WHITE_BISHOP)){
-                        int x = 0;
-                        int y = 0;
-                        while (x <= 7 && y <= 7){
-                            if(board.bishopValidMovement(i, j, i+x, j+y)){
-                                findBestMove.set(index, Math.abs(pieces[i][j].getPieceValue() + bishop[i + x][j + y]));
-                                index++;
-                            }if(board.bishopValidMovement(i, j, i-x, j+y)){
-                                findBestMove.set(index, Math.abs(pieces[i][j].getPieceValue() + bishop[i - x][j + y]));
-                                index++;
-                            }if(board.bishopValidMovement(i, j, i-x, j-y)){
-                                findBestMove.set(index, Math.abs(pieces[i][j].getPieceValue() + bishop[i - x][j - y]));
-                                index++;
-                            }if(board.bishopValidMovement(i, j, i+x, j-y)){
-                                findBestMove.set(index, Math.abs(pieces[i][j].getPieceValue() + bishop[i - x][j + y]));
-                                index++;
+                    }if(pieces[i][j] != null && pieces[i][j].equals(Pieces.WHITE_BISHOP)){
+                        int k = 1;
+                        int l = 1;
+                        while (k <= 7 && l <= 7){
+                            if(board.bishopValidMovement(i, j, i+k, j+l)){
+                                findBestMove.add(Math.abs(pieces[i][j].getPieceValue() + bishop[i + k][j + l]));
+                                x.add(i);
+                                y.add(j);
+                                endX.add(i+k);
+                                endY.add(j+l);
+                            }if(board.bishopValidMovement(i, j, i-k, j+l)){
+                                findBestMove.add(Math.abs(pieces[i][j].getPieceValue() + bishop[i - k][j + l]));
+                                x.add(i);
+                                y.add(j);
+                                endX.add(i-k);
+                                endY.add(j+l);
+                            }if(board.bishopValidMovement(i, j, i-k, j-l)){
+                                findBestMove.add(Math.abs(pieces[i][j].getPieceValue() + bishop[i - k][j - l]));
+                                x.add(i);
+                                y.add(j);
+                                endX.add(i-k);
+                                endY.add(j-l);
+                            }if(board.bishopValidMovement(i, j, i+k, j-l)){
+                                findBestMove.add( Math.abs(pieces[i][j].getPieceValue() + bishop[i - k][j + l]));
+                                x.add(i);
+                                y.add(j);
+                                endX.add(i-k);
+                                endY.add(j+l);
                             }
-                            x++;
-                            y++;
+                            k++;
+                            l++;
                         }
 
-                    }if(pieces[i][j].equals(Pieces.WHITE_QUEEN)){
-                        int x = 0;
-                        int y = 0;
-                        while (x <= 7 && y <= 7){
-                            if(board.queenValidMovement(i, j, i+x, j+y)){
-                                findBestMove.set(index, Math.abs(pieces[i][j].getPieceValue() + queen[i + x][j + y]));
-                                index++;
-                            }if(board.queenValidMovement(i, j, i-x, j+y)){
-                                findBestMove.set(index, Math.abs(pieces[i][j].getPieceValue() + queen[i - x][j + y]));
-                                index++;
-                            }if(board.queenValidMovement(i, j, i-x, j-y)){
-                                findBestMove.set(index, Math.abs(pieces[i][j].getPieceValue() + queen[i - x][j - y]));
-                                index++;
-                            }if(board.queenValidMovement(i, j, i+x, j-y)){
-                                findBestMove.set(index, Math.abs(pieces[i][j].getPieceValue() + queen[i - x][j + y]));
-                                index++;
-                            }if(board.queenValidMovement(i, j, i, j-y)) {
-                                findBestMove.set(index, Math.abs(pieces[i][j].getPieceValue() + queen[i][j - y]));
-                                index++;
-                            }if(board.queenValidMovement(i, j, i+x, j)) {
-                                findBestMove.set(index, Math.abs(pieces[i][j].getPieceValue() + queen[i + x][j]));
-                                index++;
-                            }if(board.queenValidMovement(i, j, i-x, j)) {
-                                findBestMove.set(index, Math.abs(pieces[i][j].getPieceValue() + queen[i - x][j]));
-                                index++;
-                            }if(board.queenValidMovement(i, j, i, j+y)) {
-                                findBestMove.set(index, Math.abs(pieces[i][j].getPieceValue() + queen[i][j + y]));
-                                index++;
+                    }if(pieces[i][j] != null && pieces[i][j].equals(Pieces.WHITE_QUEEN)){
+                        int k = 1;
+                        int l = 1;
+                        while (k <= 7 && l <= 7){
+                            if(board.queenValidMovement(i, j, i+k, j+l)){
+                                findBestMove.add(Math.abs(pieces[i][j].getPieceValue() + queen[i + k][j + l]));
+                                x.add(i);
+                                y.add(j);
+                                endX.add(i+k);
+                                endY.add(j+l);
+                            }if(board.queenValidMovement(i, j, i-k, j+l)){
+                                findBestMove.add(Math.abs(pieces[i][j].getPieceValue() + queen[i - k][j + l]));
+                                x.add(i);
+                                y.add(j);
+                                endX.add(i-k);
+                                endY.add(j+l);
+                            }if(board.queenValidMovement(i, j, i-k, j-l)){
+                                findBestMove.add(Math.abs(pieces[i][j].getPieceValue() + queen[i - k][j - l]));
+                                x.add(i);
+                                y.add(j);
+                                endX.add(i-k);
+                                endY.add(j-l);
+                            }if(board.queenValidMovement(i, j, i+k, j-l)){
+                                findBestMove.add(Math.abs(pieces[i][j].getPieceValue() + queen[i - k][j + l]));
+                                x.add(i);
+                                y.add(j);
+                                endX.add(i-k);
+                                endY.add(j+l);
+                            }if(board.queenValidMovement(i, j, i, j-l)) {
+                                findBestMove.add(Math.abs(pieces[i][j].getPieceValue() + queen[i][j - l]));
+                                x.add(i);
+                                y.add(j);
+                                endX.add(i);
+                                endY.add(j-l);
+                            }if(board.queenValidMovement(i, j, i+k, j)) {
+                                findBestMove.add(Math.abs(pieces[i][j].getPieceValue() + queen[i + k][j]));
+                                x.add(i);
+                                y.add(j);
+                                endX.add(i+k);
+                                endY.add(j);
+                            }if(board.queenValidMovement(i, j, i-k, j)) {
+                                findBestMove.add(Math.abs(pieces[i][j].getPieceValue() + queen[i - k][j]));
+                                x.add(i);
+                                y.add(j);
+                                endX.add(i-k);
+                                endY.add(j);
+                            }if(board.queenValidMovement(i, j, i, j+l)) {
+                                findBestMove.add(Math.abs(pieces[i][j].getPieceValue() + queen[i][j + l]));
+                                x.add(i);
+                                y.add(j);
+                                endX.add(i);
+                                endY.add(j+l);
                             }
-                            x++;
-                            y++;
+                            k++;
+                            l++;
                         }
 
-                    }if(pieces[i][j].equals(Pieces.WHITE_KING)){
-                        if(board.queenValidMovement(i, j, i+1, j+1)){
-                            findBestMove.set(index, Math.abs(pieces[i][j].getPieceValue() + queen[i + 1][j + 1]));
-                            index++;
-                        }if(board.queenValidMovement(i, j, i-1, j+1)){
-                            findBestMove.set(index, Math.abs(pieces[i][j].getPieceValue() + queen[i - 1][j + 1]));
-                            index++;
-                        }if(board.queenValidMovement(i, j, i-1, j-1)){
-                            findBestMove.set(index, Math.abs(pieces[i][j].getPieceValue() + queen[i - 1][j - 1]));
-                            index++;
-                        }if(board.queenValidMovement(i, j, i+1, j-1)){
-                            findBestMove.set(index, Math.abs(pieces[i][j].getPieceValue() + queen[i - 1][j + 1]));
-                            index++;
-                        }if(board.queenValidMovement(i, j, i, j-1)) {
-                            findBestMove.set(index, Math.abs(pieces[i][j].getPieceValue() + queen[i][j - 1]));
-                            index++;
-                        }if(board.queenValidMovement(i, j, i+1, j)) {
-                            findBestMove.set(index, Math.abs(pieces[i][j].getPieceValue() + queen[i + 1][j]));
-                            index++;
-                        }if(board.queenValidMovement(i, j, i-1, j)) {
-                            findBestMove.set(index, Math.abs(pieces[i][j].getPieceValue() + queen[i - 1][j]));
-                            index++;
-                        }if(board.queenValidMovement(i, j, i, j+1)) {
-                            findBestMove.set(index, Math.abs(pieces[i][j].getPieceValue() + queen[i][j + 1]));
-                            index++;
+                    }if(pieces[i][j] != null && pieces[i][j].equals(Pieces.WHITE_KING)){
+                        if(board.kingValidMovement(i, j, i+1, j+1)){
+                            findBestMove.add(Math.abs(pieces[i][j].getPieceValue() + king[i + 1][j + 1]));
+                            x.add(i);
+                            y.add(j);
+                            endX.add(i+1);
+                            endY.add(j+1);
+                        }if(board.kingValidMovement(i, j, i-1, j+1)){
+                            findBestMove.add(Math.abs(pieces[i][j].getPieceValue() + king[i - 1][j + 1]));
+                            x.add(i);
+                            y.add(j);
+                            endX.add(i-1);
+                            endY.add(j+1);
+                        }if(board.kingValidMovement(i, j, i-1, j-1)){
+                            findBestMove.add(Math.abs(pieces[i][j].getPieceValue() + king[i - 1][j - 1]));
+                            x.add(i);
+                            y.add(j);
+                            endX.add(i-1);
+                            endY.add(j-1);
+                        }if(board.kingValidMovement(i, j, i+1, j-1)){
+                            findBestMove.add(Math.abs(pieces[i][j].getPieceValue() + king[i - 1][j + 1]));
+                            x.add(i);
+                            y.add(j);
+                            endX.add(i-1);
+                            endY.add(j+1);
+                        }if(board.kingValidMovement(i, j, i, j-1)) {
+                            findBestMove.add(Math.abs(pieces[i][j].getPieceValue() + king[i][j - 1]));
+                            x.add(i);
+                            y.add(j);
+                            endX.add(i);
+                            endY.add(j-1);
+                        }if(board.kingValidMovement(i, j, i+1, j)) {
+                            findBestMove.add(Math.abs(pieces[i][j].getPieceValue() + king[i + 1][j]));
+                            x.add(i);
+                            y.add(j);
+                            endX.add(i+1);
+                            endY.add(j);
+                        }if(board.kingValidMovement(i, j, i-1, j)) {
+                            findBestMove.add(Math.abs(pieces[i][j].getPieceValue() + king[i - 1][j]));
+                            x.add(i);
+                            y.add(j);
+                            endX.add(i-1);
+                            endY.add(j);
+                        }if(board.kingValidMovement(i, j, i, j+1)) {
+                            findBestMove.add(Math.abs(pieces[i][j].getPieceValue() + king[i][j + 1]));
+                            x.add(i);
+                            y.add(j);
+                            endX.add(i);
+                            endY.add(j+1);
                         }
                     }
                 }
             }
         }
+        int depth = 0;
+        if(findBestMove.size() <= 3){
+            depth = 1;
+        }else if(findBestMove.size() <= 7){
+            depth = 2;
+        }else if(findBestMove.size() <= 15){
+            depth = 3;
+        }else if(findBestMove.size() <= 31){
+            depth = 4;
+        }else if(findBestMove.size() <= 63){
+            depth = 5;
+        }else if(findBestMove.size() <= 127){
+            depth = 6;
+        }else{
+            depth = 7;
+        }
 
+        bestMove = alphaBeta(findBestMove.get(0), depth, -100000, 100000, true, findBestMove, 1, 2 );
+
+        for(int i = 0; i < findBestMove.size(); i++){
+            if(bestMove == findBestMove.get(i)){
+                board.generateMove(x.get(i), y.get(i), endX.get(i), endY.get(i));
+                break;
+            }
+        }
 
     }
 
+    int alphaBeta(int origin, int depth, int alpha, int beta, boolean isMaximizing, List<Integer> findBestMove, int child1, int child2){
+        int value;
+        if(depth == 0){
+            return origin;
+        }
+
+        if(isMaximizing){
+            value = alpha;
+            for(int i = child1; i <= child2; i++){
+                value = Math.max(value, alphaBeta(findBestMove.get(i), depth - 1, alpha, beta, false, findBestMove, i+i+1, i+i+2));
+                alpha = Math.max(alpha, value);
+                if(value >= beta){
+                    break;
+                }
+            }
+        }else{
+            value = beta;
+            for(int i = child1; i<= child2; i++){
+                value = Math.min(value, alphaBeta(findBestMove.get(i), depth - 1, alpha, beta, true, findBestMove, i+i+1, i+i+2));
+                beta = Math.min(beta, value);
+                if(value <= alpha){
+                    break;
+                }
+            }
+        } return value;
+    }
 
 }

@@ -32,34 +32,34 @@ class PlayerRepositoryTest {
     void shouldFindAll() throws DataAccessException {
         List<HumanPlayer> hp = repository.findAll();
         assertNotNull(hp);
-        assertTrue(hp.size() >=2 && hp.size()<=4);
+        assertTrue(hp.size() >=6 && hp.size()<=7);
     }
 
     @Test
     void shouldFindByIdMario() throws DataAccessException {
         HumanPlayer humanPlayer = repository.findById(1);
         assertEquals(1, humanPlayer.getProfileId());
-        assertEquals(0, humanPlayer.getPlayerMatch().getWins());
+        assertEquals(2, humanPlayer.getPlayerMatch().getWins());
         assertEquals(0, humanPlayer.getPlayerMatch().getTies());
-        assertEquals(1, humanPlayer.getPlayerMatch().getLosses());
+        assertEquals(3, humanPlayer.getPlayerMatch().getLosses());
     }
 
     @Test
     void shouldFindByIdCaroline() throws DataAccessException {
         HumanPlayer humanPlayer = repository.findById(2);
         assertEquals(2, humanPlayer.getProfileId());
-        assertEquals(2, humanPlayer.getPlayerMatch().getWins());
-        assertEquals(0, humanPlayer.getPlayerMatch().getTies());
-        assertEquals(0, humanPlayer.getPlayerMatch().getLosses());
+        assertEquals(3, humanPlayer.getPlayerMatch().getWins());
+        assertEquals(1, humanPlayer.getPlayerMatch().getTies());
+        assertEquals(1, humanPlayer.getPlayerMatch().getLosses());
     }
 
     @Test
     void shouldFindByIdChris() throws DataAccessException {
         HumanPlayer humanPlayer = repository.findById(3);
         assertEquals(3, humanPlayer.getProfileId());
-        assertEquals(0, humanPlayer.getPlayerMatch().getWins());
-        assertEquals(0, humanPlayer.getPlayerMatch().getTies());
-        assertEquals(1, humanPlayer.getPlayerMatch().getLosses());
+        assertEquals(1, humanPlayer.getPlayerMatch().getWins());
+        assertEquals(1, humanPlayer.getPlayerMatch().getTies());
+        assertEquals(2, humanPlayer.getPlayerMatch().getLosses());
     }
 
     @Test
