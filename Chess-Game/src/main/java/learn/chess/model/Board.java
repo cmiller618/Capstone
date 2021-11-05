@@ -148,14 +148,13 @@ public class Board {
                 }
             }
         }else if (differenceX == 0 && differenceY > 0) {
-            if(startY < endY){
+            if (startY < endY) {
                 for (int i = startY + 1; i <= endY; i++) {
                     if (board[startX][i] != null && board[startX][startY].getColor().equals(board[startX][i].getColor())) {
                         return false;
                     }
                 }
-            }
-            else if(startY > endY){
+            } else if (startY > endY) {
                 for (int i = endY + 1; i <= startY; i++) {
                     if (board[startX][i] != null && board[startX][startY].getColor().equals(board[startX][i].getColor())) {
                         return false;
@@ -163,10 +162,8 @@ public class Board {
                 }
             }
 
-        }else if(differenceX > 0 && differenceY > 0) {
-            return false;
         }
-        return true;
+        return false;
     }
 
     public boolean bishopValidMovement(int startX, int startY, int endX, int endY) {

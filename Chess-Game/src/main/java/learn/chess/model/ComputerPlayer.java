@@ -252,8 +252,8 @@ public class ComputerPlayer implements Player {
                             endY.add(j-1);
                         }
                     }if(pieces[i][j] != null && pieces[i][j].equals(Pieces.BLACK_BISHOP)){
-                        int k = 1;
-                        int l = 1;
+                        int k = 0;
+                        int l = 0;
                         while (k <= 7 && l <= 7){
                             if(board.bishopValidMovement(i, j, i+k, j+l)){
                                 findBestMove.add(Math.abs(pieces[i][j].getPieceValue() + bishop[i + k][j + l]));
@@ -274,7 +274,7 @@ public class ComputerPlayer implements Player {
                                 endX.add(i-k);
                                 endY.add(j-l);
                             }if(board.bishopValidMovement(i, j, i+k, j-l)){
-                                findBestMove.add( Math.abs(pieces[i][j].getPieceValue() + bishop[i - k][j + l]));
+                                findBestMove.add( Math.abs(pieces[i][j].getPieceValue() + bishop[i + k][j + l]));
                                 x.add(i);
                                 y.add(j);
                                 endX.add(i-k);
@@ -285,8 +285,8 @@ public class ComputerPlayer implements Player {
                         }
 
                     }if(pieces[i][j] != null && pieces[i][j].equals(Pieces.BLACK_QUEEN)){
-                        int k = 1;
-                        int l = 1;
+                        int k = 0;
+                        int l = 0;
                         while (k <= 7 && l <= 7){
                             if(board.queenValidMovement(i, j, i+k, j+l)){
                                 findBestMove.add(Math.abs(pieces[i][j].getPieceValue() + queen[i + k][j + l]));
@@ -307,7 +307,7 @@ public class ComputerPlayer implements Player {
                                 endX.add(i-k);
                                 endY.add(j-l);
                             }if(board.queenValidMovement(i, j, i+k, j-l)){
-                                findBestMove.add(Math.abs(pieces[i][j].getPieceValue() + queen[i - k][j + l]));
+                                findBestMove.add(Math.abs(pieces[i][j].getPieceValue() + queen[i + k][j - l]));
                                 x.add(i);
                                 y.add(j);
                                 endX.add(i-k);
@@ -414,7 +414,7 @@ public class ComputerPlayer implements Player {
 
                         }
                     }if(pieces[i][j] != null && pieces[i][j].equals(Pieces.WHITE_ROOK)){
-                        int k = 1;
+                        int k = 0;
                         while (k <= 7){
                             if(board.rookValidMovement(i, j, i, k)){
                                 findBestMove.add(Math.abs(pieces[i][j].getPieceValue() + rook[i][k]));
@@ -482,8 +482,8 @@ public class ComputerPlayer implements Player {
                             endY.add(j-1);
                         }
                     }if(pieces[i][j] != null && pieces[i][j].equals(Pieces.WHITE_BISHOP)){
-                        int k = 1;
-                        int l = 1;
+                        int k = 0;
+                        int l = 0;
                         while (k <= 7 && l <= 7){
                             if(board.bishopValidMovement(i, j, i+k, j+l)){
                                 findBestMove.add(Math.abs(pieces[i][j].getPieceValue() + bishop[i + k][j + l]));
@@ -515,8 +515,8 @@ public class ComputerPlayer implements Player {
                         }
 
                     }if(pieces[i][j] != null && pieces[i][j].equals(Pieces.WHITE_QUEEN)){
-                        int k = 1;
-                        int l = 1;
+                        int k = 0;
+                        int l = 0;
                         while (k <= 7 && l <= 7){
                             if(board.queenValidMovement(i, j, i+k, j+l)){
                                 findBestMove.add(Math.abs(pieces[i][j].getPieceValue() + queen[i + k][j + l]));
@@ -662,6 +662,9 @@ public class ComputerPlayer implements Player {
         if(isMaximizing){
             value = alpha;
             for(int i = child1; i <= child2; i++){
+                if(i >= findBestMove.size()){
+                    return origin;
+                }
                 value = Math.max(value, alphaBeta(findBestMove.get(i), depth - 1, alpha, beta, false, findBestMove, i+i+1, i+i+2));
                 alpha = Math.max(alpha, value);
                 if(value >= beta){
@@ -671,6 +674,9 @@ public class ComputerPlayer implements Player {
         }else{
             value = beta;
             for(int i = child1; i<= child2; i++){
+                if(i >= findBestMove.size()){
+                    return origin;
+                }
                 value = Math.min(value, alphaBeta(findBestMove.get(i), depth - 1, alpha, beta, true, findBestMove, i+i+1, i+i+2));
                 beta = Math.min(beta, value);
                 if(value <= alpha){
