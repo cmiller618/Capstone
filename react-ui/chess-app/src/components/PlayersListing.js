@@ -1,5 +1,5 @@
 import { useState , useEffect } from "react";
-import { findTopFive } from "../service/MatchesAPI"
+import { findTopFive } from "../services/MatchesAPI"
 import TopFive from "./TopFive";
 
 function PlayersListing(){
