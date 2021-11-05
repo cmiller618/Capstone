@@ -61,6 +61,10 @@ class ComputerPlayerTest {
         player.getBestMove(board, false);
         player.getBestMove(board, true);
         player.getBestMove(board, false);
+        player.getBestMove(board, true);
+        player.getBestMove(board, false);
+        player.getBestMove(board, true);
+        player.getBestMove(board, false);
 
         Pieces[][] pieces = board.getCurrentBoard();
 

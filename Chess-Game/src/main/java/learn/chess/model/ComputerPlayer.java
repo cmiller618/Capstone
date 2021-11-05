@@ -38,7 +38,10 @@ public class ComputerPlayer implements Player {
     private static int [][] queen = new int [8][8];
     private static int [][] king = new int [8][8];
 
-    //This sets where the
+    /* This is where the best moves for the pieces are
+    Good places for the pieces to be are positive numbers.
+    Bad is negative.
+     */
     private void setPiecePrecedence(boolean isBlack){
 
         if(!isBlack) {
@@ -156,6 +159,8 @@ public class ComputerPlayer implements Player {
         return name;
     }
 
+    //finds ALL legal moves. Then will  make the move using the minimax with alpha beta pruning algorithm.
+    //Could be better as this only looks at the next move. If there is time, I can try to improve this.
     public void getBestMove(Board board, boolean isBlack){
         List<Integer> findBestMove = new ArrayList<>();
         List<Integer> endX = new ArrayList<>();
@@ -274,7 +279,7 @@ public class ComputerPlayer implements Player {
                                 endX.add(i-k);
                                 endY.add(j-l);
                             }if(board.bishopValidMovement(i, j, i+k, j-l)){
-                                findBestMove.add( Math.abs(pieces[i][j].getPieceValue() + bishop[i + k][j + l]));
+                                findBestMove.add( Math.abs(pieces[i][j].getPieceValue() + bishop[i + k][j - l]));
                                 x.add(i);
                                 y.add(j);
                                 endX.add(i-k);
@@ -361,7 +366,7 @@ public class ComputerPlayer implements Player {
                             endX.add(i-1);
                             endY.add(j-1);
                         }if(board.kingValidMovement(i, j, i+1, j-1)){
-                            findBestMove.add(Math.abs(pieces[i][j].getPieceValue() + king[i - 1][j + 1]));
+                            findBestMove.add(Math.abs(pieces[i][j].getPieceValue() + king[i + 1][j - 1]));
                             x.add(i);
                             y.add(j);
                             endX.add(i-1);
@@ -405,7 +410,7 @@ public class ComputerPlayer implements Player {
                             endX.add(i + 2);
                             endY.add(j);
                         }
-                        if (board.pawnValidMovement(i, j, i + 1, j + 1)) {
+                        if (board.pawnValidMovement(i, j, i + 1, j)) {
                             findBestMove.add(Math.abs(pieces[i][j].getPieceValue() + pawn[i + 1][j]));
                             x.add(i);
                             y.add(j);
@@ -504,7 +509,7 @@ public class ComputerPlayer implements Player {
                                 endX.add(i-k);
                                 endY.add(j-l);
                             }if(board.bishopValidMovement(i, j, i+k, j-l)){
-                                findBestMove.add( Math.abs(pieces[i][j].getPieceValue() + bishop[i - k][j + l]));
+                                findBestMove.add( Math.abs(pieces[i][j].getPieceValue() + bishop[i + k][j - l]));
                                 x.add(i);
                                 y.add(j);
                                 endX.add(i-k);
@@ -537,7 +542,7 @@ public class ComputerPlayer implements Player {
                                 endX.add(i-k);
                                 endY.add(j-l);
                             }if(board.queenValidMovement(i, j, i+k, j-l)){
-                                findBestMove.add(Math.abs(pieces[i][j].getPieceValue() + queen[i - k][j + l]));
+                                findBestMove.add(Math.abs(pieces[i][j].getPieceValue() + queen[i + k][j - l]));
                                 x.add(i);
                                 y.add(j);
                                 endX.add(i-k);
@@ -591,7 +596,7 @@ public class ComputerPlayer implements Player {
                             endX.add(i-1);
                             endY.add(j-1);
                         }if(board.kingValidMovement(i, j, i+1, j-1)){
-                            findBestMove.add(Math.abs(pieces[i][j].getPieceValue() + king[i - 1][j + 1]));
+                            findBestMove.add(Math.abs(pieces[i][j].getPieceValue() + king[i + 1][j - 1]));
                             x.add(i);
                             y.add(j);
                             endX.add(i-1);
