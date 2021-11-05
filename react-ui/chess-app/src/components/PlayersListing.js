@@ -1,32 +1,19 @@
+import { useState , useEffect } from "react";
+import { findTopFive } from "../services/MatchesAPI"
+import TopFive from "./TopFive";
+
 function PlayersListing(){
+
+  const[topPlayers, setTopPlayers] = useState([]);
+
+  useEffect(() => {
+    findTopFive().then((data) => setTopPlayers(data));
+  },[]);
+
   return(
-    <div>
-      <ul className="list-group list-group-horizontal">
-          <li className="list-group-item flex-fill">player 1</li>
-          <li className="list-group-item flex-fill">wins</li>
-          <li className="list-group-item flex-fill">loses</li>
-        </ul>
-        <ul className="list-group list-group-horizontal">
-          <li className="list-group-item flex-fill">player 2</li>
-          <li className="list-group-item flex-fill">wins</li>
-          <li className="list-group-item flex-fill">loses</li>
-        </ul>
-        <ul className="list-group list-group-horizontal">
-          <li className="list-group-item flex-fill">player 3</li>
-          <li className="list-group-item flex-fill">wins</li>
-          <li className="list-group-item flex-fill">loses</li>
-        </ul>
-        <ul className="list-group list-group-horizontal">
-          <li className="list-group-item flex-fill">player 4</li>
-          <li className="list-group-item flex-fill">wins</li>
-          <li className="list-group-item flex-fill">loses</li>
-        </ul>
-        <ul className="list-group list-group-horizontal">
-          <li className="list-group-item flex-fill">player 5</li>
-          <li className="list-group-item flex-fill">wins</li>
-          <li className="list-group-item flex-fill">loses</li>
-        </ul>
-      </div>
+    <div classNam="container">
+      {topPlayers.map(topPlayer =>(<TopFive key={topPlayer.playerProfileId} topPlayer={topPlayer}/>))}  
+    </div>
   );
 }
 
