@@ -1,7 +1,7 @@
 import { useState , useContext } from "react";
 import { Link, useHistory } from "react-router-dom";
 import AuthContext from "../context/AuthContext";
-import {login} from "./services/auth-api";
+import { login } from "../services/auth-api"
 
 function Login(){
 
@@ -31,31 +31,30 @@ function Login(){
   }
 
   return(
-    <form onSubmit={onSubmit}>
-      <div className="container">
+    <div className="container">
+      <h1>Login</h1>
+      <form onSubmit={onSubmit}>
+        <div className="mb-2">
+            <label htmlFor="username" className="form-label">Username</label>
+            <input type="text" id="username" name="username" className="form-control"
+                value={candidate.username} onChange={onChange} />
+        </div>
 
-          <div className="mb-2">
-              <label htmlFor="username" className="form-label">Username</label>
-              <input type="text" id="username" name="username" className="form-control"
-                  value={candidate.username} onChange={onChange} />
-          </div>
+        <div className="mb-2">
+            <label htmlFor="password" className="form-label">Password</label>
+            <input type="password" id="password" name="password" className="form-control"
+                value={candidate.password} onChange={onChange} />
+        </div>
 
-          <div className="mb-2">
-              <label htmlFor="password" className="form-label">Password</label>
-              <input type="password" id="password" name="password" className="form-control"
-                  value={candidate.password} onChange={onChange} />
-          </div>
+        <div>
+            <Link to="/" className="btn btn-secondary me-2">Cancel</Link>
+            <button type="submit" className="btn btn-primary">Log In</button>
+        </div>
 
-          <div>
-              <Link to="/" className="btn btn-secondary me-2">Cancel</Link>
-              <button type="submit" className="btn btn-primary">Log In</button>
-          </div>
-
-          {hasError ? <div className="alert alert-danger">Bad credentials...</div> :
-            null}
-            
-      </div>
-    </form>
+        {hasError ? <div className="alert alert-danger">Bad credentials...</div> :
+          null}
+      </form>
+    </div>
   )
 }
 

@@ -12,7 +12,7 @@ function Nav(){
       <div className="d-grid gap-2 d-md-block">
 
         {auth.credentials ? null : 
-          <Link to="/login" className="btn btn-info">Create Account</Link>}
+          <Link to="/register" className="btn btn-info">Create Account</Link>}
 
         {auth.credentials && auth.credentials.role ==="ADMIN" ? <Link to="/manage/users" className="btn btn-secondary">Manage Users</Link> : 
           null}

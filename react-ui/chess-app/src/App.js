@@ -4,6 +4,7 @@ import AuthContext from "./context/AuthContext";
 import Home from "./components/Home";
 import Nav from "./components/Nav";
 import Login from "./components/Login"
+import CreateAccountForm from "./components/CreateAccountForm";
 import PvP from "./components/PvP";
 import PvC from "./components/PvC";
 import './App.css';
@@ -66,6 +67,10 @@ function App() {
 
           <Route path="/game/pvc">
             {credentials ? <PvC /> : <Redirect to="/login" />}
+          </Route>
+
+          <Route path="/register">
+            <CreateAccountForm />
           </Route>
 
         </Switch>
