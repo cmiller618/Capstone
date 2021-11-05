@@ -108,5 +108,17 @@ class PlayerRepositoryTest {
         assertFalse(actual);
     }
 
+//    @Test
+//    void shouldChangePassword() {
+////        HumanPlayer hp = new HumanPlayer();
+////        hp.setProfileId(1);
+////        hp.setUsername("SuperMario");
+////        hp.setPassword("password");
+////        hp.setEmail("supermario@gmail.com");
+////        boolean actual = repository.changePassword(hp);
+////
+////        assertTrue(actual);
+//    }
+
 
 }

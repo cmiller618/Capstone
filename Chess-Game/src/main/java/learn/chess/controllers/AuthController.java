@@ -5,6 +5,7 @@ import learn.chess.model.HumanPlayer;
 import learn.chess.security.JwtConverter;
 import org.apache.catalina.User;
 import org.apache.coyote.Response;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -21,6 +22,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
 
 @RestController
+@ConditionalOnWebApplication
 public class AuthController {
 
     private final AuthenticationManager authenticationManager;
@@ -34,7 +36,7 @@ public class AuthController {
     @PostMapping("/authenticate")
     public ResponseEntity<Object> login(@RequestBody HashMap<String, String> credentials,
                                         HttpServletResponse response) {
-        UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(credentials.get("player_profile_name"),
+        UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(credentials.get("username"),
                 credentials.get("password"));
 
         try {

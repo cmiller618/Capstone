@@ -12,6 +12,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.List;
+
 
 public class JwtRequestFilter extends BasicAuthenticationFilter {
 
@@ -33,7 +35,7 @@ public class JwtRequestFilter extends BasicAuthenticationFilter {
                 response.setStatus(403); //forbidden
             } else {
                 var token = new UsernamePasswordAuthenticationToken(
-                        player, null, player.getAuthorities());
+                        player, null, List.of());
 
                 SecurityContextHolder.getContext().setAuthentication(token);
 
