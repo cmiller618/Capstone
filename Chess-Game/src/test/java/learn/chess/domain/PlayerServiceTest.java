@@ -9,6 +9,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import static org.mockito.Mockito.when;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -22,6 +23,19 @@ class PlayerServiceTest {
     @MockBean
     PlayerRepository repository;
 
+
+    @Test
+    void shouldFindAll() throws DataAccessException {
+        List<HumanPlayer> all = new ArrayList<>();
+        all.add(makePlayer());
+        all.add(makeSecondPlayer());
+
+        when(repository.findAll()).thenReturn(all);
+        List<HumanPlayer> actual = service.findAll();
+
+        assertEquals(all, actual);
+        assertNotNull(actual);
+    }
 
     @Test
     void shouldFindOne() throws DataAccessException {
@@ -220,5 +234,13 @@ class PlayerServiceTest {
         chris.setEmail("superchris@hotmail.com");
         return chris;
 
+    }
+    HumanPlayer makeSecondPlayer() {
+        HumanPlayer caroline = new HumanPlayer();
+        caroline.setProfileId(2);
+        caroline.setName("SuperCaroline");
+        caroline.setPassword("password");
+        caroline.setEmail("supercaroline@yahoo.com");
+        return caroline;
     }
 }
