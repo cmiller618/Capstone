@@ -57,7 +57,7 @@ public class PlayerJdbcTemplateRepository implements PlayerRepository {
         KeyHolder keyHolder = new GeneratedKeyHolder();
         int rowsAffected = jdbcTemplate.update(connection -> {
             PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-            ps.setString(1, humanPlayer.getName());
+            ps.setString(1, humanPlayer.getUsername());
             ps.setString(2, humanPlayer.getPassword());
             ps.setString(3, humanPlayer.getEmail());
             return ps;
@@ -79,7 +79,7 @@ public class PlayerJdbcTemplateRepository implements PlayerRepository {
                 + "player_profile_email = ? "
                 + "where player_profile_id = ?;";
         return jdbcTemplate.update(sql,
-                humanPlayer.getName(),
+                humanPlayer.getUsername(),
                 humanPlayer.getPassword(),
                 humanPlayer.getEmail(),
                 humanPlayer.getProfileId()) > 0;

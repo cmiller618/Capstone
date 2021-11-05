@@ -72,7 +72,7 @@ class PlayerServiceTest {
     void shouldNotAddNullName() throws DataAccessException {
         HumanPlayer hp = new HumanPlayer();
         hp.setProfileId(0);
-        hp.setName(null);
+        hp.setUsername(null);
         hp.setPassword("pass");
         hp.setEmail("email@email.com");
 
@@ -87,7 +87,7 @@ class PlayerServiceTest {
 
         HumanPlayer hp = new HumanPlayer();
         hp.setProfileId(0);
-        hp.setName("name");
+        hp.setUsername("name");
         hp.setPassword("pass");
         hp.setEmail(null);
 
@@ -103,7 +103,7 @@ class PlayerServiceTest {
 
         HumanPlayer hp = new HumanPlayer();
         hp.setProfileId(0);
-        hp.setName("name");
+        hp.setUsername("name");
         hp.setPassword(null);
         hp.setEmail("email@test.com");
 
@@ -118,7 +118,7 @@ class PlayerServiceTest {
     void shouldNotAddPresetId() throws DataAccessException {
         HumanPlayer hp = new HumanPlayer();
         hp.setProfileId(10);
-        hp.setName("name");
+        hp.setUsername("name");
         hp.setPassword("password");
         hp.setEmail("email@test.com");
 
@@ -133,7 +133,7 @@ class PlayerServiceTest {
 
         HumanPlayer hp = new HumanPlayer();
         hp.setProfileId(1);
-        hp.setName("Mario");
+        hp.setUsername("Mario");
         hp.setPassword("test123");
         hp.setEmail("supermario@gmail.com");
 
@@ -147,7 +147,7 @@ class PlayerServiceTest {
     void shouldNotUpdateMissing() throws DataAccessException {
         HumanPlayer hp = new HumanPlayer();
         hp.setProfileId(5000);
-        hp.setName("name");
+        hp.setUsername("name");
         hp.setPassword("password");
         hp.setEmail("email@test.com");
 
@@ -161,7 +161,7 @@ class PlayerServiceTest {
     void shouldNotUpdateInvalidId() throws DataAccessException {
         HumanPlayer hp = new HumanPlayer();
         hp.setProfileId(-1);
-        hp.setName("name");
+        hp.setUsername("name");
         hp.setPassword("password");
         hp.setEmail("email@test.com");
 
@@ -175,7 +175,7 @@ class PlayerServiceTest {
     void shouldNotUpdateNullName() throws DataAccessException {
         HumanPlayer hp = new HumanPlayer();
         hp.setProfileId(5);
-        hp.setName(null);
+        hp.setUsername(null);
         hp.setPassword("password");
         hp.setEmail("email@test.com");
 
@@ -189,7 +189,7 @@ class PlayerServiceTest {
     void shouldNotUpdateNullEmail() throws DataAccessException {
         HumanPlayer hp = new HumanPlayer();
         hp.setProfileId(5);
-        hp.setName("name");
+        hp.setUsername("name");
         hp.setPassword("password");
         hp.setEmail(null);
 
@@ -203,7 +203,7 @@ class PlayerServiceTest {
     void shouldNotUpdateNullPassword() throws DataAccessException {
         HumanPlayer hp = new HumanPlayer();
         hp.setProfileId(5);
-        hp.setName("name");
+        hp.setUsername("name");
         hp.setPassword(null);
         hp.setEmail("email@test.com");
 
@@ -229,7 +229,7 @@ class PlayerServiceTest {
     HumanPlayer makePlayer() {
         HumanPlayer chris = new HumanPlayer();
         chris.setProfileId(3);
-        chris.setName("SuperChirs");
+        chris.setUsername("SuperChirs");
         chris.setPassword("P@ssw2rd!");
         chris.setEmail("superchris@hotmail.com");
         return chris;
@@ -238,7 +238,7 @@ class PlayerServiceTest {
     HumanPlayer makeSecondPlayer() {
         HumanPlayer caroline = new HumanPlayer();
         caroline.setProfileId(2);
-        caroline.setName("SuperCaroline");
+        caroline.setUsername("SuperCaroline");
         caroline.setPassword("password");
         caroline.setEmail("supercaroline@yahoo.com");
         return caroline;

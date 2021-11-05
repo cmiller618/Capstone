@@ -1,6 +1,7 @@
 import { useState , useContext } from "react";
 import { Link, useHistory } from "react-router-dom";
 import AuthContext from "../context/AuthContext";
+import {login} from "./services/auth-api";
 
 function Login(){
 
@@ -22,11 +23,11 @@ function Login(){
 
   const onSubmit = (evt) => {
     evt.preventDefault();
-    if(auth.login(candidate)){
-      history.push("/");
-    }else{
-      setHasError(true);
-    }
+    login(candidate)
+        .then(auth => {
+            console.log("success!", auth)
+        }).catch(() => setHasError(true));
+   
   }
 
   return(
