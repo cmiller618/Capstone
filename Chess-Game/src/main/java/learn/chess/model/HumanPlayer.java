@@ -66,8 +66,4 @@ public class HumanPlayer {
         this.email = email;
     }
 
-    public boolean generatePlayerMove(int startX, int startY, int endX, int endY){
-        return board.generateMove(startX, startY, endX, endY);
-    }
-
 }
