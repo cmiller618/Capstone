@@ -25,19 +25,17 @@ public class AuthController {
 
     private final AuthenticationManager authenticationManager;
     private final JwtConverter converter;
-    private final PasswordEncoder encoder;
 
-    public AuthController(AuthenticationManager authenticationManager, JwtConverter converter, PasswordEncoder encoder) {
+    public AuthController(AuthenticationManager authenticationManager, JwtConverter converter) {
         this.authenticationManager = authenticationManager;
         this.converter = converter;
-        this.encoder = encoder;
     }
 
     @PostMapping("/authenticate")
     public ResponseEntity<Object> login(@RequestBody HashMap<String, String> credentials,
                                         HttpServletResponse response) {
         UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(credentials.get("player_profile_name"),
-                credentials.get("player_password"));
+                credentials.get("password"));
 
         try {
             Authentication authentication = authenticationManager.authenticate(authToken);

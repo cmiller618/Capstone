@@ -13,6 +13,7 @@ import java.util.stream.Collectors;
 public class HumanPlayer implements UserDetails{
 
     private int profileId;
+
     private String username;
     private String password;
     private String email;
