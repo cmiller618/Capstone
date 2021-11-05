@@ -15,4 +15,6 @@ public interface PlayerRepository {
     boolean updatePlayer(HumanPlayer humanPlayer) throws DataAccessException;
 
     boolean deleteById(int profileId) throws DataAccessException;
+
+    boolean changePassword(String password) throws DataAccessException;
 }

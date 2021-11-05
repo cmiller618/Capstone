@@ -16,7 +16,7 @@ public class JwtConverter {
 
     private Key key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
 
-    private final String ISSUER = "chess-game";
+    private final String ISSUER = "chess_game";
     private final int EXPIRATION_MINUTES = 15;
     private final int EXPIRATION_MILLIS = EXPIRATION_MINUTES * 60 * 1000;
 
@@ -26,7 +26,7 @@ public class JwtConverter {
                 .setIssuer(ISSUER)
                 .setSubject(player.getUsername())
                 .claim("player_profile_id", player.getProfileId())
-                .claim("authorities", String.join(",", player.getAuthorityNames()))
+//                .claim("authorities", String.join(",", player.getAuthorityNames()))
                 .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_MILLIS))
                 .signWith(key)
                 .compact();
@@ -34,7 +34,7 @@ public class JwtConverter {
 
     public HumanPlayer getPlayerFromToken(String token) {
 
-        if (token == null) {
+        if (token == null || token.startsWith("Bearer ")) {
             return null;
         }
         try {
@@ -47,13 +47,13 @@ public class JwtConverter {
             HumanPlayer player = new HumanPlayer();
 
             player.setUsername(jws.getBody().getSubject());
-            player.setProfileId(jws.getBody().get("player_profile_id", Integer.class));
+            player.setProfileId(jws.getBody().get("profileId", Integer.class));
 
-            String authStr = jws.getBody().get("authorities", String.class);
-            List<String> authorities = Arrays.stream(authStr.split(","))
-                    .filter(a -> a != null && a.trim().length() != 0)
-                    .collect(Collectors.toList());
-            player.setAuthorityNames(authorities);
+//            String authStr = jws.getBody().get("authorities", String.class);
+//            List<String> authorities = Arrays.stream(authStr.split(","))
+//                    .filter(a -> a != null && a.trim().length() != 0)
+//                    .collect(Collectors.toList());
+//            player.setAuthorityNames(authorities);
 
             return player;
         } catch (JwtException e) {
