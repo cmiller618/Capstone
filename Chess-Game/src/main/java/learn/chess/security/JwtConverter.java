@@ -3,15 +3,14 @@ package learn.chess.security;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import learn.chess.model.HumanPlayer;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
 import org.springframework.stereotype.Component;
 
 import java.security.Key;
 import java.sql.Date;
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Component
+@ConditionalOnWebApplication
 public class JwtConverter {
 
     private Key key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
@@ -25,8 +24,7 @@ public class JwtConverter {
         return Jwts.builder()
                 .setIssuer(ISSUER)
                 .setSubject(player.getUsername())
-                .claim("player_profile_id", player.getProfileId())
-//                .claim("authorities", String.join(",", player.getAuthorityNames()))
+                .claim("profileId", player.getProfileId())
                 .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_MILLIS))
                 .signWith(key)
                 .compact();
@@ -48,12 +46,6 @@ public class JwtConverter {
 
             player.setUsername(jws.getBody().getSubject());
             player.setProfileId(jws.getBody().get("profileId", Integer.class));
-
-//            String authStr = jws.getBody().get("authorities", String.class);
-//            List<String> authorities = Arrays.stream(authStr.split(","))
-//                    .filter(a -> a != null && a.trim().length() != 0)
-//                    .collect(Collectors.toList());
-//            player.setAuthorityNames(authorities);
 
             return player;
         } catch (JwtException e) {

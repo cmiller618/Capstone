@@ -35,9 +35,9 @@ public class BoardController {
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
-    @PutMapping
-    public ResponseEntity<Void> updatePlayerMove(@RequestBody Board board, @RequestBody boolean isBlack){
-        if(board.generateMove())
-    }
+//    @PutMapping
+//    public ResponseEntity<Void> updatePlayerMove(@RequestBody Board board, @RequestBody boolean isBlack){
+//        if(board.generateMove())
+//    }
 
 }
