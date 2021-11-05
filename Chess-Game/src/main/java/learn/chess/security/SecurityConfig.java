@@ -14,7 +14,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/login").permitAll()
                 .antMatchers(HttpMethod.GET,"/chess_game").authenticated()
                 .antMatchers("/**").denyAll()
-                .and()
-                .sessionManagement().sessionCreationPolicy(Sess)
+                .and();
+                //.sessionManagement().sessionCreationPolicy(Sess)
     }
 }

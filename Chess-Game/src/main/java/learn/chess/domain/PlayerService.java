@@ -77,7 +77,7 @@ public class PlayerService {
             result.addMessage("Please enter a valid email", ResultType.INVALID);
         }
 
-        if(humanPlayer.getName() == null){
+        if(humanPlayer.getUsername() == null){
             result.addMessage("Please Enter a valid name", ResultType.INVALID);
         }
 

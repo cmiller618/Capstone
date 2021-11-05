@@ -72,7 +72,7 @@ class PlayerRepositoryTest {
     void shouldAddPlayer() throws DataAccessException {
         HumanPlayer hp = new HumanPlayer();
         hp.setProfileId(4);
-        hp.setName("Test");
+        hp.setUsername("Test");
         hp.setPassword("testpassword");
         hp.setEmail("test@test.com");
         HumanPlayer actual = repository.addPlayer(hp);
@@ -85,7 +85,7 @@ class PlayerRepositoryTest {
     void shouldUpdate() {
         HumanPlayer hp = new HumanPlayer();
         hp.setProfileId(1);
-        hp.setName("Updated");
+        hp.setUsername("Updated");
         hp.setPassword("updatedpass");
         hp.setEmail("supermario@gmail.com");
         boolean actual = repository.updatePlayer(hp);
