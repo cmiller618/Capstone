@@ -27,9 +27,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         http.authorizeRequests()
                 .antMatchers("/login").permitAll()
-                .antMatchers(HttpMethod.GET, "/game/players/**").authenticated()
-                .antMatchers(HttpMethod.GET, "/game/matches/**").authenticated()
-                .antMatchers(HttpMethod.GET, "/game/matches/*").authenticated()
+                .antMatchers(HttpMethod.GET, "/game/**").authenticated()
                 .antMatchers(HttpMethod.POST,"/game/players").permitAll()
                 .antMatchers(HttpMethod.POST, "/game/matches").authenticated()
                 .antMatchers(HttpMethod.PUT,"/game/players/*").authenticated()
@@ -37,7 +35,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.DELETE,"/game/players/*").authenticated()
                 .antMatchers(HttpMethod.POST, "/authenticate").permitAll()
                 .antMatchers(HttpMethod.POST, "/refresh_token").authenticated()
-                .antMatchers(HttpMethod.GET, "/game/board").authenticated()
                 .antMatchers(HttpMethod.PUT, "/game/board").authenticated()
 
             .and()
