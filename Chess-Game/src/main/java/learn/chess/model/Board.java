@@ -13,8 +13,12 @@ public class Board {
 
     private Pieces[][] board = new Pieces[8][8];
 
-
-
+    public Pieces[][] getCurrentBoard(){
+        return board;
+    }
+    public void setCurrentBoard(Pieces[][] board){
+        this.board = board;
+    }
 
     public Pieces[][] getNewBoard(){
         for(int i = 0; i < 8; i++){
@@ -47,7 +51,7 @@ public class Board {
     public boolean knightValidMovement(int startX, int startY, int endX, int endY){
         int differenceX;
         int differenceY;
-        if(inBoard(endX, endY)){
+        if(inBoard(startX, startY, endX, endY)){
             differenceX = Math.abs(startX - endX);
             differenceY = Math.abs(startY - endY);
             if((board[startX][startY].getColor().equals(Pieces.Color.WHITE) && board[endX][endY] == null) ||
@@ -61,35 +65,53 @@ public class Board {
     public boolean queenValidMovement(int startX, int startY, int endX, int endY) {
         int differenceX = 0;
         int differenceY = 0;
-        if (inBoard(endX, endY)) {
+        if(inBoard(startX, startY, endX, endY)) {
             differenceX = Math.abs(startX - endX);
             differenceY = Math.abs(startY - endY);
 
             // This is because if differenceX and differenceY are equal, then if differenceX > 0 would mean that differenceY HAS to be > 0
-            if (differenceX == differenceY && (differenceX > 0)) {
-
-                if(startX < endX){
-                    int j = startY;
-                    for (int i = startX; i <= endX; i++) {
+            if (differenceX == differenceY && differenceX > 0) {
+                if (startX < endX && startY < endY) {
+                    int j = startY + 1;
+                    for (int i = startX + 1; i <= endX; i++) {
+                        if (board[i][j] != null) {
+                            return false;
+                        }
+                        j++;
+                    }
+                } else if (startX > endX && startY > endY) {
+                    int j = startY - 1;
+                    for (int i = startX - 1; i >= endX; i--) {
+                        if (board[i][j] != null) {
+                            return false;
+                        }
+                        j--;
+                    }
+                } else if (startX < endX && startY > endY) {
+                    int j = startY - 1;
+                    for (int i = startX + 1; i <= endX; i++) {
+                        if (board[i][j] != null) {
+                            return false;
+                        }
+                        j--;
+                    }
+                } else if (startX > endX && startY < endY) {
+                    int j = startY + 1;
+                    for (int i = startX - 1; i >= endX; i--) {
                         if (board[i][j] != null) {
                             return false;
                         }
                         j++;
                     }
                 }
-                if (startX > endX){
-                    int j = endY;
-                    for (int i = endX; i <= startX; i++) {
-                        if (board[i][j] != null) {
-                            return false;
-                        }
-                        j++;
-                    }
-                }
-
-            } else if(differenceX != differenceY){
+            }else if (differenceX != differenceY) {
                 return horizontalOrVerticalMovement(startX, startY, endX, endY, differenceX, differenceY);
+            }else{
+                return false;
             }
+
+        }else{
+            return false;
         }
         return true;
     }
@@ -98,7 +120,7 @@ public class Board {
     public boolean rookValidMovement(int startX, int startY, int endX, int endY){
         int differenceX;
         int differenceY;
-        if(inBoard(endX, endY)){
+        if(inBoard(startX, startY, endX, endY)){
             differenceX = Math.abs(startX - endX);
             differenceY = Math.abs(startY - endY);
         }else{
@@ -126,14 +148,13 @@ public class Board {
                 }
             }
         }else if (differenceX == 0 && differenceY > 0) {
-            if(startY < endY){
+            if (startY < endY) {
                 for (int i = startY + 1; i <= endY; i++) {
                     if (board[startX][i] != null && board[startX][startY].getColor().equals(board[startX][i].getColor())) {
                         return false;
                     }
                 }
-            }
-            else if(startY > endY){
+            } else if (startY > endY) {
                 for (int i = endY + 1; i <= startY; i++) {
                     if (board[startX][i] != null && board[startX][startY].getColor().equals(board[startX][i].getColor())) {
                         return false;
@@ -141,47 +162,63 @@ public class Board {
                 }
             }
 
-        }else if(differenceX > 0 && differenceY > 0) {
-            return false;
         }
-        return true;
+        return false;
     }
 
-    public boolean bishopValidMovement(int startX, int startY, int endX, int endY){
+    public boolean bishopValidMovement(int startX, int startY, int endX, int endY) {
         int differenceX;
         int differenceY;
-        if(inBoard(endX, endY)){
+        if(inBoard(startX, startY, endX, endY)){
             differenceX = Math.abs(startX - endX);
             differenceY = Math.abs(startY - endY);
             if (differenceX == differenceY && differenceX > 0) {
-                if(startX < endX){
-                    int j = startY;
-                    for (int i = startX; i <= endX; i++) {
+                if (startX < endX && startY < endY) {
+                    int j = startY + 1;
+                    for (int i = startX + 1; i <= endX; i++) {
                         if (board[i][j] != null) {
                             return false;
                         }
                         j++;
                     }
-                }else if(startX > endX){
-                    int j = endY;
-                    for (int i = endX; i <= startX; i++) {
+                } else if (startX > endX && startY > endY) {
+                    int j = startY - 1;
+                    for (int i = startX - 1; i >= endX; i--) {
+                        if (board[i][j] != null) {
+                            return false;
+                        }
+                        j--;
+                    }
+                } else if (startX < endX && startY > endY) {
+                    int j = startY - 1;
+                    for (int i = startX + 1; i <= endX; i++) {
+                        if (board[i][j] != null) {
+                            return false;
+                        }
+                        j--;
+                    }
+                }else if (startX > endX && startY < endY) {
+                    int j = startY + 1;
+                    for (int i = startX - 1; i >= endX; i--) {
                         if (board[i][j] != null) {
                             return false;
                         }
                         j++;
                     }
                 }
-
-            }else{
-                return false;
+            } else {
+                    return false;
             }
+        }else{
+            return false;
         }
         return true;
     }
+
     public boolean pawnValidMovement(int startX, int startY, int endX, int endY){
         int differenceX;
         int differenceY;
-        if(inBoard(endX, endY)){
+        if(inBoard(startX, startY, endX, endY)){
             differenceX = Math.abs(startX - endX);
             differenceY = Math.abs(startY - endY);
             if(startX == 1 && board[startX][startY].getColor().equals(Pieces.Color.BLACK)&& differenceX <= 2 && differenceY == 0 ){
@@ -213,26 +250,25 @@ public class Board {
         return true;
     }
 
-    public boolean kingValidMovement(int startX, int startY, int endX, int endY){
+    public boolean kingValidMovement(int startX, int startY, int endX, int endY) {
         int differenceX;
         int differenceY;
-        if(inBoard(endX, endY)){
+        if (inBoard(startX, startY, endX, endY)) {
             differenceX = Math.abs(startX - endX);
             differenceY = Math.abs(startY - endY);
-            if(differenceX > 1 || differenceY > 1 ){
+            if (differenceX > 1 || differenceY > 1) {
                 return false;
-            }else if (differenceX == differenceY) {
-                if ((board[startX + 1][startY + 1] != null) && startX < endX && startY < endY){
-                        return false;
-                }else if ((board[startX - 1][startY - 1] != null) && startX > endX && startY > endY){
-                        return false;
-                }
-                return true;
             }
-        }else{
-            return false;
+            if (startX < endX && startY < endY) {
+                if (board[endX][endY] != null && board[endX][endY].getColor().equals(board[startX][startY].getColor())) {
+                    return false;
+                }
+            } else {
+                return horizontalOrVerticalMovement(startX, startY, endX, endY, differenceX, differenceY);
+            }
+
         }
-        return horizontalOrVerticalMovement(startX, startY, endX, endY, differenceX, differenceY);
+        return false;
     }
 
     public boolean generateMove(int startX, int startY, int endX, int endY){
@@ -302,8 +338,8 @@ public class Board {
         return false;
     }
 
-    private boolean inBoard(int endX, int endY){
-        return (endX >= 0 && endX <= 7) && (endY >= 0 && endY <= 7);
+    private boolean inBoard(int startX, int startY, int endX, int endY){
+        return (((startY >= 0 && startY <= 7) && (startX >= 0 && startX <= 7) && (endX >= 0 && endX <= 7) && (endY >= 0 && endY <= 7)));
     }
 
 
