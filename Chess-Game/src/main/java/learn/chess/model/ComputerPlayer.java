@@ -175,7 +175,7 @@ public class ComputerPlayer implements Player {
                             y.add(j);
                             endX.add(i+2);
                             endY.add(j);
-                        }if(board.pawnValidMovement(i, j, i+1, j+1)){
+                        }if(board.pawnValidMovement(i, j, i+1, j)){
                             findBestMove.add(Math.abs(pieces[i][j].getPieceValue() + pawn[i+1][j]));
                             x.add(i);
                             y.add(j);

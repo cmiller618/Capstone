@@ -339,7 +339,7 @@ public class Board {
     }
 
     private boolean inBoard(int startX, int startY, int endX, int endY){
-        return ((startY >= 0 && startY <= 7) && (startX >= 0 && startX <= 7) && (endX >= 0 && endX <= 7) && (endY >= 0 && endY <= 7));
+        return (((startY >= 0 && startY <= 7) && (startX >= 0 && startX <= 7) && (endX >= 0 && endX <= 7) && (endY >= 0 && endY <= 7)));
     }
 
 
