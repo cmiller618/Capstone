@@ -161,7 +161,7 @@ public class ComputerPlayer implements Player {
 
     //finds ALL legal moves. Then will  make the move using the minimax with alpha beta pruning algorithm.
     //Could be better as this only looks at the next move. If there is time, I can try to improve this.
-    public void getBestMove(Board board, boolean isBlack){
+    public boolean getBestMove(Board board, boolean isBlack){
         List<Integer> findBestMove = new ArrayList<>();
         List<Integer> endX = new ArrayList<>();
         List<Integer> endY = new ArrayList<>();
@@ -651,10 +651,11 @@ public class ComputerPlayer implements Player {
 
         for(int i = 0; i < findBestMove.size(); i++){
             if(bestMove == findBestMove.get(i)){
-                board.generateMove(x.get(i), y.get(i), endX.get(i), endY.get(i));
-                break;
+               return board.generateMove(x.get(i), y.get(i), endX.get(i), endY.get(i));
+
             }
         }
+        return false;
 
     }
 
