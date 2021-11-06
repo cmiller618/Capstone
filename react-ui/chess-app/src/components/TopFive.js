@@ -1,6 +1,3 @@
-import { Link } from "react-router-dom";
-import { useContext } from "react";
-
 function TopFive({topPlayer}){
 
   return(

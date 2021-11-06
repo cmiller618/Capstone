@@ -10,17 +10,14 @@ import java.util.stream.Collectors;
 public class HumanPlayer{
 
     private int profileId;
-
     private String username;
     private String password;
     private String email;
+    private PlayerStats playerStats;
 
-    public void setDisabled(boolean disabled) {
-        this.disabled = disabled;
+    public HumanPlayer() {
     }
 
-    private boolean disabled;
-    private List<String> authorities = new ArrayList<>();
 
     public PlayerStats getPlayerMatch() {
         return playerStats;
@@ -30,18 +27,14 @@ public class HumanPlayer{
         this.playerStats = playerStats;
     }
 
-    private PlayerStats playerStats;
 
     public String getPassword() {
         return password;
     }
 
-
-
     public void setPassword(String password) {
         this.password = password;
     }
-
 
 
     @Override
@@ -81,9 +74,5 @@ public class HumanPlayer{
         this.email = email;
     }
 
-    public boolean hasAuthority(String authority) {
-        return authorities.stream()
-                .anyMatch(a -> a.equals(authority));
-    }
 
 }
