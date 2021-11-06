@@ -1,7 +1,7 @@
 import { useState , useContext } from "react";
 import { Link, useHistory } from "react-router-dom";
 import AuthContext from "../context/AuthContext";
-import {login} from "./services/auth-api";
+import { login } from "../services/auth-api";
 
 function Login(){
 

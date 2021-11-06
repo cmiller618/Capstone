@@ -26,7 +26,6 @@ public class JwtConverter {
                 .setIssuer(ISSUER)
                 .setSubject(player.getUsername())
                 .claim("player_profile_id", player.getProfileId())
-                .claim("authorities", String.join(",", player.getAuthorityNames()))
                 .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_MILLIS))
                 .signWith(key)
                 .compact();
@@ -49,11 +48,6 @@ public class JwtConverter {
             player.setUsername(jws.getBody().getSubject());
             player.setProfileId(jws.getBody().get("player_profile_id", Integer.class));
 
-            String authStr = jws.getBody().get("authorities", String.class);
-            List<String> authorities = Arrays.stream(authStr.split(","))
-                    .filter(a -> a != null && a.trim().length() != 0)
-                    .collect(Collectors.toList());
-            player.setAuthorityNames(authorities);
 
             return player;
         } catch (JwtException e) {

@@ -1,0 +1,15 @@
+@url = http://localhost:8080/game/board
+
+###
+
+GET {{url}} HTTP/1.1
+
+###
+
+GET {{url}}/currentboard HTTP/1.1
+
+###
+
+PUT {{url}} HTTP/1.1
+
+###

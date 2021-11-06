@@ -1,5 +1,8 @@
 package learn.chess.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Board {
 
 
@@ -12,6 +15,9 @@ public class Board {
     }
 
     private Pieces[][] board = new Pieces[8][8];
+
+    List<Pieces> blackCaptured = new ArrayList<>();
+    List<Pieces> whiteCaptured = new ArrayList<>();
 
     public Pieces[][] getCurrentBoard(){
         return board;
@@ -74,7 +80,7 @@ public class Board {
                 if (startX < endX && startY < endY) {
                     int j = startY + 1;
                     for (int i = startX + 1; i <= endX; i++) {
-                        if (board[i][j] != null) {
+                        if (board[i][j] != null && board[startX][startY].getColor().equals(board[i][j].getColor())) {
                             return false;
                         }
                         j++;
@@ -82,7 +88,7 @@ public class Board {
                 } else if (startX > endX && startY > endY) {
                     int j = startY - 1;
                     for (int i = startX - 1; i >= endX; i--) {
-                        if (board[i][j] != null) {
+                        if (board[i][j] != null && board[startX][startY].getColor().equals(board[i][j].getColor())) {
                             return false;
                         }
                         j--;
@@ -90,7 +96,7 @@ public class Board {
                 } else if (startX < endX && startY > endY) {
                     int j = startY - 1;
                     for (int i = startX + 1; i <= endX; i++) {
-                        if (board[i][j] != null) {
+                        if (board[i][j] != null && board[startX][startY].getColor().equals(board[i][j].getColor())) {
                             return false;
                         }
                         j--;
@@ -98,7 +104,7 @@ public class Board {
                 } else if (startX > endX && startY < endY) {
                     int j = startY + 1;
                     for (int i = startX - 1; i >= endX; i--) {
-                        if (board[i][j] != null) {
+                        if (board[i][j] != null && board[startX][startY].getColor().equals(board[i][j].getColor())) {
                             return false;
                         }
                         j++;
@@ -176,7 +182,7 @@ public class Board {
                 if (startX < endX && startY < endY) {
                     int j = startY + 1;
                     for (int i = startX + 1; i <= endX; i++) {
-                        if (board[i][j] != null) {
+                        if (board[i][j] != null && board[startX][startY].getColor().equals(board[i][j].getColor())) {
                             return false;
                         }
                         j++;
@@ -184,7 +190,7 @@ public class Board {
                 } else if (startX > endX && startY > endY) {
                     int j = startY - 1;
                     for (int i = startX - 1; i >= endX; i--) {
-                        if (board[i][j] != null) {
+                        if (board[i][j] != null && board[startX][startY].getColor().equals(board[i][j].getColor())) {
                             return false;
                         }
                         j--;
@@ -192,7 +198,7 @@ public class Board {
                 } else if (startX < endX && startY > endY) {
                     int j = startY - 1;
                     for (int i = startX + 1; i <= endX; i++) {
-                        if (board[i][j] != null) {
+                        if (board[i][j] != null && board[startX][startY].getColor().equals(board[i][j].getColor())) {
                             return false;
                         }
                         j--;
@@ -200,11 +206,13 @@ public class Board {
                 }else if (startX > endX && startY < endY) {
                     int j = startY + 1;
                     for (int i = startX - 1; i >= endX; i--) {
-                        if (board[i][j] != null) {
+                        if (board[i][j] != null && board[startX][startY].getColor().equals(board[i][j].getColor())) {
                             return false;
                         }
                         j++;
                     }
+                }else{
+
                 }
             } else {
                     return false;
@@ -227,7 +235,7 @@ public class Board {
                 return PawnMovement(startX, startY, endX);
             }else if (differenceX < 2 && differenceY == 0){
                 return PawnMovement(startX, startY, endX);
-            }
+            }else return differenceX == differenceY && !board[startX][startY].getColor().equals(board[endX][endY].getColor());
         }
         return false;
     }
@@ -272,8 +280,23 @@ public class Board {
     }
 
     public boolean generateMove(int startX, int startY, int endX, int endY){
+        if(!board[startX][startY].getColor().equals(board[endX][endY].getColor())){
+            if(board[startX][startY].getColor().equals(Pieces.Color.WHITE)){
+                blackCaptured.add(board[endX][endY]);
+            }else{
+                whiteCaptured.add(board[endX][endY]);
+            }
+        }
+
         if(board[startX][startY].equals(Pieces.WHITE_QUEEN) || board[startX][startY].equals(Pieces.BLACK_QUEEN)){
             if(queenValidMovement(startX, startY, endX, endY)){
+                if(!board[startX][startY].getColor().equals(board[endX][endY].getColor())){
+                    if(board[startX][startY].getColor().equals(Pieces.Color.WHITE)){
+                        blackCaptured.add(board[endX][endY]);
+                    }else{
+                        whiteCaptured.add(board[endX][endY]);
+                    }
+                }
                 board[endX][endY] = board[startX][startY];
                 board[startX][startY] = null;
                 setBoard(board);
