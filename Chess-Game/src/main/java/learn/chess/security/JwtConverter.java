@@ -25,6 +25,7 @@ public class JwtConverter {
                 .setIssuer(ISSUER)
                 .setSubject(player.getUsername())
                 .claim("profileId", player.getProfileId())
+
                 .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_MILLIS))
                 .signWith(key)
                 .compact();
@@ -45,7 +46,9 @@ public class JwtConverter {
             HumanPlayer player = new HumanPlayer();
 
             player.setUsername(jws.getBody().getSubject());
+
             player.setProfileId(jws.getBody().get("profileId", Integer.class));
+
 
             return player;
         } catch (JwtException e) {

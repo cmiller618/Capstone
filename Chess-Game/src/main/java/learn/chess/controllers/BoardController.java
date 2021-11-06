@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@CrossOrigin(origins = {"http://localhost:3000"})
 @RequestMapping("/game/board")
 public class BoardController {
 
@@ -21,7 +22,7 @@ public class BoardController {
         return board.getNewBoard();
     }
 
-    @GetMapping
+    @GetMapping("/currentboard")
     public Pieces[][] getCurrentBoard(){
         return board.getCurrentBoard();
     }
@@ -35,9 +36,13 @@ public class BoardController {
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
-//    @PutMapping
-//    public ResponseEntity<Void> updatePlayerMove(@RequestBody Board board, @RequestBody boolean isBlack){
-//        if(board.generateMove())
-//    }
+
+    @PutMapping
+    public ResponseEntity<Void> updatePlayerMove(@RequestBody Board board, int startX, int startY, int endX, int endY){
+        if(board.generateMove(startX, startY, endX, endY)){
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
 
 }
