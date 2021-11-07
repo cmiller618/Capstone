@@ -1,6 +1,7 @@
 drop database chess_game;
 create database  chess_game;
 
+
 use chess_game;
 
 create table player_profile (

@@ -4,7 +4,11 @@ import AuthContext from "./context/AuthContext";
 import Home from "./components/Home";
 import Nav from "./components/Nav";
 import Login from "./components/Login"
+
 import Board from "./components/Board";
+
+import CreateAccountForm from "./components/CreateAccountForm";
+
 import './App.css';
 
 const CREDENTIALS_KEY = "chess-credentials";
@@ -61,6 +65,10 @@ function App() {
 
           <Route path="/game/board">
             {credentials ? <Board /> : <Redirect to="/login" />}
+          </Route>
+
+          <Route path="/register">
+            <CreateAccountForm />
           </Route>
 
         </Switch>

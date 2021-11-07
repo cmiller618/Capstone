@@ -3,6 +3,9 @@ package learn.chess.controllers;
 
 import learn.chess.model.HumanPlayer;
 import learn.chess.security.JwtConverter;
+
+import org.apache.catalina.User;
+import org.apache.coyote.Response;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,19 +28,17 @@ public class AuthController {
 
     private final AuthenticationManager authenticationManager;
     private final JwtConverter converter;
-    private final PasswordEncoder encoder;
 
-    public AuthController(AuthenticationManager authenticationManager, JwtConverter converter, PasswordEncoder encoder) {
+    public AuthController(AuthenticationManager authenticationManager, JwtConverter converter) {
         this.authenticationManager = authenticationManager;
         this.converter = converter;
-        this.encoder = encoder;
     }
 
     @PostMapping("/authenticate")
     public ResponseEntity<Object> login(@RequestBody HashMap<String, String> credentials,
                                         HttpServletResponse response) {
-        UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(credentials.get("player_profile_name"),
-                credentials.get("player_password"));
+        UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(credentials.get("username"),
+                credentials.get("password"));
 
         try {
             Authentication authentication = authenticationManager.authenticate(authToken);

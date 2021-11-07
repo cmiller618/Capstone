@@ -5,6 +5,7 @@ use chess_game_test;
 
 -- create tables and relationships
 
+
 create table player_profile (
 	player_profile_id int primary key auto_increment,
     player_profile_name varchar(150) not null,
