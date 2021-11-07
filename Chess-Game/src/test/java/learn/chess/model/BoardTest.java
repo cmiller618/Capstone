@@ -126,4 +126,16 @@ class BoardTest {
         assertFalse(board.generateMove(6, 1, 3, 1 ));
         assertFalse(board.generateMove(7, 1, 4, 6));
     }
+
+    @Test
+    void shouldCapturePiece(){
+        pieces[2][2] = Pieces.WHITE_KNIGHT;
+        assertTrue(board.generateMove(1,1,2,2));
+        assertEquals(board.whiteCaptured.get(0), Pieces.WHITE_KNIGHT);
+
+        pieces[2][2] = Pieces.BLACK_BISHOP;
+        pieces[5][5] = Pieces.WHITE_PAWN;
+        assertTrue(board.generateMove(2,2,5,5));
+        assertEquals(board.whiteCaptured.get(1), Pieces.WHITE_PAWN);
+    }
 }

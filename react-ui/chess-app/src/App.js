@@ -4,9 +4,11 @@ import AuthContext from "./context/AuthContext";
 import Home from "./components/Home";
 import Nav from "./components/Nav";
 import Login from "./components/Login"
+
+import Board from "./components/Board";
+
 import CreateAccountForm from "./components/CreateAccountForm";
-import PvP from "./components/PvP";
-import PvC from "./components/PvC";
+
 import './App.css';
 
 const CREDENTIALS_KEY = "chess-credentials";
@@ -61,12 +63,8 @@ function App() {
             <Login />
           </Route>
 
-          <Route path="/game/pvp">
-            {credentials ? <PvP /> : <Redirect to="/login" />}
-          </Route>
-
-          <Route path="/game/pvc">
-            {credentials ? <PvC /> : <Redirect to="/login" />}
+          <Route path="/game/board">
+            {credentials ? <Board /> : <Redirect to="/login" />}
           </Route>
 
           <Route path="/register">

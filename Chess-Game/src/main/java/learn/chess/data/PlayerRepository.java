@@ -16,5 +16,5 @@ public interface PlayerRepository {
 
     boolean deleteById(int profileId) throws DataAccessException;
 
-    boolean changePassword(String password) throws DataAccessException;
+    boolean changePassword(HumanPlayer player) throws DataAccessException;
 }

@@ -95,16 +95,16 @@ public class PlayerJdbcTemplateRepository implements PlayerRepository {
     }
 
     @Override
-    public boolean changePassword(String password) throws DataAccessException {
+    public boolean changePassword(HumanPlayer player)  {
 
-//        final String sql = "update player_profile set "
-//                + "player_password = ? "
-//                + "where player_password = ?;";
-//
-//        int rowsAffected = jdbcTemplate.update(sql, password);
-//
-//        return rowsAffected > 0;
-        return false;
+        final String sql = "update player_profile set "
+                + "player_password = ? "
+                + "where player_profile_id = ?;";
+
+        int rowsAffected = jdbcTemplate.update(sql, player.getPassword(), player.getProfileId());
+
+        return rowsAffected > 0;
+
     }
 
     private void addPlayerTies(HumanPlayer player, int profileId) {
