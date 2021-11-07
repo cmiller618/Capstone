@@ -7,16 +7,16 @@ public class PlayerStats {
     private int losses;
     private int ties;
 
-    public PlayerStats(){
-
-    }
-
     public PlayerStats(int playerProfileId, String playerName, int wins, int losses, int ties) {
         this.playerProfileId = playerProfileId;
-        PlayerName = playerName;
+        this.PlayerName = playerName;
         this.wins = wins;
         this.losses = losses;
         this.ties = ties;
+    }
+
+    public PlayerStats(){
+
     }
 
     public int getPlayerProfileId() {

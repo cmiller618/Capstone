@@ -1,20 +1,20 @@
 package learn.chess.data;
 
-import learn.chess.model.HumanPlayer;
+import learn.chess.model.PlayerProfile;
 
 import java.util.List;
 
 public interface PlayerRepository {
 
-    List<HumanPlayer> findAll() throws DataAccessException;
+    List<PlayerProfile> findAll() throws DataAccessException;
 
-    HumanPlayer findById(int profileId) throws DataAccessException;
+    PlayerProfile findById(int profileId) throws DataAccessException;
 
-    HumanPlayer addPlayer(HumanPlayer humanPlayer) throws DataAccessException;
+    PlayerProfile addPlayer(PlayerProfile playerProfile) throws DataAccessException;
 
-    boolean updatePlayer(HumanPlayer humanPlayer) throws DataAccessException;
+    boolean updatePlayer(PlayerProfile playerProfile) throws DataAccessException;
 
     boolean deleteById(int profileId) throws DataAccessException;
 
-    boolean changePassword(HumanPlayer player) throws DataAccessException;
+//    boolean changePassword(PlayerProfile player) throws DataAccessException;
 }

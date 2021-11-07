@@ -1,6 +1,6 @@
 package learn.chess.data;
 
-import learn.chess.model.HumanPlayer;
+import learn.chess.model.PlayerProfile;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,52 +30,53 @@ class PlayerRepositoryTest {
 
     @Test
     void shouldFindAll() throws DataAccessException {
-        List<HumanPlayer> hp = repository.findAll();
+        List<PlayerProfile> hp = repository.findAll();
         assertNotNull(hp);
         assertTrue(hp.size() >=6 && hp.size()<=7);
     }
 
     @Test
-    void shouldFindByIdMario() throws DataAccessException {
-        HumanPlayer humanPlayer = repository.findById(1);
-        assertEquals(1, humanPlayer.getProfileId());
-        assertEquals(2, humanPlayer.getPlayerMatch().getWins());
-        assertEquals(0, humanPlayer.getPlayerMatch().getTies());
-        assertEquals(3, humanPlayer.getPlayerMatch().getLosses());
+    void shouldFindByIdBrandon() throws DataAccessException {
+        PlayerProfile playerProfile = repository.findById(5);
+        assertEquals(5, playerProfile.getProfileId());
+        assertEquals(2, playerProfile.getPlayerStats().getWins());
+        assertEquals(1, playerProfile.getPlayerStats().getLosses());
+        assertEquals(0, playerProfile.getPlayerStats().getTies());
     }
 
     @Test
     void shouldFindByIdCaroline() throws DataAccessException {
-        HumanPlayer humanPlayer = repository.findById(2);
-        assertEquals(2, humanPlayer.getProfileId());
-        assertEquals(3, humanPlayer.getPlayerMatch().getWins());
-        assertEquals(1, humanPlayer.getPlayerMatch().getTies());
-        assertEquals(1, humanPlayer.getPlayerMatch().getLosses());
+        PlayerProfile playerProfile = repository.findById(2);
+        assertEquals(2, playerProfile.getProfileId());
+        assertEquals(4, playerProfile.getPlayerStats().getWins());
+        assertEquals(3, playerProfile.getPlayerStats().getLosses());
+        assertEquals(1, playerProfile.getPlayerStats().getTies());
     }
 
     @Test
     void shouldFindByIdChris() throws DataAccessException {
-        HumanPlayer humanPlayer = repository.findById(3);
-        assertEquals(3, humanPlayer.getProfileId());
-        assertEquals(1, humanPlayer.getPlayerMatch().getWins());
-        assertEquals(1, humanPlayer.getPlayerMatch().getTies());
-        assertEquals(2, humanPlayer.getPlayerMatch().getLosses());
+        PlayerProfile playerProfile = repository.findById(3);
+        assertEquals(3, playerProfile.getProfileId());
+        assertEquals(3, playerProfile.getPlayerStats().getWins());
+        assertEquals(0, playerProfile.getPlayerStats().getLosses());
+        assertEquals(1, playerProfile.getPlayerStats().getTies());
     }
 
     @Test
     void shouldNotFindMissingId() throws DataAccessException {
-        HumanPlayer humanPlayer = repository.findById(15);
-        assertNull(humanPlayer);
+        PlayerProfile playerProfile = repository.findById(15);
+        assertNull(playerProfile);
     }
 
     @Test
     void shouldAddPlayer() throws DataAccessException {
-        HumanPlayer hp = new HumanPlayer();
+        PlayerProfile hp = new PlayerProfile();
         hp.setProfileId(4);
         hp.setUsername("Test");
-        hp.setPassword("testpassword");
+        hp.setFirstName("FirstNameTest");
+        hp.setLastName("LastNameTest");
         hp.setEmail("test@test.com");
-        HumanPlayer actual = repository.addPlayer(hp);
+        PlayerProfile actual = repository.addPlayer(hp);
 
         assertNotNull(actual);
         assertEquals(hp, actual);
@@ -83,42 +84,26 @@ class PlayerRepositoryTest {
 
     @Test
     void shouldUpdate() {
-        HumanPlayer hp = new HumanPlayer();
+        PlayerProfile hp = new PlayerProfile();
         hp.setProfileId(1);
-        hp.setUsername("Updated");
-        hp.setPassword("updatedpass");
+        hp.setUsername("UpdatedSuperMario");
+        hp.setFirstName("UpdateMario");
+        hp.setLastName("UpdateOrtega");
         hp.setEmail("supermario@gmail.com");
         boolean actual = repository.updatePlayer(hp);
-
         assertTrue(actual);
 
     }
 
     @Test
     void shouldSoftDelete() {
-
         boolean actual = repository.deleteById(2);
         assertTrue(actual);
     }
 
     @Test
     void shouldNotSoftDeleteMissing() {
-
         boolean actual = repository.deleteById(25);
         assertFalse(actual);
     }
-
-//    @Test
-//    void shouldChangePassword() {
-////        HumanPlayer hp = new HumanPlayer();
-////        hp.setProfileId(1);
-////        hp.setUsername("SuperMario");
-////        hp.setPassword("password");
-////        hp.setEmail("supermario@gmail.com");
-////        boolean actual = repository.changePassword(hp);
-////
-////        assertTrue(actual);
-//    }
-
-
 }

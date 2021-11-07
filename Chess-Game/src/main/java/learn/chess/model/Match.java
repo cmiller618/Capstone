@@ -16,10 +16,6 @@ public class Match {
     private LocalTime startTime;
     private LocalTime endTime;
 
-    public Match(){
-
-    }
-
     public Match(int matchId, int player1Id, int player2Id, int playerWinnerId, LocalTime startTime, LocalTime endTime) {
         this.matchId = matchId;
         this.player1Id = player1Id;
@@ -27,6 +23,10 @@ public class Match {
         this.playerWinnerId = playerWinnerId;
         this.startTime = startTime;
         this.endTime = endTime;
+    }
+
+    public Match(){
+
     }
 
     public int getMatchId() {
