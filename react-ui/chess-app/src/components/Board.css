@@ -20,3 +20,9 @@
 .light-square{
     background-color: RGB(227,193,111);
 }
+
+.chess-pieces {
+    z-index: 0;
+    width: 85%;
+    height: 85%;
+}
