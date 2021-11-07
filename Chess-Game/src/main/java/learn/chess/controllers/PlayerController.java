@@ -3,8 +3,7 @@ package learn.chess.controllers;
 import learn.chess.data.DataAccessException;
 import learn.chess.domain.PlayerService;
 import learn.chess.domain.Result;
-import learn.chess.model.HumanPlayer;
-import org.springframework.beans.factory.annotation.Autowired;
+import learn.chess.model.PlayerProfile;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -26,13 +25,13 @@ public class PlayerController {
     }
 
     @GetMapping
-    public List<HumanPlayer> findAll() throws DataAccessException {
+    public List<PlayerProfile> findAll() throws DataAccessException {
         return service.findAll();
     }
 
     @GetMapping("/{profileId}")
-    public ResponseEntity<HumanPlayer> findById(@PathVariable int profileId) throws DataAccessException {
-        HumanPlayer player = service.findById(profileId);
+    public ResponseEntity<PlayerProfile> findById(@PathVariable int profileId) throws DataAccessException {
+        PlayerProfile player = service.findById(profileId);
         if(player == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -40,7 +39,7 @@ public class PlayerController {
     }
 
     @PostMapping
-    public ResponseEntity<Object> addPlayer(@RequestBody @Valid HumanPlayer humanPlayer,
+    public ResponseEntity<Object> addPlayer(@RequestBody @Valid PlayerProfile playerProfile,
                                                  BindingResult bindingResult) throws DataAccessException {
 
         if(bindingResult.hasErrors()){
@@ -51,7 +50,7 @@ public class PlayerController {
             return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
         }
 
-        Result<HumanPlayer> result = service.addPlayer(humanPlayer);
+        Result<PlayerProfile> result = service.addPlayer(playerProfile);
 
         if(result.isSuccess()){
             return new ResponseEntity<>(result.getPayload(), HttpStatus.CREATED);
@@ -63,7 +62,7 @@ public class PlayerController {
 
     @PutMapping("/{profileId}")
     public ResponseEntity<Object> update(@PathVariable int profileId,
-                                         @RequestBody @Valid HumanPlayer humanPlayer, BindingResult bindingResult) throws DataAccessException {
+                                         @RequestBody @Valid PlayerProfile playerProfile, BindingResult bindingResult) throws DataAccessException {
 
         if (bindingResult.hasErrors()) {
 
@@ -74,11 +73,11 @@ public class PlayerController {
             return new ResponseEntity<>(errorMessages, HttpStatus.BAD_REQUEST);
         }
 
-        if(profileId != humanPlayer.getProfileId()){
+        if(profileId != playerProfile.getProfileId()){
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
 
-        Result<HumanPlayer> result = service.updatePlayer(humanPlayer);
+        Result<PlayerProfile> result = service.updatePlayer(playerProfile);
 
         if(result.isSuccess()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
