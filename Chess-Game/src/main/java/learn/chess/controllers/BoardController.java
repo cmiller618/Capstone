@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/game/board")
 public class BoardController {
 
-    private Board board;
+    private Board board = new Board();
     private ComputerPlayer computerPlayer;
     private HumanPlayer humanPlayer;
 
@@ -28,7 +28,7 @@ public class BoardController {
     }
 
     @PutMapping
-    public ResponseEntity<Void> updateComputerMove(@RequestBody Board board, @RequestBody boolean isBlack){
+    public ResponseEntity<Void> updateComputerMove(@RequestBody boolean isBlack){
         if(computerPlayer.getBestMove(board, isBlack)){
             return new ResponseEntity<>(HttpStatus.OK);
         }
