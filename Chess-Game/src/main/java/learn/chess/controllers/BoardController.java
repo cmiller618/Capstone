@@ -28,20 +28,11 @@ public class BoardController {
     }
 
     @PutMapping
-    public ResponseEntity<Void> updateComputerMove(@RequestBody boolean isBlack){
-        if(computerPlayer.getBestMove(board, isBlack)){
+    public ResponseEntity<Void> updateMove(@RequestBody boolean isBlack, int startX, int startY, int endX, int endY, boolean isComputerPlayer){
+        if((isComputerPlayer && computerPlayer.getBestMove(board, isBlack)) || (board.generateMove(startX, startY, endX, endY)){
             return new ResponseEntity<>(HttpStatus.OK);
         }
 
-        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-    }
-
-
-    @PutMapping
-    public ResponseEntity<Void> updatePlayerMove(@RequestBody Board board, int startX, int startY, int endX, int endY){
-        if(board.generateMove(startX, startY, endX, endY)){
-            return new ResponseEntity<>(HttpStatus.OK);
-        }
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
