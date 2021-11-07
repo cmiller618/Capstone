@@ -21,23 +21,6 @@ export async function getCurrentBoard(){
 
 }
 
-export async function updateComputerMove(board){
-
-    const init = {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      };
-    
-      const response = await fetch(`${APIURL}`, init);
-    
-      if(response.status !== 204) {
-        return Promise.reject("response not 204 NO CONTENT");
-      }
-
-}
-
 export async function updatePlayerMove(board){
     const init = {
         method: "PUT",
