@@ -11,9 +11,11 @@ public class PlayerProfile {
     private String email;
     private PlayerStats playerStats;
 
-    public PlayerProfile(int profileId, String username, String email, PlayerStats playerStats) {
+    public PlayerProfile(int profileId, String username, String firstName, String lastName, String email, PlayerStats playerStats) {
         this.profileId = profileId;
         this.username = username;
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.email = email;
         this.playerStats = playerStats;
     }

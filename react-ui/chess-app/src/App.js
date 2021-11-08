@@ -7,7 +7,8 @@ import Home from "./components/Home";
 import Nav from "./components/Nav";
 import Login from "./components/Login";
 import Board from "./components/Board";
-import CreateAccountForm from "./components/CreateAccountForm";
+import RegisterAccountInfo from "./components/RegisterAccountInfo";
+import Register from "./components/Register"
 import './App.css';
 
 
@@ -93,7 +94,11 @@ function App() {
           </Route>
 
           <Route path="/register">
-            <CreateAccountForm />
+            <Register />
+          </Route>
+
+          <Route path="/registerInfo">
+            <RegisterAccountInfo />
           </Route>
 
           <Route path="/game/board">

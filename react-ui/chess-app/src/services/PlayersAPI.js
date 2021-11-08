@@ -36,11 +36,12 @@ export async function addPlayer(player){
   }
 }
 
-export async function updatePlayer(player){
+export async function updatePlayer(player, auth){
   const init = {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
+      'Authorization': `Bearer ${auth.user.token}`
     },
     body: JSON.stringify(player),
   };
