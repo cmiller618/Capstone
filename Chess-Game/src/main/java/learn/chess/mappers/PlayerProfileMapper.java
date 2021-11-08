@@ -1,19 +1,20 @@
 package learn.chess.mappers;
 
-import learn.chess.model.HumanPlayer;
+import learn.chess.model.PlayerProfile;
 import org.springframework.jdbc.core.RowMapper;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class PlayerProfileMapper implements RowMapper<HumanPlayer> {
+public class PlayerProfileMapper implements RowMapper<PlayerProfile> {
     @Override
-    public HumanPlayer mapRow(ResultSet resultSet, int i) throws SQLException {
-        HumanPlayer humanPlayer = new HumanPlayer();
-        humanPlayer.setProfileId(resultSet.getInt("player_profile_id"));
-        humanPlayer.setUsername(resultSet.getString("player_profile_name"));
-        humanPlayer.setPassword(resultSet.getString("player_password"));
-        humanPlayer.setEmail(resultSet.getString("player_profile_email"));
-        return humanPlayer;
+    public PlayerProfile mapRow(ResultSet resultSet, int i) throws SQLException {
+        PlayerProfile playerProfile = new PlayerProfile();
+        playerProfile.setProfileId(resultSet.getInt("pp.player_profile_id"));
+        playerProfile.setUsername(resultSet.getString("pp.player_profile_username"));
+        playerProfile.setFirstName(resultSet.getString("pp.player_profile_first_name"));
+        playerProfile.setLastName(resultSet.getString("pp.player_profile_last_name"));
+        playerProfile.setEmail(resultSet.getString("pp.player_profile_email"));
+        return playerProfile;
     }
 }

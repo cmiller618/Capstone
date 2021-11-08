@@ -10,19 +10,21 @@ function Nav(){
       <h1 className="col">The Amazing World Of Online Chess</h1>
       
       <div className="d-grid gap-2 d-md-block">
+        
+        {!auth.user && (
+          <>
+          <Link to="/register" className="btn btn-info">Create Account</Link>
+          <Link to="/login" className="btn btn-secondary">Login</Link> 
+          </>
+        )}
 
-        {auth.credentials ? null : 
-          <Link to="/register" className="btn btn-info">Create Account</Link>}
-
-        {auth.credentials && auth.credentials.role ==="ADMIN" ? <Link to="/manage/users" className="btn btn-secondary">Manage Users</Link> : 
-          null}
-
-        {auth.credentials ? <button className="btn btn-dark" onClick={auth.logout}>Log Out</button> :
-          <Link to="/login" className="btn btn-secondary" data-bs-toggle="button">Login</Link>}
+        {auth.user && (
+          <div>
+            <p><strong>Welcome {auth.user.username}!</strong></p>
+            <button onClick={() => auth.logout()} className="btn btn-danger">Logout</button>
+          </div>
+        )}
       </div>
-
-        {auth.credentials ? <strong>User: {auth.credentials.username}</strong> : 
-          null}
     </nav>
   );
 }

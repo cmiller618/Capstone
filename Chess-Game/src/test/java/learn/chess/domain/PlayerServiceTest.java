@@ -2,7 +2,7 @@ package learn.chess.domain;
 
 import learn.chess.data.DataAccessException;
 import learn.chess.data.PlayerRepository;
-import learn.chess.model.HumanPlayer;
+import learn.chess.model.PlayerProfile;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -26,12 +26,12 @@ class PlayerServiceTest {
 
     @Test
     void shouldFindAll() throws DataAccessException {
-        List<HumanPlayer> all = new ArrayList<>();
+        List<PlayerProfile> all = new ArrayList<>();
         all.add(makePlayer());
         all.add(makeSecondPlayer());
 
         when(repository.findAll()).thenReturn(all);
-        List<HumanPlayer> actual = service.findAll();
+        List<PlayerProfile> actual = service.findAll();
 
         assertEquals(all, actual);
         assertNotNull(actual);
@@ -39,16 +39,16 @@ class PlayerServiceTest {
 
     @Test
     void shouldFindOne() throws DataAccessException {
-        HumanPlayer expected = makePlayer();
+        PlayerProfile expected = makePlayer();
         when(repository.findById(3)).thenReturn(expected);
-        HumanPlayer actual = service.findById(3);
+        PlayerProfile actual = service.findById(3);
         assertEquals(expected, actual);
 
     }
 
     @Test
     void shouldNotFindMissing() throws DataAccessException {
-        HumanPlayer expected = service.findById(10);
+        PlayerProfile expected = service.findById(10);
         assertNull(expected);
 
 
@@ -56,13 +56,13 @@ class PlayerServiceTest {
 
     @Test
     void shouldAddValid() throws DataAccessException {
-        HumanPlayer expected = makePlayer();
+        PlayerProfile expected = makePlayer();
 
-        HumanPlayer arg = makePlayer();
+        PlayerProfile arg = makePlayer();
         arg.setProfileId(0);
 
         when(repository.addPlayer(arg)).thenReturn(expected);
-        Result<HumanPlayer> result = service.addPlayer(arg);
+        Result<PlayerProfile> result = service.addPlayer(arg);
         assertEquals(ResultType.SUCCESS, result.getType());
 
         assertEquals(expected, result.getPayload());
@@ -70,13 +70,14 @@ class PlayerServiceTest {
 
     @Test
     void shouldNotAddNullName() throws DataAccessException {
-        HumanPlayer hp = new HumanPlayer();
+        PlayerProfile hp = new PlayerProfile();
         hp.setProfileId(0);
         hp.setUsername(null);
-        hp.setPassword("pass");
+        hp.setFirstName("first");
+        hp.setLastName("last");
         hp.setEmail("email@email.com");
 
-        Result<HumanPlayer> result = service.addPlayer(hp);
+        Result<PlayerProfile> result = service.addPlayer(hp);
 
         assertEquals(ResultType.INVALID, result.getType());
         assertNull(result.getPayload());
@@ -85,13 +86,14 @@ class PlayerServiceTest {
     @Test
     void shouldNotAddNullEmail() throws DataAccessException {
 
-        HumanPlayer hp = new HumanPlayer();
+        PlayerProfile hp = new PlayerProfile();
         hp.setProfileId(0);
         hp.setUsername("name");
-        hp.setPassword("pass");
+        hp.setFirstName("first");
+        hp.setLastName("last");
         hp.setEmail(null);
 
-        Result<HumanPlayer> result = service.addPlayer(hp);
+        Result<PlayerProfile> result = service.addPlayer(hp);
 
         assertEquals(ResultType.INVALID, result.getType());
         assertNull(result.getPayload());
@@ -99,15 +101,33 @@ class PlayerServiceTest {
     }
 
     @Test
-    void shouldNotAddNullPassword() throws DataAccessException {
+    void shouldNotAddNullFirstName() throws DataAccessException {
 
-        HumanPlayer hp = new HumanPlayer();
+        PlayerProfile hp = new PlayerProfile();
         hp.setProfileId(0);
         hp.setUsername("name");
-        hp.setPassword(null);
+        hp.setFirstName(null);
+        hp.setLastName("last");
         hp.setEmail("email@test.com");
 
-        Result<HumanPlayer> result = service.addPlayer(hp);
+        Result<PlayerProfile> result = service.addPlayer(hp);
+
+        assertEquals(ResultType.INVALID, result.getType());
+        assertNull(result.getPayload());
+
+    }
+
+    @Test
+    void shouldNotAddNullLastName() throws DataAccessException {
+
+        PlayerProfile hp = new PlayerProfile();
+        hp.setProfileId(0);
+        hp.setUsername("name");
+        hp.setFirstName("first");
+        hp.setLastName(null);
+        hp.setEmail("email@test.com");
+
+        Result<PlayerProfile> result = service.addPlayer(hp);
 
         assertEquals(ResultType.INVALID, result.getType());
         assertNull(result.getPayload());
@@ -116,13 +136,14 @@ class PlayerServiceTest {
 
     @Test
     void shouldNotAddPresetId() throws DataAccessException {
-        HumanPlayer hp = new HumanPlayer();
+        PlayerProfile hp = new PlayerProfile();
         hp.setProfileId(10);
         hp.setUsername("name");
-        hp.setPassword("password");
+        hp.setFirstName("first");
+        hp.setLastName("last");
         hp.setEmail("email@test.com");
 
-        Result<HumanPlayer> result = service.addPlayer(hp);
+        Result<PlayerProfile> result = service.addPlayer(hp);
 
         assertEquals(ResultType.INVALID, result.getType());
         assertNull(result.getPayload());
@@ -131,27 +152,29 @@ class PlayerServiceTest {
     @Test
     void shouldUpdateValid() throws DataAccessException {
 
-        HumanPlayer hp = new HumanPlayer();
+        PlayerProfile hp = new PlayerProfile();
         hp.setProfileId(1);
         hp.setUsername("Mario");
-        hp.setPassword("test123");
+        hp.setFirstName("first");
+        hp.setLastName("last");
         hp.setEmail("supermario@gmail.com");
 
         when(repository.updatePlayer(hp)).thenReturn(true);
-        Result<HumanPlayer> actual = service.updatePlayer(hp);
+        Result<PlayerProfile> actual = service.updatePlayer(hp);
         assertEquals(ResultType.SUCCESS, actual.getType());
 
     }
 
     @Test
     void shouldNotUpdateMissing() throws DataAccessException {
-        HumanPlayer hp = new HumanPlayer();
+        PlayerProfile hp = new PlayerProfile();
         hp.setProfileId(5000);
         hp.setUsername("name");
-        hp.setPassword("password");
+        hp.setFirstName("first");
+        hp.setLastName("last");
         hp.setEmail("email@test.com");
 
-        Result<HumanPlayer> result = service.updatePlayer(hp);
+        Result<PlayerProfile> result = service.updatePlayer(hp);
 
         assertEquals(ResultType.NOT_FOUND, result.getType());
         assertNull(result.getPayload());
@@ -159,13 +182,14 @@ class PlayerServiceTest {
     }
     @Test
     void shouldNotUpdateInvalidId() throws DataAccessException {
-        HumanPlayer hp = new HumanPlayer();
+        PlayerProfile hp = new PlayerProfile();
         hp.setProfileId(-1);
         hp.setUsername("name");
-        hp.setPassword("password");
+        hp.setFirstName("first");
+        hp.setLastName("last");
         hp.setEmail("email@test.com");
 
-        Result<HumanPlayer> result = service.updatePlayer(hp);
+        Result<PlayerProfile> result = service.updatePlayer(hp);
 
         assertEquals(ResultType.INVALID, result.getType());
         assertNull(result.getPayload());
@@ -173,13 +197,14 @@ class PlayerServiceTest {
 
     @Test
     void shouldNotUpdateNullName() throws DataAccessException {
-        HumanPlayer hp = new HumanPlayer();
+        PlayerProfile hp = new PlayerProfile();
         hp.setProfileId(5);
         hp.setUsername(null);
-        hp.setPassword("password");
+        hp.setFirstName("first");
+        hp.setLastName("last");
         hp.setEmail("email@test.com");
 
-        Result<HumanPlayer> result = service.updatePlayer(hp);
+        Result<PlayerProfile> result = service.updatePlayer(hp);
 
         assertEquals(ResultType.INVALID, result.getType());
         assertNull(result.getPayload());
@@ -187,27 +212,44 @@ class PlayerServiceTest {
 
     @Test
     void shouldNotUpdateNullEmail() throws DataAccessException {
-        HumanPlayer hp = new HumanPlayer();
+        PlayerProfile hp = new PlayerProfile();
         hp.setProfileId(5);
         hp.setUsername("name");
-        hp.setPassword("password");
+        hp.setFirstName("first");
+        hp.setLastName("last");
         hp.setEmail(null);
 
-        Result<HumanPlayer> result = service.updatePlayer(hp);
+        Result<PlayerProfile> result = service.updatePlayer(hp);
 
         assertEquals(ResultType.INVALID, result.getType());
         assertNull(result.getPayload());
     }
 
     @Test
-    void shouldNotUpdateNullPassword() throws DataAccessException {
-        HumanPlayer hp = new HumanPlayer();
+    void shouldNotUpdateNullFirstName() throws DataAccessException {
+        PlayerProfile hp = new PlayerProfile();
         hp.setProfileId(5);
         hp.setUsername("name");
-        hp.setPassword(null);
+        hp.setFirstName(null);
+        hp.setLastName("last");
         hp.setEmail("email@test.com");
 
-        Result<HumanPlayer> result = service.updatePlayer(hp);
+        Result<PlayerProfile> result = service.updatePlayer(hp);
+
+        assertEquals(ResultType.INVALID, result.getType());
+        assertNull(result.getPayload());
+    }
+
+    @Test
+    void shouldNotUpdateNullLastName() throws DataAccessException {
+        PlayerProfile hp = new PlayerProfile();
+        hp.setProfileId(5);
+        hp.setUsername("name");
+        hp.setFirstName("first");
+        hp.setLastName(null);
+        hp.setEmail("email@test.com");
+
+        Result<PlayerProfile> result = service.updatePlayer(hp);
 
         assertEquals(ResultType.INVALID, result.getType());
         assertNull(result.getPayload());
@@ -226,20 +268,22 @@ class PlayerServiceTest {
     }
 
 
-    HumanPlayer makePlayer() {
-        HumanPlayer chris = new HumanPlayer();
+    PlayerProfile makePlayer() {
+        PlayerProfile chris = new PlayerProfile();
         chris.setProfileId(3);
         chris.setUsername("SuperChirs");
-        chris.setPassword("P@ssw2rd!");
+        chris.setFirstName("Chris");
+        chris.setLastName("Miller");
         chris.setEmail("superchris@hotmail.com");
         return chris;
 
     }
-    HumanPlayer makeSecondPlayer() {
-        HumanPlayer caroline = new HumanPlayer();
+    PlayerProfile makeSecondPlayer() {
+        PlayerProfile caroline = new PlayerProfile();
         caroline.setProfileId(2);
         caroline.setUsername("SuperCaroline");
-        caroline.setPassword("password");
+        caroline.setFirstName("Caroline");
+        caroline.setLastName("Wilcox");
         caroline.setEmail("supercaroline@yahoo.com");
         return caroline;
     }

@@ -2,7 +2,7 @@ package learn.chess.controllers;
 
 import learn.chess.model.Board;
 import learn.chess.model.ComputerPlayer;
-import learn.chess.model.HumanPlayer;
+import learn.chess.model.PlayerProfile;
 import learn.chess.model.Pieces;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
@@ -17,7 +17,7 @@ public class BoardController {
 
     private Board board = new Board();
     private ComputerPlayer computerPlayer;
-    private HumanPlayer humanPlayer;
+    private PlayerProfile playerProfile;
 
     @GetMapping
     public Pieces[][] getNewBoard(){
@@ -37,5 +37,4 @@ public class BoardController {
 
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
-
 }
