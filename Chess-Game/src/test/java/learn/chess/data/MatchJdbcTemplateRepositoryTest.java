@@ -34,22 +34,20 @@ class MatchJdbcTemplateRepositoryTest {
     void shouldFindAllMatches(){
         List<Match> matches = repository.findAll();
         assertNotNull(matches);
-        assertTrue(matches.size() >= 9 && matches.size() <= 10);
+        assertTrue(matches.size() >= 13 && matches.size() <= 14);
     }
 
     @Test
     void shouldFindAllMatchingMatchesByProfileId(){
-        List<Match> playerActualMatches = repository.findMatchesByProfileId(2);
+        List<Match> playerActualMatches = repository.findMatchesByProfileId(5);
         List<Match> playerExpectedMatches = List.of(
-                new Match(1,1,2,2, LocalTime.of(2,0,0),
-                        LocalTime.of(3,25,0)),
-                new Match(2, 2,3,2, LocalTime.of(3,30,0),
-                        LocalTime.of(4,55,0)),
-                new Match(4,3,2,0, LocalTime.of(7,30,13),
-                        LocalTime.of(8,33,15)),
-                new Match(6, 4,2,2, LocalTime.of(10,00,0),
-                        LocalTime.of(10,25,0)));
-        assertEquals(4,playerActualMatches.size());
+                new Match(7, 5, 6, 5, LocalTime.of(10,30,0),
+                        LocalTime.of(10,55,0)),
+                new Match(11, 6,5,5,LocalTime.of(14,59,55),
+                        LocalTime.of(15,29,21)),
+                new Match(12,5,2,2,LocalTime.of(15,33,33),
+                        LocalTime.of(15,50,0)));
+        assertEquals(3,playerActualMatches.size());
         assertEquals(playerExpectedMatches, playerActualMatches);
     }
 
@@ -61,12 +59,12 @@ class MatchJdbcTemplateRepositoryTest {
 
     @Test
     void shouldAddNewMatch(){
-        Match expected = new Match(10,3,1,0,
-                LocalTime.of(15,45,12),null);
+        Match expected = new Match(14,3,2,0,
+                LocalTime.of(16,35,12),null);
 
 
-        Match actual = repository.addMatch(new Match(0,3,1,0,
-                LocalTime.of(15,45,12),null));
+        Match actual = repository.addMatch(new Match(0,3,2,0,
+                LocalTime.of(16,35,12),null));
 
         assertEquals(expected,actual);
     }
@@ -83,6 +81,6 @@ class MatchJdbcTemplateRepositoryTest {
     @Test
     void shouldFindTopFivePlayers(){
         List<PlayerStats> topFive = repository.findTopFive();
-        assertTrue(topFive.size()==4);
+        assertTrue(topFive.size() == 5);
     }
 }

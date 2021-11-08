@@ -1,50 +1,78 @@
 import {BrowserRouter as Router, Route, Switch, Redirect} from "react-router-dom";
 import { useEffect, useState } from "react";
+import jwt_decode from 'jwt-decode';
+
 import AuthContext from "./context/AuthContext";
 import Home from "./components/Home";
 import Nav from "./components/Nav";
-import Login from "./components/Login"
-
+import Login from "./components/Login";
 import Board from "./components/Board";
-
 import CreateAccountForm from "./components/CreateAccountForm";
-
 import './App.css';
 
-const CREDENTIALS_KEY = "chess-credentials";
+
+const TOKEN_KEY = "chess-api-token";
 
 function App() {
 
-  const[credentials, setCredentials] = useState();
+  const [user, setUser] = useState(null);
+  const [initialized, setInitialized] = useState(false);
 
-  useEffect(()=> {
-    const creds = localStorage.getItem(CREDENTIALS_KEY);
-    if (creds){
-      setCredentials(JSON.parse(creds));
+  useEffect(() => {
+    const token = localStorage.getItem(TOKEN_KEY);
+
+    if(token){
+      login(token);
     }
+
+    setInitialized(true);
   }, []);
 
-  const login = (creds) => {
-    setCredentials(creds);
-   
 
+  const login = (token) => {
+    console.log(token);
+    localStorage.setItem(TOKEN_KEY, token);
 
-  };
+    const tokenObj = jwt_decode(token);
+    console.log(tokenObj)
 
-  const logout = () => {
-    setCredentials();
-    localStorage.removeItem(CREDENTIALS_KEY);
+    const { id, sub: username, roles: rolesString } = jwt_decode(token);
+    const roles = rolesString.split(',');
+    const user = {
+      id,
+      username,
+      roles,
+      token,
+      hasRole(role){
+        return this.roles.includes(role);
+      }
+    };
+
+    console.log(user);
+    setUser(user);
+    return user;
   }
 
-  const auth ={
-    credentials,
-    login: login,
-    logout: logout
+  const logout = () => {
+    localStorage.removeItem(TOKEN_KEY);
+    setUser(null);
   };
+
+  const auth = {
+    user: user ? {...user} : null,
+    login,
+    logout
+  };
+
+  if(!initialized){
+    return null;
+  }
+
 
   return(
     <AuthContext.Provider value={auth}>
       <Router>
+
         <div className="header">
           <div className="container">
             <div className="row pt-2">
@@ -54,6 +82,7 @@ function App() {
             </div>
           </div>
         </div>
+
         <Switch>
           <Route exact path="/">
             <Home />
@@ -63,15 +92,15 @@ function App() {
             <Login />
           </Route>
 
-          <Route path="/game/board">
-            {credentials ? <Board /> : <Redirect to="/login" />}
-          </Route>
-
           <Route path="/register">
             <CreateAccountForm />
           </Route>
 
+          <Route path="/game/board">
+            {user ? <Board /> : <Redirect to="/login" />}
+          </Route>
         </Switch>
+
       </Router>
     </AuthContext.Provider>
   );

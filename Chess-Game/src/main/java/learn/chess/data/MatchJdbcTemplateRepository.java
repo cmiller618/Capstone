@@ -41,7 +41,7 @@ public class MatchJdbcTemplateRepository implements MatchRepository {
     public List<PlayerStats> findTopFive() {
         final String sql = "select " +
                 "p.player_profile_id, " +
-                "p.player_profile_name, " +
+                "p.player_profile_username, " +
                 "count(m.match_winner) Wins " +
                 "from `match` m " +
                 "inner join player_profile p on m.match_player1_id = p.player_profile_id or m.match_player2_id = p.player_profile_id " +
@@ -111,13 +111,13 @@ public class MatchJdbcTemplateRepository implements MatchRepository {
 
     private void addPlayerTies(List<PlayerStats> playerStatsList) {
         final String sql = "select " +
-                "p.player_profile_id, " +
-                "p.player_profile_name, " +
+                "pp.player_profile_id, " +
+                "pp.player_profile_username, " +
                 "count(m.match_winner) Ties " +
-                "from player_profile p " +
-                "inner join `match` m on m.match_player1_id = p.player_profile_id or m.match_player2_id = p.player_profile_id " +
-                "where m.match_winner = 0 and p.player_profile_id = ? and m.match_end_time " +
-                "group by p.player_profile_id;";
+                "from player_profile pp " +
+                "inner join `match` m on m.match_player1_id = pp.player_profile_id or m.match_player2_id = pp.player_profile_id " +
+                "where m.match_winner = 0 and m.match_end_time and pp.player_profile_id = ? " +
+                "group by pp.player_profile_id;";
 
         for (PlayerStats playerStats : playerStatsList) {
             var playerTies = jdbcTemplate.query(sql, new PlayerStatsTiesMapper(), playerStats.getPlayerProfileId())
@@ -132,13 +132,13 @@ public class MatchJdbcTemplateRepository implements MatchRepository {
 
     private void addPlayerLosses(List<PlayerStats> playerStatsList) {
         final String sql = "select " +
-                "p.player_profile_id, " +
-                "p.player_profile_name, " +
+                "pp.player_profile_id, " +
+                "pp.player_profile_username, " +
                 "count(m.match_winner) Losses " +
-                "from player_profile p " +
-                "inner join `match` m on m.match_player1_id = p.player_profile_id or m.match_player2_id = p.player_profile_id " +
-                "where m.match_winner != p.player_profile_id and p.player_profile_id = ? and m.match_end_time " +
-                "group by p.player_profile_id;";
+                "from player_profile pp " +
+                "inner join `match` m on m.match_player1_id = pp.player_profile_id or m.match_player2_id = pp.player_profile_id " +
+                "where m.match_winner != pp.player_profile_id and m.match_winner != 0 and m.match_end_time and pp.player_profile_id = ? " +
+                "group by pp.player_profile_id;";
 
         for (PlayerStats playerStats : playerStatsList) {
             var playerLosses = jdbcTemplate.query(sql, new PlayerStatsLossesMapper(), playerStats.getPlayerProfileId())
