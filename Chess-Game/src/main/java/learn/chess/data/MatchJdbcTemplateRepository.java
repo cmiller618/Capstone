@@ -3,6 +3,7 @@ package learn.chess.data;
 import learn.chess.mappers.*;
 import learn.chess.model.Match;
 import learn.chess.model.PlayerStats;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
