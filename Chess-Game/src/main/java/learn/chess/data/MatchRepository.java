@@ -2,9 +2,11 @@ package learn.chess.data;
 
 import learn.chess.model.Match;
 import learn.chess.model.PlayerStats;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+@Repository
 public interface MatchRepository {
 
     List<Match> findAll();

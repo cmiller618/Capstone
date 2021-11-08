@@ -5,10 +5,12 @@ import learn.chess.data.MatchRepository;
 import learn.chess.model.HumanPlayer;
 import learn.chess.model.Match;
 import learn.chess.model.PlayerStats;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalTime;
 import java.util.List;
+
 
 @Service
 public class MatchService {
