@@ -10,7 +10,7 @@ function pieceRenderer(props){
         piece ? 
         <img className="pieces" src={pieces[piece]} alt="piece"/>
         :<div></div>
-    )
+    );
 }
 
 export default pieceRenderer;

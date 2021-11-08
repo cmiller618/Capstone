@@ -64,7 +64,7 @@ function App() {
           </Route>
 
           <Route path="/game/board">
-            {credentials ? <Board /> : <Redirect to="/login" />}
+            <Board />
           </Route>
 
           <Route path="/register">
