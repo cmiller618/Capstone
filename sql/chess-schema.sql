@@ -10,9 +10,11 @@ create table player_role (
 
 create table player_profile (
 	player_profile_id int primary key auto_increment,
-    player_profile_name varchar(150) not null,
-    player_password varchar(2048) not null,
-    player_profile_email varchar(250) not null,
+    player_profile_username varchar(100) not null,
+    player_profile_first_name varchar(75) null,
+    player_profile_last_name varchar(75) null,
+    player_profile_email varchar(250) null,
+    player_profile_password varchar(2048) not null default '$2a$10$ntB7CsRKQzuLoKY3rfoAQen5nNyiC/U60wBsWnnYrtQQi8Z3IZzQa',
     player_profile_delete boolean not null default false
 );
 
@@ -44,27 +46,32 @@ create table `match` (
         references player_profile(player_profile_id)    
 );
 
-insert into player_profile(player_profile_name, player_password, player_profile_email) values
-	('Mario', "$2a$10$ntB7CsRKQzuLoKY3rfoAQen5nNyiC/U60wBsWnnYrtQQi8Z3IZzQa", 'supermario@gmail.com'),
-    ('Caroline', "$2a$10$ntB7CsRKQzuLoKY3rfoAQen5nNyiC/U60wBsWnnYrtQQi8Z3IZzQa", 'supercaroline@yahoo.com'),
-    ('Chirs', "$2a$10$ntB7CsRKQzuLoKY3rfoAQen5nNyiC/U60wBsWnnYrtQQi8Z3IZzQa",'superchris@hotmail.com'),
-    ('Dave', "$2a$10$ntB7CsRKQzuLoKY3rfoAQen5nNyiC/U60wBsWnnYrtQQi8Z3IZzQa", 'superdave@gmail.com'),
-    ('Brandon', "$2a$10$ntB7CsRKQzuLoKY3rfoAQen5nNyiC/U60wBsWnnYrtQQi8Z3IZzQa", 'superbrandon@yahoo.com'),
-    ('Miguel', "$2a$10$ntB7CsRKQzuLoKY3rfoAQen5nNyiC/U60wBsWnnYrtQQi8Z3IZzQa",'supermiguel@hotmail.com');
+-- passwords are set to "P@ssw0rd!"
+insert into player_profile(player_profile_username, player_profile_first_name, player_profile_last_name, player_profile_email, player_profile_password) values
+	('SuperMario', "Mario", "Ortega",  'supermario@gmail.com', "$2a$10$ntB7CsRKQzuLoKY3rfoAQen5nNyiC/U60wBsWnnYrtQQi8Z3IZzQa"),
+    ('SuperCaroline', "Caroline", "Wilcox", 'supercaroline@yahoo.com', "$2a$10$ntB7CsRKQzuLoKY3rfoAQen5nNyiC/U60wBsWnnYrtQQi8Z3IZzQa"),
+    ('SuperChirs', "Chris", "Miller", 'superchris@hotmail.com', "$2a$10$ntB7CsRKQzuLoKY3rfoAQen5nNyiC/U60wBsWnnYrtQQi8Z3IZzQa"),
+    ('SuperCorbin', "Corbin", "March", 'superdave@gmail.com', "$2a$10$ntB7CsRKQzuLoKY3rfoAQen5nNyiC/U60wBsWnnYrtQQi8Z3IZzQa"),
+    ('SuperBrandon', "Brandon", "Washburn", 'superbrandon@yahoo.com', "$2a$10$ntB7CsRKQzuLoKY3rfoAQen5nNyiC/U60wBsWnnYrtQQi8Z3IZzQa"),
+    ('SuperMiguel', "Miguel", "Palacios", 'supermiguel@hotmail.com', "$2a$10$ntB7CsRKQzuLoKY3rfoAQen5nNyiC/U60wBsWnnYrtQQi8Z3IZzQa");
     
 select *
 from player_profile;
 
 insert into `match`(match_player1_id, match_player2_id, match_winner,match_start_time, match_end_time) values
-	(1,2,2,"2:00:00","3:25:00"),
-    (2,3,2,"3:30:00","4:55:00"),
-    (3,1,3,"5:00:00","6:45:00"),
+	(6,2,6,"2:00:00","3:25:00"),
+    (2,3,3,"3:30:00","4:55:00"),
+    (3,6,3,"5:00:00","6:45:00"),
     (3,2,0,"7:30:13", "8:33:15"),
-    (3,1,0,"9:00:00",null),
+    (3,6,0,"9:00:00",null),
     (4,2,2,"10:00:00","10:25:00"),
-    (5,1,5,"10:30:00","10:55:00"),
-    (6,1,1,"11:00:00","11:45:00"),
-    (1,6,1,"12:30:13", "13:33:15");
+    (5,6,5,"10:30:00","10:55:00"),
+    (6,2,2,"11:00:00","11:45:00"),
+    (3,2,3,"12:30:13", "13:33:15"),
+    (4,2,2,"14:12:11", "14:56:09"),
+    (6,5,5,"14:59:55", "15:29:21"),
+    (5,2,2,"15:33:33", "15:50:00"),
+    (4,6,4,"16:00:09", "16:30:00");
     
 select *
 from `match`;    
@@ -77,7 +84,7 @@ select *
 from player_role;   
 
 insert into player_profile_role(player_profile_id, player_role_id) values
-	(1,1),
+	(1,2),
     (2,1),
     (3,1),
     (4,1),
