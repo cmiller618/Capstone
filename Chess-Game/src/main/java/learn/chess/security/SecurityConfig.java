@@ -38,15 +38,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.GET,"/game/players/matches/ranking").permitAll()
                 .antMatchers(HttpMethod.POST,"/game/players").permitAll()
                 .antMatchers(HttpMethod.GET, "/game/**").authenticated()
-                .antMatchers(HttpMethod.POST, "/game/matches").authenticated()
-                .antMatchers(HttpMethod.PUT,"/game/players/*").authenticated()
-                .antMatchers(HttpMethod.PUT, "/game/matches/*").authenticated()
-                .antMatchers(HttpMethod.DELETE,"/game/players/*").authenticated()
+                .antMatchers(HttpMethod.POST, "/game/matches").hasAnyAuthority("USER", "ADMIN")
+                .antMatchers(HttpMethod.PUT,"/game/players/*").hasAnyAuthority("USER", "ADMIN")
+                .antMatchers(HttpMethod.PUT, "/game/matches/*").hasAnyAuthority("USER", "ADMIN")
+                .antMatchers(HttpMethod.DELETE,"/game/players/*").hasAnyAuthority("USER", "ADMIN")
                 .antMatchers(HttpMethod.POST, "/authenticate").permitAll()
                 .antMatchers(HttpMethod.POST, "/refresh_token").authenticated()
-                .antMatchers(HttpMethod.PUT, "/game/board").authenticated()
+                .antMatchers(HttpMethod.PUT, "/game/board").hasAnyAuthority("USER", "ADMIN")
 
             .and()
+                .addFilter(new JwtRequestFilter(authenticationManager(), jwtConverter))
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
     }
