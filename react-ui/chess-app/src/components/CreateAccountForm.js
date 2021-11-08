@@ -25,7 +25,7 @@ function CreateAccountForm() {
           <div className="mb-3 row">
             <label for="email" className="col-sm-2 col-form-label"><strong>Email</strong></label>
             <div className="col-sm-10">
-              <input placeholder="enter a email" type="email" className="form-control" id="accountEmail" {...register("email", { required: true, maxLength: 150, pattern: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/ })} />
+              <input placeholder="enter a email" type="email" className="form-control" id="accountEmail" {...register("email", { required: "this is the message", maxLength: 150, pattern: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/ })} />
             </div>
           </div>
 
@@ -41,7 +41,7 @@ function CreateAccountForm() {
           </div>
 
           <div>
-          {errors.email && <span><p>The Email field is required, should be a valid email, and should not exceed 150 characters</p></span>}
+          {errors.email && <span><p>{errors.email.message}</p></span>}
           </div>
 
           <div>

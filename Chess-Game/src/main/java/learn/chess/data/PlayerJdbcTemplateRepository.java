@@ -1,7 +1,7 @@
 package learn.chess.data;
 
 import learn.chess.mappers.*;
-import learn.chess.model.HumanPlayer;
+import learn.chess.model.PlayerProfile;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
@@ -23,18 +23,19 @@ public class PlayerJdbcTemplateRepository implements PlayerRepository {
 
 
     @Override
-    public List<HumanPlayer> findAll() throws DataAccessException {
-        final String sql= "select player_profile_id, player_profile_name, player_password, player_profile_email from player_profile limit 1000;";
+    public List<PlayerProfile> findAll() throws DataAccessException {
+        final String sql= "select pp.player_profile_id, pp.player_profile_username, pp.player_profile_first_name, " +
+                "pp.player_profile_last_name, pp.player_profile_email from player_profile pp;";
         return jdbcTemplate.query(sql, new PlayerProfileMapper());
     }
 
     @Override
     @Transactional
-    public HumanPlayer findById(int profileId) throws DataAccessException {
-        final String sql= "select player_profile_id, player_profile_name, player_password, player_profile_email from player_profile "
-                + "where player_profile_id = ?;";
+    public PlayerProfile findById(int profileId) throws DataAccessException {
+        final String sql= "select pp.player_profile_id, pp.player_profile_username, pp.player_profile_first_name, " +
+                "pp.player_profile_last_name, pp.player_profile_email from player_profile pp where pp.player_profile_id = ?;";
 
-        HumanPlayer player = jdbcTemplate.query(sql, new PlayerProfileMapper(), profileId).stream()
+        PlayerProfile player = jdbcTemplate.query(sql, new PlayerProfileMapper(), profileId).stream()
                 .findFirst()
                 .orElse(null);
 
@@ -47,19 +48,19 @@ public class PlayerJdbcTemplateRepository implements PlayerRepository {
         return player;
     }
 
-
-
     @Override
-    public HumanPlayer addPlayer(HumanPlayer humanPlayer) throws DataAccessException {
-        final String sql = "insert into player_profile (player_profile_name, player_password, player_profile_email) "
-                + " values (?,?,?);";
+    public PlayerProfile addPlayer(PlayerProfile playerProfile) throws DataAccessException {
+        final String sql = "insert into player_profile (player_profile_username, player_profile_first_name, player_profile_last_name, " +
+                "player_profile_email) " +
+                "values (?,?,?,?);";
 
         KeyHolder keyHolder = new GeneratedKeyHolder();
         int rowsAffected = jdbcTemplate.update(connection -> {
             PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-            ps.setString(1, humanPlayer.getUsername());
-            ps.setString(2, humanPlayer.getPassword());
-            ps.setString(3, humanPlayer.getEmail());
+            ps.setString(1, playerProfile.getUsername());
+            ps.setString(2, playerProfile.getFirstName());
+            ps.setString(3, playerProfile.getLastName());
+            ps.setString(4, playerProfile.getEmail());
             return ps;
         }, keyHolder);
 
@@ -67,23 +68,25 @@ public class PlayerJdbcTemplateRepository implements PlayerRepository {
             return null;
         }
 
-        humanPlayer.setProfileId(keyHolder.getKey().intValue());
-        return humanPlayer;
+        playerProfile.setProfileId(keyHolder.getKey().intValue());
+        return playerProfile;
     }
 
 
     @Override
-    public boolean updatePlayer(HumanPlayer humanPlayer) {
+    public boolean updatePlayer(PlayerProfile playerProfile) {
         final String sql = "update player_profile set "
-                + "player_profile_name = ?, "
-                + "player_password = ?, "
+                + "player_profile_username = ?, "
+                + "player_profile_first_name = ?, "
+                + "player_profile_last_name = ?, "
                 + "player_profile_email = ? "
                 + "where player_profile_id = ?;";
         return jdbcTemplate.update(sql,
-                humanPlayer.getUsername(),
-                humanPlayer.getPassword(),
-                humanPlayer.getEmail(),
-                humanPlayer.getProfileId()) > 0;
+                playerProfile.getUsername(),
+                playerProfile.getFirstName(),
+                playerProfile.getLastName(),
+                playerProfile.getEmail(),
+                playerProfile.getProfileId()) > 0;
     }
 
     @Override
@@ -136,67 +139,81 @@ public class PlayerJdbcTemplateRepository implements PlayerRepository {
 
 
     private void addPlayerTies(HumanPlayer player, int profileId) {
+//    @Override
+//    public boolean changePassword(PlayerProfile player)  {
+//
+//        final String sql = "update player_profile set "
+//                + "player_password = ? "
+//                + "where player_profile_id = ?;";
+//
+//        int rowsAffected = jdbcTemplate.update(sql, player.getPassword(), player.getProfileId());
+//
+//        return rowsAffected > 0;
+//
+//    }
+
+    private void addPlayerTies(PlayerProfile player, int profileId) {
         final String sql = "select " +
-                "p.player_profile_id, " +
-                "p.player_profile_name, " +
+                "pp.player_profile_id, " +
+                "pp.player_profile_username, " +
                 "count(m.match_winner) Ties " +
-                "from player_profile p " +
-                "inner join `match` m on m.match_player1_id = p.player_profile_id or m.match_player2_id = p.player_profile_id " +
-                "where m.match_winner = 0 and p.player_profile_id = ? and m.match_end_time " +
-                "group by p.player_profile_id;";
+                "from player_profile pp " +
+                "inner join `match` m on m.match_player1_id = pp.player_profile_id or m.match_player2_id = pp.player_profile_id " +
+                "where m.match_winner = 0 and pp.player_profile_id = ? and m.match_end_time " +
+                "group by pp.player_profile_id;";
 
         var playerTies = jdbcTemplate.query(sql,new PlayerStatsTiesMapper(), profileId).stream().findFirst().orElse(null);
         if(playerTies != null) {
-            player.getPlayerMatch().setTies(playerTies.getTies());
+            player.getPlayerStats().setTies(playerTies.getTies());
         }else{
-            player.getPlayerMatch().setTies(0);
+            player.getPlayerStats().setTies(0);
         }
     }
 
-    private void addPlayerLosses(HumanPlayer player, int profileId) {
+    private void addPlayerLosses(PlayerProfile player, int profileId) {
         final String sql = "select " +
-                "p.player_profile_id, " +
-                "p.player_profile_name, " +
+                "pp.player_profile_id, " +
+                "pp.player_profile_username, " +
                 "count(m.match_winner) Losses " +
-                "from player_profile p " +
-                "inner join `match` m on m.match_player1_id = p.player_profile_id or m.match_player2_id = p.player_profile_id " +
-                "where m.match_winner != p.player_profile_id and p.player_profile_id = ? and m.match_end_time " +
-                "group by p.player_profile_id;";
+                "from player_profile pp " +
+                "inner join `match` m on m.match_player1_id = pp.player_profile_id or m.match_player2_id = pp.player_profile_id " +
+                "where m.match_winner != pp.player_profile_id and m.match_winner != 0 and m.match_end_time and pp.player_profile_id = ? " +
+                "group by pp.player_profile_id;";
 
         var playerLosses = jdbcTemplate.query(sql,new PlayerStatsLossesMapper(), profileId).stream().findFirst().orElse(null);
         if(playerLosses != null) {
-            player.getPlayerMatch().setLosses(playerLosses.getLosses());
+            player.getPlayerStats().setLosses(playerLosses.getLosses());
         }else{
-            player.getPlayerMatch().setLosses(0);
+            player.getPlayerStats().setLosses(0);
         }
     }
 
-    private void addPlayerWins(HumanPlayer player, int profileId) {
+    private void addPlayerWins(PlayerProfile player, int profileId) {
         final String sql = "select " +
-                "p.player_profile_id, " +
-                "p.player_profile_name, " +
+                "pp.player_profile_id, " +
+                "pp.player_profile_username, " +
                 "count(m.match_winner) Wins " +
-                "from player_profile p " +
-                "inner join `match` m on m.match_player1_id = p.player_profile_id or m.match_player2_id = p.player_profile_id " +
-                "where m.match_winner = p.player_profile_id and p.player_profile_id = ? " +
-                "group by p.player_profile_id;";
+                "from player_profile pp " +
+                "inner join `match` m on m.match_player1_id = pp.player_profile_id or m.match_player2_id = pp.player_profile_id " +
+                "where m.match_winner = pp.player_profile_id and pp.player_profile_id = ? " +
+                "group by pp.player_profile_id;";
 
         var playerWins = jdbcTemplate.query(sql,new PlayerStatsWinsMapper(), profileId).stream().findFirst().orElse(null);
         if(playerWins != null) {
-            player.getPlayerMatch().setWins(playerWins.getWins());
+            player.getPlayerStats().setWins(playerWins.getWins());
         }else{
-            player.getPlayerMatch().setWins(0);
+            player.getPlayerStats().setWins(0);
         }
     }
 
-    private void setUpPlayerStats(HumanPlayer player, int profileId) {
+    private void setUpPlayerStats(PlayerProfile player, int profileId) {
         final String sql = "select " +
-                "p.player_profile_id, " +
-                "p.player_profile_name " +
-                "from player_profile p " +
-                "where p.player_profile_id = ?;";
+                "pp.player_profile_id, " +
+                "pp.player_profile_username " +
+                "from player_profile pp " +
+                "where pp.player_profile_id = ?;";
 
         var playerStats = jdbcTemplate.query(sql,new PlayerStatsMapper(), profileId).stream().findFirst().orElse(null);
-        player.setPlayerMatch(playerStats);
+        player.setPlayerStats(playerStats);
     }
 }
