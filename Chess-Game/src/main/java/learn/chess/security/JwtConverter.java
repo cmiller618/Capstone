@@ -23,7 +23,7 @@ public class JwtConverter {
     private final int EXPIRATION_MINUTES = 15;
     private final int EXPIRATION_MILLIS = EXPIRATION_MINUTES * 60 * 1000;
 
-    public String getTokenFromPlayer(AppUser user) {
+    public String getTokenFromUser(AppUser user) {
 
         // authority -> role
         String roles = user.getAuthorities().stream()

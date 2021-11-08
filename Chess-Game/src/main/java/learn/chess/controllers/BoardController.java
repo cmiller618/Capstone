@@ -29,7 +29,7 @@ public class BoardController {
 
     @PutMapping
     public ResponseEntity<Void> updateMove(@RequestBody boolean isBlack, int startX, int startY, int endX, int endY, boolean isComputerPlayer){
-        if((isComputerPlayer && computerPlayer.getBestMove(board, isBlack)) || (board.generateMove(startX, startY, endX, endY)){
+        if((isComputerPlayer && computerPlayer.getBestMove(board, isBlack)) || (board.generateMove(startX, startY, endX, endY))){
             return new ResponseEntity<>(HttpStatus.OK);
         }
 

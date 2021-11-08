@@ -1,59 +1,84 @@
 import { useState , useContext } from "react";
 import { Link, useHistory } from "react-router-dom";
 import AuthContext from "../context/AuthContext";
-import { login } from "../services/auth-api"
-
+import Errors from "./Errors";
 
 function Login(){
 
-  const[candidate, setCandidate] = useState({
-    username:"",
-    password:""
-  });
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [errors, setErrors] = useState([]);
 
-  const[hasError, setHasError] = useState(false);
-
-  const history = useHistory();
   const auth = useContext(AuthContext);
 
-  const onChange = (evt => {
-    const clone = {...candidate};
-    clone[evt.target.name] = evt.target.value;
-    setCandidate(clone);
-  })
+  const history = useHistory();
 
-  const onSubmit = (evt) => {
-    evt.preventDefault();
-    login(candidate)
-        .then(auth => {
-            console.log("success!", auth)
-        }).catch(() => setHasError(true));
-   
-  }
+  const usernameOnChangeHandler = (event) => {
+    setUsername(event.target.value);
+  };
+
+  const passwordOnChangeHandler = (event) => {
+    setPassword(event.target.value);
+  };
+
+  const formSubmitHandler = (event) => {
+    event.preventDefault();
+
+    const authAttempt = {
+      username,
+      password
+    };
+
+    const init = {
+      method: 'POST', // GET by default
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(authAttempt)
+    };
+
+    fetch('http://localhost:8080/game/authenticate', init)
+      .then(response => {
+        if (response.status === 200) {
+          return response.json();
+        } else if (response.status === 403) {
+          return null;
+        }
+        return Promise.reject('Something unexpected went wrong :)');
+      })
+      .then(data => {
+        if (data) {
+          auth.login(data.jwt_token);
+          history.push('/');
+        } else {
+          // we have error messages
+          setErrors(['login failure']);
+        }
+      })
+      .catch(error => console.log(error));
+  };
 
   return(
     <div className="container">
       <h1>Login</h1>
-      <form onSubmit={onSubmit}>
+      <Errors errors={errors} />
+      <form onSubmit={formSubmitHandler}>
         <div className="mb-2">
             <label htmlFor="username" className="form-label">Username</label>
             <input type="text" id="username" name="username" className="form-control"
-                value={candidate.username} onChange={onChange} />
+                value={username} onChange={usernameOnChangeHandler} />
         </div>
 
         <div className="mb-2">
             <label htmlFor="password" className="form-label">Password</label>
             <input type="password" id="password" name="password" className="form-control"
-                value={candidate.password} onChange={onChange} />
+                value={password} onChange={passwordOnChangeHandler} />
         </div>
 
         <div>
             <Link to="/" className="btn btn-secondary me-2">Cancel</Link>
             <button type="submit" className="btn btn-primary">Log In</button>
         </div>
-
-        {hasError ? <div className="alert alert-danger">Bad credentials...</div> :
-          null}
       </form>
     </div>
   )
