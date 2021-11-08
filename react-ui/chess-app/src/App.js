@@ -93,8 +93,14 @@ function App() {
             <Login />
           </Route>
 
+
+          <Route path="/game/board">
+             {credentials ? <Board /> : <Redirect to="/login" />}
+          </Route>
+
           <Route path="/register">
             <Register />
+
           </Route>
 
           <Route path="/registerInfo">

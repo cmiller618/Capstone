@@ -5,6 +5,7 @@ import AuthContext from "../context/AuthContext";
 import { useHistory } from "react-router";
 import { getCurrentBoard, getNewBoard } from "../services/BoardAPI";
 import { useState } from "react";
+import pieceRenderer from "./pieceRenderer";
 
 function Board(){
 
@@ -38,9 +39,24 @@ function Board(){
     }, [authContext, history]);
   }
   
-return{
-
-};
+  let count = 0;
+  for(let i = 0; i < 8; i++){
+    for(let j = 0; j < 8; j++){
+      if(count % 2 === 0){
+        return(
+          <div className="dark-square">
+            <pieceRenderer {...pieceRenderer(board[i][j])}></pieceRenderer>
+            </div>
+        )
+      }else{
+        return(
+          <div className="light-square">
+            <pieceRenderer {...pieceRenderer(board[i][j])}></pieceRenderer>
+            </div>
+        )
+      }
+    }
+  }
 
 }
 
