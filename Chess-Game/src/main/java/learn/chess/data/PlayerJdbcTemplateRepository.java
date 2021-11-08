@@ -97,48 +97,6 @@ public class PlayerJdbcTemplateRepository implements PlayerRepository {
         return jdbcTemplate.update(sql, profileId) > 0;
     }
 
-    @Override
-    public boolean changePassword(HumanPlayer player)  {
-
-        final String sql = "update player_profile set "
-                + "player_password = ? "
-                + "where player_profile_id = ?;";
-
-        int rowsAffected = jdbcTemplate.update(sql, player.getPassword(), player.getProfileId());
-
-        return rowsAffected > 0;
-
-    }
-
-    @Override
-    public HumanPlayer findByUsername(String username)  {
-
-        final String sql = "select player_profile_id, player_profile_name, player_password, player_profile_email from player_profile "
-                + "where player_profile_name = ?;";
-
-        HumanPlayer player = jdbcTemplate.query(sql, new PlayerProfileMapper(), username).stream()
-                .findFirst()
-                .orElse(null);
-
-        return player;
-
-
-    }
-
-    @Override
-    public HumanPlayer findByEmail(String email)  {
-        final String sql = "select player_profile_id, player_profile_name, player_password, player_profile_email from player_profile "
-                + "where player_profile_name = ?;";
-
-        HumanPlayer player = jdbcTemplate.query(sql, new PlayerProfileMapper(), email).stream()
-                .findFirst()
-                .orElse(null);
-
-        return player;
-    }
-
-
-    private void addPlayerTies(HumanPlayer player, int profileId) {
 //    @Override
 //    public boolean changePassword(PlayerProfile player)  {
 //

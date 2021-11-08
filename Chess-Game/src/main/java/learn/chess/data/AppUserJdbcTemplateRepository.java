@@ -1,6 +1,7 @@
 package learn.chess.data;
 
 import learn.chess.mappers.AppUserMapper;
+import learn.chess.mappers.PlayerProfileMapper;
 import learn.chess.model.AppUser;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -53,6 +54,7 @@ public class AppUserJdbcTemplateRepository implements AppUserRepository{
 
         return user;
     }
+
 
     private void updateRoles(AppUser user) {
         jdbcTemplate.update("delete from player_profile_role where player_profile_id = ?;", user.getAppUserId());
