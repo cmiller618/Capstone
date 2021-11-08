@@ -107,18 +107,18 @@ class PlayerRepositoryTest {
         assertFalse(actual);
     }
 
-    @Test
-    void shouldFindByUsername() throws DataAccessException {
-        HumanPlayer hp = new HumanPlayer();
-        hp.setProfileId(1);
-        hp.setUsername("SuperMario");
-        hp.setEmail("supermario@gmail.com");
-        hp.setPassword("P@ssw0rd!");
-
-        HumanPlayer actual = repository.findByUsername("SuperMario");
-        assertEquals(hp, actual);
-
-    }
+//    @Test
+//    void shouldFindByUsername() throws DataAccessException {
+//        HumanPlayer hp = new HumanPlayer();
+//        hp.setProfileId(1);
+//        hp.setUsername("SuperMario");
+//        hp.setEmail("supermario@gmail.com");
+//        hp.setPassword("P@ssw0rd!");
+//
+//        HumanPlayer actual = repository.findByUsername("SuperMario");
+//        assertEquals(hp, actual);
+//
+//    }
 
     @Test
     void shouldFindByEmail() throws DataAccessException {
