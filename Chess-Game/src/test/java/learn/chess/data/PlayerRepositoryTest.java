@@ -106,4 +106,36 @@ class PlayerRepositoryTest {
         boolean actual = repository.deleteById(25);
         assertFalse(actual);
     }
+
+    @Test
+    void shouldFindByUsername() throws DataAccessException {
+        HumanPlayer hp = new HumanPlayer();
+        hp.setProfileId(1);
+        hp.setUsername("SuperMario");
+        hp.setEmail("supermario@gmail.com");
+        hp.setPassword("P@ssw0rd!");
+
+        HumanPlayer actual = repository.findByUsername("SuperMario");
+        assertEquals(hp, actual);
+
+    }
+
+    @Test
+    void shouldFindByEmail() throws DataAccessException {
+
+    }
+
+//    @Test
+//    void shouldChangePassword() {
+////        HumanPlayer hp = new HumanPlayer();
+////        hp.setProfileId(1);
+////        hp.setUsername("SuperMario");
+////        hp.setPassword("password");
+////        hp.setEmail("supermario@gmail.com");
+////        boolean actual = repository.changePassword(hp);
+////
+////        assertTrue(actual);
+//    }
+
+
 }
