@@ -107,6 +107,34 @@ public class PlayerJdbcTemplateRepository implements PlayerRepository {
 
     }
 
+    @Override
+    public HumanPlayer findByUsername(String username)  {
+
+        final String sql = "select player_profile_id, player_profile_name, player_password, player_profile_email from player_profile "
+                + "where player_profile_name = ?;";
+
+        HumanPlayer player = jdbcTemplate.query(sql, new PlayerProfileMapper(), username).stream()
+                .findFirst()
+                .orElse(null);
+
+        return player;
+
+
+    }
+
+    @Override
+    public HumanPlayer findByEmail(String email)  {
+        final String sql = "select player_profile_id, player_profile_name, player_password, player_profile_email from player_profile "
+                + "where player_profile_name = ?;";
+
+        HumanPlayer player = jdbcTemplate.query(sql, new PlayerProfileMapper(), email).stream()
+                .findFirst()
+                .orElse(null);
+
+        return player;
+    }
+
+
     private void addPlayerTies(HumanPlayer player, int profileId) {
         final String sql = "select " +
                 "p.player_profile_id, " +

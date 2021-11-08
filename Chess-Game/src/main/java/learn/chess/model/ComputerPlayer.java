@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class ComputerPlayer implements Player {
+public class ComputerPlayer {
 
     private static String[] titles = {"Dr.", "Professor", "Chief Exec", "Specialist", "The Honorable",
             "Prince", "Princess", "The Venerable", "The Eminent"};
@@ -154,7 +154,6 @@ public class ComputerPlayer implements Player {
 
 
 
-    @Override
     public String getName() {
         return name;
     }
