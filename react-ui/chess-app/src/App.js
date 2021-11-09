@@ -1,7 +1,7 @@
 import {BrowserRouter as Router, Route, Switch, Redirect} from "react-router-dom";
 import { useEffect, useState } from "react";
 import jwt_decode from 'jwt-decode';
-
+import WebsocketTest from './components/WebsocketTest';
 import AuthContext from "./context/AuthContext";
 import Home from "./components/MainUI/Home";
 import Nav from "./components/MainUI/Nav";
@@ -12,9 +12,29 @@ import Profile from "./components/PlayerProfileUI/Profile";
 import './App.css';
 
 
+//setting up socket server
+
+// const socketUrl = `ws://${window.location.host}/messages`;
+// const ws = new WebSocket(socketUrl);
+
+// ws.onopen = function () {
+//   console.log("websocket successfully connected.")
+// };
+
+// ws.onclose = function () {
+//   console.log("websocket closed")
+// };
+
+// ws.onerror = function(err) {
+//   console.error(`websocket error: ${err}`)
+// };
+
+
 const TOKEN_KEY = "chess-api-token";
 
+
 function App() {
+  
 
   const [user, setUser] = useState(null);
   const [initialized, setInitialized] = useState(false);
@@ -54,6 +74,7 @@ function App() {
     return user;
   }
 
+
   const logout = () => {
     localStorage.removeItem(TOKEN_KEY);
     setUser(null);
@@ -68,6 +89,7 @@ function App() {
   if(!initialized){
     return null;
   }
+
 
 
   return(
@@ -103,6 +125,9 @@ function App() {
 
           <Route path="/game/board">
             {user ? <Board /> : <Redirect to="/login" />}
+          </Route>
+          <Route path="/game/chat">
+            {user ? <WebsocketTest /> : <Redirect to="/login" />}
           </Route>
         </Switch>
 
