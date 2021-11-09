@@ -32,7 +32,9 @@ import './App.css';
 
 const TOKEN_KEY = "chess-api-token";
 
+
 function App() {
+  
 
   const [user, setUser] = useState(null);
   const [initialized, setInitialized] = useState(false);
@@ -71,6 +73,7 @@ function App() {
     setUser(user);
     return user;
   }
+
 
   const logout = () => {
     localStorage.removeItem(TOKEN_KEY);
@@ -130,7 +133,7 @@ function App() {
             {user ? <Board /> : <Redirect to="/login" />}
           </Route>
           <Route path="/game/chat">
-            <WebsocketTest />
+            {user ? <WebsocketTest /> : <Redirect to="/login" />}
           </Route>
         </Switch>
 
