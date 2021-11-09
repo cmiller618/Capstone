@@ -11,6 +11,7 @@ import CreateAccountForm from "./components/CreateAccountForm";
 
 import './App.css';
 
+
 const CREDENTIALS_KEY = "chess-credentials";
 
 function App() {
@@ -64,7 +65,7 @@ function App() {
           </Route>
 
           <Route path="/game/board">
-            <Board />
+            <Board id="Chessboard"/>
           </Route>
 
           <Route path="/register">
