@@ -95,7 +95,6 @@ function App() {
             <Login />
           </Route>
 
-
           <Route path="/game/board">
              {user ? <Board /> : <Redirect to="/login" />}
           </Route>
@@ -107,7 +106,6 @@ function App() {
           <Route path="/profile/:id">
             {user ? <Profile /> : <Redirect to="/login" />}
           </Route>
-
 
           <Route path="/game/board">
             {user ? <Board /> : <Redirect to="/login" />}
