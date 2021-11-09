@@ -1,13 +1,42 @@
+import { useState, useEffect, useContext } from "react";
+import { findPlayerByProfileId } from "../../services/PlayersAPI"
+import AuthContext from "../../context/AuthContext";
+
 function Matches({match}){
+
+  const [player1Username, setPlayer1Username] = useState('');
+  const [player2Username, setPlayer2Username] = useState('');
+  const [winnerUsername, setWinnerUsername] = useState('');
+
+  const auth = useContext(AuthContext);
+
+  useEffect(() => {
+    if(match.player1Id && match.player2Id) {
+      findPlayerByProfileId(match.player1Id, auth).then((data) => {
+        setPlayer1Username(data.username);
+      }) 
+      findPlayerByProfileId(match.player2Id, auth).then((data) => {
+        setPlayer2Username(data.username); 
+      });
+      if(match.playerWinnerId !== 0) {
+        findPlayerByProfileId(match.playerWinnerId, auth).then((data) => {
+          setWinnerUsername(data.username);
+        });
+      }else{
+        setWinnerUsername("Tie");
+      }
+    }
+
+  },[match.player1Id, match.player2Id, match.playerWinnerId,auth]);
+
   return(
-    <ul className="list-group list-group-horizontal">
-      <li className="list-group-item flex-fill"><strong>Player1:</strong> {match.player1Id} </li>
-      <li className="list-group-item flex-fill"><strong>Player2:</strong>{match.player2Id}</li>
-      <li className="list-group-item flex-fill"><strong>Match Winner:</strong>{match.playerWinnerId}</li>
-      <li className="list-group-item flex-fill"><strong>Match Start Time:</strong>{match.startTime}</li>
-      <li className="list-group-item flex-fill"><strong>Match End Time:</strong>{match.endTime}</li>
-      <li className="list-group-item flex-fill"><strong>Match Duration:</strong>{match.endTime - match.startTime}</li>
-  </ul> 
+    <tr>
+      <th scope="row">{player1Username}</th>
+      <td>{player2Username}</td>
+      <td>{winnerUsername}</td>
+      <td>{match.startTime}</td>
+      <td>{match.endTime}</td>
+    </tr>
   );
 }
 

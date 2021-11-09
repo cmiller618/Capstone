@@ -1,46 +1,75 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext} from "react";
 import { Link, useParams } from "react-router-dom"
-import { findPlayerByProfileId } from "../../services/PlayersAPI"
+
+import AuthContext from "../../context/AuthContext";
 import ProfileMatches from "./ProfileMatches";
 
 function Profile(){
 
-  const[player, setPlayer] = useState({
-    "profileId": 0,
-    "name": "",
-    "password": "",
-    "email": "",
-    "playerMatch": {
-      "playerProfileId": 0,
-      "wins": 0,
-      "losses": 0,
-      "ties": 0,
-      "playerName": ""
-    }
-  });
+  const [username, setUsername] = useState('');
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [email, setEmail] = useState('');
+  const [playerStats, setPlayerStats] = useState({});
+
+  const auth = useContext(AuthContext);
 
   const { id } = useParams();
 
   useEffect(() => {
-    if(id) {
-      findPlayerByProfileId(id).then((data) => {
-        setPlayer(data);
-      });
+    
+    const init = {
+      headers: {
+        'Authorization': `Bearer ${auth.user.token}`
+      }
     }
-  }, [id]);
 
+    fetch(`http://localhost:8080/game/players/${id}`, init)
+      // Response object
+      .then(response => { 
+        if (response.status === 404) {
+          return Promise.reject(`Received 404 Not Found for Profile ID: ${id}`);
+        }
+        return response.json();
+      })
+      .then(data => {
+        setUsername(data.username);
+        setFirstName(data.firstName);
+        setLastName(data.lastName);
+        setEmail(data.email);
+        setPlayerStats(data.playerStats)
+      })
+      .catch(error => console.log(error));
+  }, [id, auth.user.token]);
 
   return(
-    <div className="container">
-      <div className="card h-100">
+      <div className="card text-center">
+        <div class="card-header">
+          <h1 id="usernameTitle" className="card-title">{username} Profile</h1>
+        </div>
+        <div class="card-footer text-muted">
+          <h2 id=""class="card-subtitle mb-2 text-muted">Account Information</h2>
+        </div>  
         <div className="card-body">
-          <h1 className="card-title">{player.name.toUpperCase} Profile Page</h1>
-          <div className="row"><strong>Player Email: {player.email}</strong></div>
           <div className="row">
-            <ProfileMatches />
+            <strong>First Name: {firstName}</strong>
+            <strong>Last Name: {lastName}</strong>
+            <strong>Email: {email}</strong>
           </div>
         </div> 
+        <div class="card-footer text-muted">
+          <h2 class="card-subtitle mb-2 text-muted">Games Summary</h2>
+        </div>  
+        <div className="card-body">
+          <div className="row">
+            <strong>Total Wins: {playerStats.wins}</strong>
+            <strong>Total Losses: {playerStats.losses}</strong>
+            <strong>Total Ties: {playerStats.ties}</strong>
+          </div>
+        </div>  
+        <ProfileMatches /> 
       </div>
-    </div>
   );
 }
+
+export default Profile;
