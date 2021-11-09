@@ -13,22 +13,31 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-import java.beans.BeanProperty;
-
 @EnableWebSecurity
 @ConditionalOnWebApplication
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+    private final JwtConverter jwtConverter;
 
+    public SecurityConfig(JwtConverter jwtConverter) {
+        this.jwtConverter = jwtConverter;
+    }
+
+    // This method allows configuring web based security for specific http requests.
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+        // We're not using HTML forms in our app so disable CSRF (Cross Site Request Forgery).
         http.csrf().disable();
 
+        // This configures Spring Security to allow CORS related requests (such as preflight checks).
         http.cors();
 
+        // The order of the antMatchers() method calls is important
+        // as they're evaluated in the order that they're added.
         http.authorizeRequests()
                 .antMatchers("/login").permitAll()
-                .antMatchers(HttpMethod.GET, "/game/**").authenticated()
+                .antMatchers(HttpMethod.GET,"/game/players/matches/ranking").permitAll()
                 .antMatchers(HttpMethod.POST,"/game/players").permitAll()
+                .antMatchers(HttpMethod.GET, "/game/**").authenticated()
                 .antMatchers(HttpMethod.POST, "/game/matches").authenticated()
                 .antMatchers(HttpMethod.PUT,"/game/players/*").authenticated()
                 .antMatchers(HttpMethod.PUT, "/game/matches/*").authenticated()
@@ -42,45 +51,30 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
     }
 
-
+    @Override
     @Bean
-    public AuthenticationManager getAuthManager() throws Exception {
-        return authenticationManager();
+    protected AuthenticationManager authenticationManager() throws Exception {
+        return super.authenticationManager();
     }
 
     @Bean
     public PasswordEncoder getPasswordEncoder() {
         return new BCryptPasswordEncoder();
-
-
     }
+
     @Bean
     public WebMvcConfigurer corsConfigurer() {
 
         // Configure CORS globally versus
-        // controller-by-controller or method-by-method.
+        // controller-by-controller.
+        // Can be combined with @CrossOrigin.
         return new WebMvcConfigurer() {
+
             @Override
             public void addCorsMappings(CorsRegistry registry) {
-
-                // +  addMapping("/**") -- opens all URLs.
-                //    Was hoping to limit this to /api/**, but that doesn't
-                //    include the necessary HTTP Headers for the login endpoints.
-                //    The browser blocks requests without them.
-                //    Since we're explicitly limiting origins, seems okay to be
-                //    less granular.
-                // +  allowMethods -- all CRUD methods
-                // +  allowedOrigins -- limit to our known and trusted origin.
-                //    Trusting a localhost origin is only safe for development.
-                // +  allowCredentials(true) -- turns out this is important.
-                //    It tells the client that this server is okay with sharing
-                //    cross-origin cookies, an important part of
-                //    sharing JWT cookies.
-                // System.getenv("ALLOWED_ORIGINS")
                 registry.addMapping("/**")
-                        .allowedMethods("DELETE", "GET", "POST", "PUT")
                         .allowedOrigins("*")
-                        .allowCredentials(true);
+                        .allowedMethods("*");
             }
         };
     }

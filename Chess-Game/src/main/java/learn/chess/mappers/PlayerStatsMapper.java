@@ -10,8 +10,8 @@ public class PlayerStatsMapper implements RowMapper<PlayerStats> {
     @Override
     public PlayerStats mapRow(ResultSet resultSet, int i) throws SQLException {
         PlayerStats playerStats = new PlayerStats();
-        playerStats.setPlayerProfileId(resultSet.getInt("player_profile_id"));
-        playerStats.setPlayerName(resultSet.getString("player_profile_name"));
+        playerStats.setPlayerProfileId(resultSet.getInt("pp.player_profile_id"));
+        playerStats.setPlayerName(resultSet.getString("pp.player_profile_username"));
         return playerStats;
     }
 }

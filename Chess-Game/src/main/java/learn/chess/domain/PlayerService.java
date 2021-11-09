@@ -4,7 +4,7 @@ import learn.chess.data.DataAccessException;
 
 
 import learn.chess.data.PlayerRepository;
-import learn.chess.model.HumanPlayer;
+import learn.chess.model.PlayerProfile;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,45 +19,45 @@ public class PlayerService {
     }
 
 
-    public List<HumanPlayer> findAll() throws DataAccessException {
+    public List<PlayerProfile> findAll() throws DataAccessException {
         return repository.findAll();
     }
 
-    public HumanPlayer findById(int profileId) throws DataAccessException {
+    public PlayerProfile findById(int profileId) throws DataAccessException {
         return repository.findById(profileId);
     }
 
-    public Result<HumanPlayer> addPlayer(HumanPlayer humanPlayer) throws DataAccessException {
-        Result<HumanPlayer> result = validateNulls(humanPlayer);
+    public Result<PlayerProfile> addPlayer(PlayerProfile playerProfile) throws DataAccessException {
+        Result<PlayerProfile> result = validateNulls(playerProfile);
         if(!result.isSuccess()) {
             return result;
         }
-        if(humanPlayer.getProfileId() != 0) {
+        if(playerProfile.getProfileId() != 0) {
             result.addMessage("Profile id cannot be set for 'add' operation.", ResultType.INVALID);
             return result;
         }
 
         if(result.isSuccess()){
-            result.setPayload(repository.addPlayer(humanPlayer));
+            result.setPayload(repository.addPlayer(playerProfile));
         }
 
         return result;
     }
 
-    public Result<HumanPlayer> updatePlayer(HumanPlayer humanPlayer) throws DataAccessException {
+    public Result<PlayerProfile> updatePlayer(PlayerProfile playerProfile) throws DataAccessException {
 
 
-        Result<HumanPlayer> result = validateNulls(humanPlayer);
+        Result<PlayerProfile> result = validateNulls(playerProfile);
 
         if(!result.isSuccess()){
             return result;
         }
-        if(humanPlayer.getProfileId() <=0 ) {
+        if(playerProfile.getProfileId() <=0 ) {
             result.addMessage("Profile Id must be set for 'update'.", ResultType.INVALID);
             return result;
         }
 
-        if(!repository.updatePlayer(humanPlayer)){
+        if(!repository.updatePlayer(playerProfile)){
             result.addMessage("Player could not be updated", ResultType.NOT_FOUND);
         }
 
@@ -65,24 +65,27 @@ public class PlayerService {
     }
 
     public boolean deleteById(int profileId) throws DataAccessException {
-
-
         return repository.deleteById(profileId);
     }
 
 
-    private Result<HumanPlayer> validateNulls(HumanPlayer humanPlayer){
-        Result<HumanPlayer> result = new Result();
-        if(humanPlayer.getEmail() == null){
-            result.addMessage("Please enter a valid email", ResultType.INVALID);
-        }
+    private Result<PlayerProfile> validateNulls(PlayerProfile playerProfile){
+        Result<PlayerProfile> result = new Result();
 
-        if(humanPlayer.getUsername() == null){
+        if(playerProfile.getUsername() == null || playerProfile.getUsername().isBlank()){
             result.addMessage("Please Enter a valid name", ResultType.INVALID);
         }
 
-        if(humanPlayer.getPassword() == null || humanPlayer.getPassword().isBlank()) {
+        if(playerProfile.getFirstName() == null || playerProfile.getFirstName().isBlank()) {
             result.addMessage("Please enter a valid password", ResultType.INVALID);
+        }
+
+        if(playerProfile.getLastName() == null || playerProfile.getLastName().isBlank()) {
+            result.addMessage("Please enter a valid password", ResultType.INVALID);
+        }
+
+        if(playerProfile.getEmail() == null || playerProfile.getUsername().isBlank()){
+            result.addMessage("Please enter a valid email", ResultType.INVALID);
         }
 
         return result;

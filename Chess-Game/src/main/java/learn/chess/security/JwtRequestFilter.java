@@ -1,7 +1,6 @@
 package learn.chess.security;
 
-
-import learn.chess.model.HumanPlayer;
+import learn.chess.model.AppUser;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -12,7 +11,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.List;
 
 
 public class JwtRequestFilter extends BasicAuthenticationFilter {
@@ -20,27 +18,35 @@ public class JwtRequestFilter extends BasicAuthenticationFilter {
     private final JwtConverter converter;
 
     public JwtRequestFilter(AuthenticationManager authenticationManager, JwtConverter converter) {
-        super(authenticationManager);
+        super(authenticationManager); // 1. Must satisfy the super class.
         this.converter = converter;
     }
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
+    protected void doFilterInternal(HttpServletRequest request,
+                                    HttpServletResponse response,
+                                    FilterChain chain) throws IOException, ServletException {
 
+        // 2. Read the Authorization value from the request.
         String authorization = request.getHeader("Authorization");
-        if(authorization != null && authorization.startsWith("Bearer ")) {
+        if (authorization != null && authorization.startsWith("Bearer ")) {
 
-            HumanPlayer player = converter.getPlayerFromToken(authorization.substring(7));
-            if (player == null) {
-                response.setStatus(403); //forbidden
+            // 3. The value looks okay, confirm it with JwtConverter.
+            AppUser appUser = converter.getUserFromToken(authorization);
+            if (appUser == null) {
+                response.setStatus(403); // Forbidden
             } else {
-                var token = new UsernamePasswordAuthenticationToken(
-                        player, null, List.of());
 
+                // 4. Confirmed. Set auth for this single request.
+                UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(
+                        appUser, null, appUser.getAuthorities());
+
+                // This is what actually "logs" the user into the system.
                 SecurityContextHolder.getContext().setAuthentication(token);
-
             }
         }
+
+        // 5. Keep the chain going.
         chain.doFilter(request, response);
     }
 }
