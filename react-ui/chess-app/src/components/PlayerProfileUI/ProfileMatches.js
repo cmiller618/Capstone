@@ -19,7 +19,7 @@ function ProfileMatches(){
         setPlayerMatches(data);
       });  
     }
-  },[id]);
+  },[id, auth]);
 
   return(
     <>

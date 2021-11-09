@@ -1,5 +1,5 @@
 import { useEffect, useState, useContext} from "react";
-import { Link, useParams } from "react-router-dom"
+import { useParams } from "react-router-dom"
 
 import AuthContext from "../../context/AuthContext";
 import ProfileMatches from "./ProfileMatches";

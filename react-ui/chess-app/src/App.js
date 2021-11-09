@@ -1,10 +1,10 @@
-import {useHistory , BrowserRouter as Router, Route, Switch, Redirect} from "react-router-dom";
+import {BrowserRouter as Router, Route, Switch, Redirect} from "react-router-dom";
 import { useEffect, useState } from "react";
 import jwt_decode from 'jwt-decode';
 
 import AuthContext from "./context/AuthContext";
-import Home from "./components/Home";
-import Nav from "./components/Nav";
+import Home from "./components/MainUI/Home";
+import Nav from "./components/MainUI/Nav";
 import Login from "./components/Login";
 import Board from "./components/Board";
 import Register from "./components/Register"
@@ -18,8 +18,6 @@ function App() {
 
   const [user, setUser] = useState(null);
   const [initialized, setInitialized] = useState(false);
-
-  const history = useHistory(); 
 
   useEffect(() => {
     const token = localStorage.getItem(TOKEN_KEY);
@@ -93,10 +91,6 @@ function App() {
 
           <Route path="/login">
             <Login />
-          </Route>
-
-          <Route path="/game/board">
-             {user ? <Board /> : <Redirect to="/login" />}
           </Route>
 
           <Route path="/register">

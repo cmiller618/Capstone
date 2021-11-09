@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import './Home.css';
 
 import PlayersListing from "./PlayersListing";
-import AuthContext from "../context/AuthContext";
+import AuthContext from "../../context/AuthContext";
 
 function Home(){
   const auth = useContext(AuthContext);
@@ -26,9 +26,9 @@ function Home(){
         <PlayersListing />
       </table>
     </div>
-    {auth.credentials ? 
+    {auth.user ? 
       <div className="container">
-        <h3>Play A Game</h3>
+        <Link to="/game/board" className="btn btn-warning">Join/Create Game</Link>
       </div> : <div id ="signInMessage" className="container mt-3"><p>In order to play a game online you must login or create an account!</p></div>}
     </>
   );

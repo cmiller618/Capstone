@@ -27,7 +27,7 @@ function Matches({match}){
       }
     }
 
-  },[match.player1Id, match.player2Id, match.playerWinnerId,auth]);
+  },[match.player1Id, match.player2Id, match.playerWinnerId, auth]);
 
   return(
     <tr>
