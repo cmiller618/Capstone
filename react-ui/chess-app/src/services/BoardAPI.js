@@ -21,13 +21,13 @@ export async function getCurrentBoard(){
 
 }
 
-export async function updatePlayerMove(board){
+export async function updateMove(isBlack, startX, startY, endX, endY, isComputerPlayer){
     const init = {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(board),
+        body: JSON.stringify(isBlack, startX, startY, endX, endY, isComputerPlayer),
       };
     
       const response = await fetch(`${APIURL}`, init);
