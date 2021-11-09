@@ -3,7 +3,7 @@ import { useContext } from "react";
 
 import './Nav.css'
 
-import AuthContext from "../context/AuthContext";
+import AuthContext from "../../context/AuthContext";
 
 function Nav(){
   const auth = useContext(AuthContext);

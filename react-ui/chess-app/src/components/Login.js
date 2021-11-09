@@ -1,7 +1,7 @@
 import { useState , useContext } from "react";
 import { Link, useHistory } from "react-router-dom";
 import AuthContext from "../context/AuthContext";
-import Errors from "./Errors";
+import Errors from "./MainUI/Errors";
 
 function Login(){
 
