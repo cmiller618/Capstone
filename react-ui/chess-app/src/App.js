@@ -3,12 +3,12 @@ import { useEffect, useState } from "react";
 import jwt_decode from 'jwt-decode';
 import WebsocketTest from './components/WebsocketTest';
 import AuthContext from "./context/AuthContext";
-import Home from "./components/Home";
-import Nav from "./components/Nav";
+import Home from "./components/MainUI/Home";
+import Nav from "./components/MainUI/Nav";
 import Login from "./components/Login";
 import Board from "./components/Board";
-import RegisterAccountInfo from "./components/RegisterAccountInfo";
 import Register from "./components/Register"
+import Profile from "./components/PlayerProfileUI/Profile";
 import './App.css';
 
 
@@ -115,18 +115,12 @@ function App() {
             <Login />
           </Route>
 
-
-          <Route path="/game/board">
-             {user ? <Board /> : <Redirect to="/login" />}
-          </Route>
-
           <Route path="/register">
             <Register />
-
           </Route>
 
-          <Route path="/registerInfo">
-            <RegisterAccountInfo />
+          <Route path="/profile/:id">
+            {user ? <Profile /> : <Redirect to="/login" />}
           </Route>
 
           <Route path="/game/board">

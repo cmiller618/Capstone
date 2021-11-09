@@ -11,7 +11,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class AppUser extends User {
-    private static  final String AUTHORITY_PREFIX = "Role_";
 
     private int appUserId;
 
@@ -32,16 +31,14 @@ public class AppUser extends User {
     public static List<GrantedAuthority> convertRolesToAuthorities(List<String> roles) {
         List<GrantedAuthority> authorities = new ArrayList<>(roles.size());
         for (String role : roles) {
-            Assert.isTrue(!role.startsWith(AUTHORITY_PREFIX),
-                    () -> String.format("%s cannot start with %s (it is automatically added)", role, AUTHORITY_PREFIX));
-            authorities.add(new SimpleGrantedAuthority(AUTHORITY_PREFIX + role));
+            authorities.add(new SimpleGrantedAuthority(role));
         }
         return authorities;
     }
 
     public static List<String> convertAuthoritiesToRoles(Collection<GrantedAuthority> authorities) {
         return authorities.stream()
-                .map(a -> a.getAuthority().substring(AUTHORITY_PREFIX.length()))
+                .map(a -> a.getAuthority())
                 .collect(Collectors.toList());
     }
 }

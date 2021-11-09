@@ -20,8 +20,15 @@ export async function findTopFive(){
   return response.json();
 }
 
-export async function findMatchesByProfileId(profileId){
-  const response = await fetch(`${APIURL}/${profileId}`);
+export async function findMatchesByProfileId(profileId, auth){
+
+  const init = {
+    headers: {
+      'Authorization' : `Bearer ${auth.user.token}`
+    }
+  }
+
+  const response = await fetch(`${APIURL}/${profileId}`, init);
 
   if(response.status !== 200){
     return Promise.reject("response is not 200 OK")

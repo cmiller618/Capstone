@@ -10,8 +10,14 @@ export async function findAll(){
   return response.json();
 }
 
-export async function findPlayerByProfileId(profileId){
-  const response = await fetch(`${APIURL}/${profileId}`);
+export async function findPlayerByProfileId(profileId, auth){
+  const init = {
+    headers: {
+      'Authorization' : `Bearer ${auth.user.token}`
+    }
+  }
+
+  const response = await fetch(`${APIURL}/${profileId}`, init);
 
   if(response.status !== 200){
     return Promise.reject("response is not 200 OK")
@@ -20,11 +26,12 @@ export async function findPlayerByProfileId(profileId){
   return response.json();
 }
 
-export async function addPlayer(player){
+export async function addPlayer(player, auth){
   const init = {
     method: "POST",
     headers: {
       "Content-type": "application/json",
+      'Authorization': `Bearer ${auth.user.token}`
     },
     body: JSON.stringify(player),
   };
