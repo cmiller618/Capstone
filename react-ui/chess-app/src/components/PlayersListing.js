@@ -10,10 +10,12 @@ function PlayersListing(){
     findTopFive().then((data) => setTopPlayers(data));
   },[]);
 
+  console.log(topPlayers);
+
   return(
-    <div classNam="container">
+    <tbody>
       {topPlayers.map(topPlayer =>(<TopFive key={topPlayer.playerProfileId} topPlayer={topPlayer}/>))}  
-    </div>
+    </tbody>
   );
 }
 

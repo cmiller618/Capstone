@@ -8,6 +8,9 @@ function Register(){
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [email, setEmail] = useState('');
   const [error, setError] = useState([]);
 
   const auth = useContext(AuthContext);
@@ -26,6 +29,18 @@ function Register(){
     setConfirmPassword(event.target.value);
   };
 
+  const firstNameOnChangeHandler = (event) => {
+    setFirstName(event.target.value);
+  };
+
+  const lastNameOnChangeHandler = (event) => {
+    setLastName(event.target.value);
+  };
+
+  const emailOnChangeHandler = (event) => {
+    setEmail(event.target.value);
+  };
+
   const formSubmitHandler = (event) => {
     event.preventDefault();
    
@@ -38,7 +53,10 @@ function Register(){
 
     const newUser = {
       username,
-      password
+      password,
+      firstName,
+      lastName,
+      email
     };
 
     const init = {
@@ -80,7 +98,7 @@ function Register(){
             .then(data => {
               if (data) {
                 auth.login(data.jwt_token);
-                history.push(`/registerInfo`);
+                history.push(`/`);
               } else {
                 setError(['login failure']);
               }
@@ -106,6 +124,24 @@ function Register(){
           <label htmlFor="username">Username:</label>
           <input className="form-control" type="text" id="username" name="username" 
             value={username} onChange={usernameOnChangeHandler} />
+        </div>
+
+        <div className="form-group">
+          <label htmlFor="firstName">First Name:</label>
+          <input className="form-control" type="text" id="firstName" name="firstName" 
+            value={firstName} onChange={firstNameOnChangeHandler} />
+        </div>
+
+        <div className="form-group">
+          <label htmlFor="lastName">Last Name:</label>
+          <input className="form-control" type="text" id="lastName" name="lastName" 
+            value={lastName} onChange={lastNameOnChangeHandler} />
+        </div>
+
+        <div className="form-group">
+          <label htmlFor="email">Email:</label>
+          <input className="form-control" type="text" id="email" name="email" 
+            value={email} onChange={emailOnChangeHandler} />
         </div>
 
         <div className="form-group">

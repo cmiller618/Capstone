@@ -62,7 +62,8 @@ public class PlayerController {
 
     @PutMapping("/{profileId}")
     public ResponseEntity<Object> update(@PathVariable int profileId,
-                                         @RequestBody @Valid PlayerProfile playerProfile, BindingResult bindingResult) throws DataAccessException {
+                                         @RequestBody @Valid PlayerProfile playerProfile,
+                                         BindingResult bindingResult ) throws DataAccessException {
 
         if (bindingResult.hasErrors()) {
 

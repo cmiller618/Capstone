@@ -1,7 +1,11 @@
 package learn.chess.controllers;
 
+import learn.chess.data.DataAccessException;
 import learn.chess.domain.AppUserService;
+import learn.chess.domain.PlayerService;
 import learn.chess.model.AppUser;
+import learn.chess.model.PlayerProfile;
+import learn.chess.model.PlayerStats;
 import learn.chess.security.JwtConverter;
 
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
@@ -29,26 +33,38 @@ public class AuthController {
     private final AuthenticationManager authenticationManager;
     private final JwtConverter converter;
     private final AppUserService appUserService;
+    private final PlayerService playerService;
 
-    public AuthController(AuthenticationManager authenticationManager, JwtConverter converter, AppUserService appUserService) {
+    public AuthController(AuthenticationManager authenticationManager, JwtConverter converter, AppUserService appUserService, PlayerService playerService) {
         this.authenticationManager = authenticationManager;
         this.converter = converter;
         this.appUserService = appUserService;
+        this.playerService = playerService;
     }
 
     @PostMapping("/create_account")
     public ResponseEntity<?> createAccount(@RequestBody Map<String, String> credentials) {
         AppUser appUser = null;
 
+
         try {
             String username = credentials.get("username");
             String password = credentials.get("password");
-
             appUser = appUserService.create(username, password);
+
+            String firstName = credentials.get("firstName");
+            String lastName = credentials.get("lastName");
+            String email = credentials.get("email");
+            PlayerProfile playerProfile = new PlayerProfile(appUser.getAppUserId(), username,
+                    firstName,lastName,email, new PlayerStats());
+            playerService.updatePlayer(playerProfile);
+
         } catch (ValidationException ex) {
             return ErrorResponse.build(ex.getMessage(), HttpStatus.BAD_REQUEST);
         } catch (DuplicateKeyException ex) {
             return ErrorResponse.build("The provided username already exists", HttpStatus.BAD_REQUEST);
+        } catch (DataAccessException e) {
+            e.printStackTrace();
         }
 
         // happy path...
