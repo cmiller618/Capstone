@@ -87,6 +87,12 @@
             <scope>provided</scope>
         </dependency>
 
+        <!-- the starter-websocket dependency includes Spring MVC -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-websocket</artifactId>
+        </dependency>
+
     </dependencies>
 
     <build>
