@@ -1,7 +1,7 @@
 import {BrowserRouter as Router, Route, Switch, Redirect} from "react-router-dom";
 import { useEffect, useState } from "react";
-import jwt_decode from 'jwt-decode';
-import WebsocketTest from './components/WebsocketTest';
+//import jwt_decode from 'jwt_decode';
+
 import AuthContext from "./context/AuthContext";
 import Home from "./components/MainUI/Home";
 import Nav from "./components/MainUI/Nav";
@@ -36,10 +36,10 @@ function App() {
     console.log(token);
     localStorage.setItem(TOKEN_KEY, token);
 
-    const tokenObj = jwt_decode(token);
+    const tokenObj = null//jwt_decode(token);
     console.log(tokenObj)
 
-    const { id, sub: username, roles: rolesString } = jwt_decode(token);
+    const { id, sub: username, roles: rolesString } = null//jwt_decode(token);
     const roles = rolesString.split(',');
     const user = {
       id,
@@ -106,7 +106,7 @@ function App() {
           </Route>
 
           <Route path="/game/board">
-            {user ? <Board /> : <Redirect to="/login" />}
+             <Board /> 
           </Route>
           <Route path="/game/chat">
             {user ? <WebsocketTest /> : <Redirect to="/login" />}
