@@ -1,24 +1,34 @@
 import {Chessboard} from 'react-chessboard'
-import React from 'react';
-import ReactDOM from 'react-dom';
-import {Knight} from 'react-chessboard'
-import { getNewBoard } from '../services/BoardAPI';
-import { Link } from 'react-router-dom';
+import React, { useState, useRef } from 'react';
+import Chess from 'chess.js';
+import { updateMove } from '../services/BoardAPI';
 
 function Board(){
 
+  let isBlack = false;
   
+  const [game, setGame] = useState(new Chess());
   
+
+  function onDrop(sourceSquare, targetSquare) {
+    console.log(sourceSquare)
+    const gameCopy = { ...game };
+    const move = () => gameCopy.move({
+      from: sourceSquare,
+      to: targetSquare,
+      promotion: 'q'
+    });
+    updateMove(isBlack, sourceSquare, targetSquare, false);
+    setGame(gameCopy);
+    return move;
+  }
+
   return(
-    <div>
-    <Chessboard id="BasicBoard"></Chessboard>
-  <button type="submit" className="btn btn-success">End Turn</button>
-  <Link to="/" className="btn btn-warning">End Game</Link>
-  </div>
-  
-  
+    <Chessboard
+        id="BasicBoard"
+        onPieceDrop={onDrop}
+      />
   );
-  
 }
 
 export default Board;

@@ -24,17 +24,21 @@ public class BoardController {
         return board.getNewBoard();
     }
 
-    @GetMapping("/currentboard")
-    public Pieces[][] getCurrentBoard(){
-        return board.getCurrentBoard();
-    }
-
     @PutMapping
-    public ResponseEntity<Void> updateMove(@RequestBody boolean isBlack, int startX, int startY, int endX, int endY, boolean isComputerPlayer){
-        if((isComputerPlayer && computerPlayer.getBestMove(board, isBlack)) || (board.generateMove(startX, startY, endX, endY))){
-            return new ResponseEntity<>(HttpStatus.OK);
+    public ResponseEntity<Void> updateMove(@RequestBody boolean isBlack, @RequestBody String start, @RequestBody String end, @RequestBody boolean isComputerPlayer){
+        if(board == null){
+            getNewBoard();
         }
-
+        board.setChessBoardCoordinates();
+        start = board.convertBoardCoordinates(start);
+        end = board.convertBoardCoordinates(end);
+        int startX = Integer.parseInt(String.valueOf(start.charAt(0)));
+        int startY = Integer.parseInt(String.valueOf(start.charAt(1)));
+        int endX = Integer.parseInt(String.valueOf(end.charAt(0)));
+        int endY = Integer.parseInt(String.valueOf(end.charAt(1)));
+        if((isComputerPlayer && computerPlayer.getBestMove(board, isBlack)) || (board.generateMove(startX, startY, endX, endY))){
+             return new ResponseEntity<>(HttpStatus.OK);
+        }
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 }
