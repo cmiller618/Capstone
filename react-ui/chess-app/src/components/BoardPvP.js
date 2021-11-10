@@ -12,7 +12,6 @@ const client = new W3CWebSocket("ws://127.0.0.1:8000");
 export default function BoardPvP({ boardWidth }) {
   const chessboardRef = useRef();
   const [game, setGame] = useState(new Chess());
-  const [recievedGame, setRecievedGame] = useState(new Chess());
   const auth = useContext(AuthContext);
 
   useEffect(() => {
@@ -26,8 +25,7 @@ export default function BoardPvP({ boardWidth }) {
         console.log('got reply! ', dataFromServer);
         if (dataFromServer.type === "message") {
           if(dataFromServer.username !== auth.user.username){
-            setRecievedGame(dataFromServer.gameCopy);
-            
+            setGame(new Chess(dataFromServer.fen));            
           } 
         }
     };
@@ -67,7 +65,7 @@ export default function BoardPvP({ boardWidth }) {
         id="PlayVsPlay"
         animationDuration={200}
         boardWidth={boardWidth}
-        position={something ? usethis : game.fen()}
+        position={game.fen()}
         onPieceDrop={onDrop}
         customBoardStyle={{
           borderRadius: '4px',

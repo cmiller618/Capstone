@@ -37,7 +37,7 @@ function Login(){
       body: JSON.stringify(authAttempt)
     };
 
-    fetch('http://localhost:8080/game/authenticate', init)
+    fetch('http://localhost:8080/authenticate', init)
       .then(response => {
         if (response.status === 200) {
           return response.json();

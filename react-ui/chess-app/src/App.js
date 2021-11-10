@@ -6,7 +6,6 @@ import AuthContext from "./context/AuthContext";
 import Home from "./components/MainUI/Home";
 import Nav from "./components/MainUI/Nav";
 import Login from "./components/Login";
-// import Board from "./components/Board";
 import BoardPvP from "./components/BoardPvP";
 import Register from "./components/Register"
 import Profile from "./components/PlayerProfileUI/Profile";
@@ -34,10 +33,10 @@ function App() {
     console.log(token);
     localStorage.setItem(TOKEN_KEY, token);
 
-    const tokenObj = null//jwt_decode(token);
+    const tokenObj = jwt_decode(token);
     console.log(tokenObj)
 
-    const { id, sub: username, roles: rolesString } = null//jwt_decode(token);
+    const { id, sub: username, roles: rolesString } = jwt_decode(token);
     const roles = rolesString.split(',');
     const user = {
       id,
