@@ -1,8 +1,24 @@
 @url = http://localhost:8080/game/board
 
 ###
+POST http://localhost:8080/authenticate HTTP/1.1
+Content-Type: application/json
 
-GET {{url}} HTTP/1.1
+{
+  "username": "SuperMario",
+  "password": "P@ssw0rd!"
+}
+###
+PUT {{url}} HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJjaGVzc19nYW1lIiwic3ViIjoiU3VwZXJNYXJpbyIsImlkIjoxLCJyb2xlcyI6IkFETUlOIiwiZXhwIjoxNjM2NTYxODYyfQ.A5JetneXTY-RptvUuGJV85Cqlik4S-NdPhWVbq4xq5E
+
+{
+  "isBlack": false,
+  "start": "b2",
+  "end": "b4",
+  "isComputerPlayer": false
+}
 
 ###
 
