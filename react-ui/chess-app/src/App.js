@@ -6,35 +6,15 @@ import AuthContext from "./context/AuthContext";
 import Home from "./components/MainUI/Home";
 import Nav from "./components/MainUI/Nav";
 import Login from "./components/Login";
-import Board from "./components/Board";
+// import Board from "./components/Board";
+import BoardPvP from "./components/BoardPvP";
 import Register from "./components/Register"
 import Profile from "./components/PlayerProfileUI/Profile";
 import './App.css';
 
-
-//setting up socket server
-
-// const socketUrl = `ws://${window.location.host}/messages`;
-// const ws = new WebSocket(socketUrl);
-
-// ws.onopen = function () {
-//   console.log("websocket successfully connected.")
-// };
-
-// ws.onclose = function () {
-//   console.log("websocket closed")
-// };
-
-// ws.onerror = function(err) {
-//   console.error(`websocket error: ${err}`)
-// };
-
-
 const TOKEN_KEY = "chess-api-token";
 
-
 function App() {
-  
 
   const [user, setUser] = useState(null);
   const [initialized, setInitialized] = useState(false);
@@ -90,8 +70,6 @@ function App() {
     return null;
   }
 
-
-
   return(
     <AuthContext.Provider value={auth}>
       <Router>
@@ -124,7 +102,7 @@ function App() {
           </Route>
 
           <Route path="/game/board">
-            {user ? <Board /> : <Redirect to="/login" />}
+            {user ? <BoardPvP /> : <Redirect to="/login" />}
           </Route>
           <Route path="/game/chat">
             {user ? <WebsocketTest /> : <Redirect to="/login" />}
