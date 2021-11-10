@@ -22,23 +22,10 @@ function WebsocketTest() {
             const dataFromServer = JSON.parse(message.data);
             console.log('got reply! ', dataFromServer);
             if (dataFromServer.type === "message") {
-                // this.setState((state) =>
-                // ({
-                //     messages: [...state.messages,
-                //     {
-                //         message: dataFromServer.message,
-                //         user: dataFromServer.user
-                //     }]
-                // })
-                // );
+            
             }
         };
 
-    //     if (appUser) {
-    //         login(appUser);
-    //     }
-
-    //     setInitialized(true);
     }, []);
 
 
@@ -60,7 +47,7 @@ function WebsocketTest() {
     }
 
     //send player gameid and start/end position
-    //validate gameid, and turn before sending the json object 
+    //validate gameid, turn and move before sending the json object 
 
     return (
         <div>

@@ -12,24 +12,6 @@ import Profile from "./components/PlayerProfileUI/Profile";
 import './App.css';
 
 
-//setting up socket server
-
-// const socketUrl = `ws://${window.location.host}/messages`;
-// const ws = new WebSocket(socketUrl);
-
-// ws.onopen = function () {
-//   console.log("websocket successfully connected.")
-// };
-
-// ws.onclose = function () {
-//   console.log("websocket closed")
-// };
-
-// ws.onerror = function(err) {
-//   console.error(`websocket error: ${err}`)
-// };
-
-
 const TOKEN_KEY = "chess-api-token";
 
 
