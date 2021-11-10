@@ -1,22 +1,20 @@
 import {BrowserRouter as Router, Route, Switch, Redirect} from "react-router-dom";
 import { useEffect, useState } from "react";
-//import jwt_decode from 'jwt_decode';
-
+import jwt_decode from 'jwt-decode';
+import WebsocketTest from './components/WebsocketTest';
 import AuthContext from "./context/AuthContext";
 import Home from "./components/MainUI/Home";
 import Nav from "./components/MainUI/Nav";
 import Login from "./components/Login";
-import Board from "./components/Board";
+// import Board from "./components/Board";
+import BoardPvP from "./components/BoardPvP";
 import Register from "./components/Register"
 import Profile from "./components/PlayerProfileUI/Profile";
 import './App.css';
 
-
 const TOKEN_KEY = "chess-api-token";
 
-
 function App() {
-  
 
   const [user, setUser] = useState(null);
   const [initialized, setInitialized] = useState(false);
@@ -72,8 +70,6 @@ function App() {
     return null;
   }
 
-
-
   return(
     <AuthContext.Provider value={auth}>
       <Router>
@@ -106,7 +102,7 @@ function App() {
           </Route>
 
           <Route path="/game/board">
-             <Board /> 
+            {user ? <BoardPvP /> : <Redirect to="/login" />}
           </Route>
           <Route path="/game/chat">
             {user ? <WebsocketTest /> : <Redirect to="/login" />}
