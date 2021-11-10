@@ -27,7 +27,6 @@ import java.util.Map;
 
 @RestController
 @ConditionalOnWebApplication
-@RequestMapping("/game")
 public class AuthController {
 
     private final AuthenticationManager authenticationManager;

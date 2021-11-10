@@ -34,10 +34,10 @@ function App() {
     console.log(token);
     localStorage.setItem(TOKEN_KEY, token);
 
-    const tokenObj = jwt_decode(token);
+    const tokenObj = null//jwt_decode(token);
     console.log(tokenObj)
 
-    const { id, sub: username, roles: rolesString } = jwt_decode(token);
+    const { id, sub: username, roles: rolesString } = null//jwt_decode(token);
     const roles = rolesString.split(',');
     const user = {
       id,
