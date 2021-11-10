@@ -138,4 +138,34 @@ class BoardTest {
         assertTrue(board.generateMove(2,2,5,5));
         assertEquals(board.whiteCaptured.get(1), Pieces.WHITE_PAWN);
     }
+
+    @Test
+    void shouldPrintBoardCoordinates(){
+        board.setChessBoardCoordinates();
+        String[][] boardCoordinates = board.getChessBoardCoordinates();
+
+        for(int i = 0; i < 8; i++){
+            for(int j = 0; j < 8; j++){
+                System.out.print(boardCoordinates[i][j] + "  ");
+            }
+            System.out.print("\n");
+        }
+    }
+
+    @Test
+    void shouldPrintCoordinateInOurJavaBoard(){
+        board.setChessBoardCoordinates();
+        String coordinate = board.convertBoardCoordinates("a8");
+        assertEquals("00", coordinate);
+        coordinate = board.convertBoardCoordinates("d4");
+        assertEquals("43", coordinate);
+    }
+    @Test
+    void shouldPrintCoordinateForChessBoard(){
+        board.setChessBoardCoordinates();
+        String coordinate = board.convertBoardBackToChessNotation("00");
+        assertEquals("a8", coordinate);
+        coordinate = board.convertBoardBackToChessNotation("43");
+        assertEquals("d4", coordinate);
+    }
 }

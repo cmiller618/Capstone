@@ -8,10 +8,14 @@ import java.util.List;
 @Component
 public class Board {
 
+    private String chessFile = "abcdefgh";
+    private String chessRank = "87654321";
+    private String[][] boardCoordinates = new String[8][8];
 
     public void setBoard(Pieces[][] board) {
         this.board = board;
     }
+
 
     public Pieces[][] getBoard() {
         return board;
@@ -55,6 +59,45 @@ public class Board {
         board[7][4] = Pieces.WHITE_QUEEN;
 
         return board;
+    }
+
+    public void setChessBoardCoordinates(){
+
+        for(int i = 0; i < 8; i++){
+            for(int j = 0; j < 8; j++){
+                boardCoordinates[i][j] = String.valueOf(chessFile.charAt(j)) + String.valueOf(chessRank.charAt(i));
+            }
+        }
+    }
+
+    public String[][] getChessBoardCoordinates(){
+        return boardCoordinates;
+    }
+
+    public String convertBoardCoordinates(String coordinate){
+        String newCoordinate = null;
+        for(int i = 0; i < 8; i++){
+            for(int j = 0; j < 8; j++){
+                if(boardCoordinates[i][j].equalsIgnoreCase(coordinate)){
+                    newCoordinate = String.valueOf(i) + String.valueOf(j);
+                }
+            }
+        }
+        return newCoordinate;
+    }
+
+    public String convertBoardBackToChessNotation(String coordinate){
+        String newCoordinate = null;
+        for(int i = 0; i < 8; i++){
+            for(int j = 0; j < 8; j++){
+                String tempCoordinate = i + String.valueOf(j);
+                if((tempCoordinate.equalsIgnoreCase(coordinate))){
+                    newCoordinate = boardCoordinates[i][j];
+                }
+            }
+        }
+
+        return newCoordinate;
     }
 
     public boolean knightValidMovement(int startX, int startY, int endX, int endY){
