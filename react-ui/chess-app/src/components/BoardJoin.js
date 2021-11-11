@@ -1,32 +1,28 @@
 import { useRef, useState } from 'react';
 import { Chessboard } from 'react-chessboard';
 import React, { useContext, useEffect } from 'react';
-// import { addMatch } from '../services/MatchesAPI'
 import { Link } from "react-router-dom"
 import AuthContext from "../context/AuthContext";
 import Chess from 'chess.js';
 
 const socketUrl = "ws:localhost:8080/messages"
-const ws = new WebSocket(socketUrl)
-
 
 export default function BoardJoin({ boardWidth }) {
-  const chessboardRef = useRef();
   const myColor = 'w';
   const auth = useContext(AuthContext);
 
+  const chessboardRef = useRef();
   const [game, setGame] = useState(new Chess());
-  const [match, setMatch] = useState({
-    "matchId": "",
-    "player1Id": "",
-    "player2Id": auth.id,
-    "playerWinnerId": "",
-    "startTime": "00:00:00",
-    "endTime": null
-  });
+  const [matchId, setMatchId] = useState();
+  const [gameOver, setGameOver] = useState();
+  const [player1Id, setPlayer1Id] = useState();
 
+  const wsRef = useRef(null);
 
   useEffect(() => {
+    wsRef.current = new WebSocket(socketUrl);
+    const ws = wsRef.current;
+
     ws.onopen = () => {
       console.log("websocket successfully connected.")
       ws.send(JSON.stringify({
@@ -36,9 +32,14 @@ export default function BoardJoin({ boardWidth }) {
       }))
     }
 
+    ws.onclose = () => {
+      console.log("websocket closed.")
+    };
 
     ws.onmessage = function (message) {
-      if(message.data.substring(0,10) === 'game over'){
+      if(message.data.substring(0,9) === 'game over'){
+        setGameOver(true)
+        wsRef.current.close();
         return;
       }
 
@@ -46,16 +47,19 @@ export default function BoardJoin({ boardWidth }) {
       console.log(dataFromServer);
       if(dataFromServer.type === "message"){
         setGame(new Chess(dataFromServer.fen));
-        setMatch(dataFromServer.match);
+        setMatchId(dataFromServer.matchId);
+        setPlayer1Id(dataFromServer.id);
         if(dataFromServer.gameOver){
           console.log("game is over");
-          ws.send("game over, " + match.matchId);
+          setGameOver(dataFromServer.gameOver);
+          ws.close();
         }
       }
     };
   }, []);
 
   function onDrop(sourceSquare, targetSquare) {
+    const ws = wsRef.current;
     const gameCopy = { ...game };
     const move = gameCopy.move({
       from: sourceSquare,
@@ -70,13 +74,16 @@ export default function BoardJoin({ boardWidth }) {
           type:"message",
           fen: game.fen(),
           gameOver: game.game_over(),
-          match: match
+          matchId: matchId,
+          id: auth.user.id,
+          username: auth.user.username
         }))
       }
 
       if(gameCopy.game_over()){
-        console.log("game is over");
-        ws.send("game over, " + match.matchId);
+        console.log("game is over with game info");
+        ws.send("game over," + matchId + "," + auth.user.id);
+        ws.close();
       } 
 
       setGame(gameCopy);
@@ -88,27 +95,32 @@ export default function BoardJoin({ boardWidth }) {
   }
 
   const EndGameButton = () => {
-    ws.onclose = function () {
-      console.log("websocket closed.")
-    };
+    wsRef.current.send("game over," + matchId + "," + player1Id);
+    setGameOver(true);
+    console.log(gameOver);
+    wsRef.current.close();
   }
 
   return (
     <div>
-      <h2>You're Black</h2>
-      <Chessboard
-        id="PlayVsPlay"
-        animationDuration={200}
-        boardWidth={boardWidth}
-        position={game.fen()}
-        onPieceDrop={onDrop}
-        customBoardStyle={{
-          borderRadius: '4px',
-          boxShadow: '0 5px 15px rgba(0, 0, 0, 0.5)'
-        }}
-        ref={chessboardRef}
-      />
-      <Link to="/" onClick={EndGameButton} className="btn btn-warning" >End Game</Link>
+      {gameOver ? <h3>Game Over</h3> :
+        <div className="container">
+          <h2>You're Black</h2>
+          <Chessboard
+            id="PlayVsPlay"
+            animationDuration={200}
+            boardWidth={boardWidth}
+            position={game.fen()}
+            onPieceDrop={onDrop}
+            customBoardStyle={{
+              borderRadius: '4px',
+              boxShadow: '0 5px 15px rgba(0, 0, 0, 0.5)'
+            }}
+            ref={chessboardRef}
+          />
+          <Link to="/" onClick={EndGameButton} className="btn btn-warning" >End Game</Link>
+        </div>
+      }
     </div>
   );
 }

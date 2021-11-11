@@ -28,7 +28,8 @@ function Home(){
     </div>
     {auth.user ? 
       <div className="container">
-        <Link to="/game/board" className="btn btn-warning">Join/Create Game</Link>
+        <Link to="/game/board" className="btn btn-success">Create Game</Link>
+        <Link to="/game/boardJoin" className="btn btn-warning">Join Game</Link>
       </div> : <div id ="signInMessage" className="container mt-3"><p>In order to play a game online you must login or create an account!</p></div>}
     </>
   );

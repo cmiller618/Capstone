@@ -1,15 +1,24 @@
 package learn.chess.socket;
 
+import learn.chess.data.MatchRepository;
+import learn.chess.model.Match;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
+import java.util.Arrays;
 import java.util.HashSet;
 
 public class SocketHandler extends TextWebSocketHandler {
 
     private HashSet<WebSocketSession> sessions = new HashSet<>();
+
+    private final MatchRepository repository;
+
+    public SocketHandler(MatchRepository repository) {
+        this.repository = repository;
+    }
 
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
@@ -22,9 +31,16 @@ public class SocketHandler extends TextWebSocketHandler {
         for (WebSocketSession s : sessions) {
             // application state update - make a move/update
             // send the current state of the application to each connected client
-            if(message.getPayload().toString().equals("game over")){
-                System.out.println("game over");
+            String[] gameOverMessage = message.getPayload().split(",");
+            if(gameOverMessage[0].equals("game over")){
+                int matchId = Integer.parseInt(gameOverMessage[1]);
+                int matchWinner = Integer.parseInt(gameOverMessage[2]);
+                Match match = new Match();
+                match.setMatchId(matchId);
+                match.setPlayerWinnerId(matchWinner);
+                repository.updateMatch(match);
             }
+
             if (!s.equals(session)) {
                 s.sendMessage(message);
             }
