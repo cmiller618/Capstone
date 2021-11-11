@@ -13,7 +13,7 @@ public class Match {
     private int player1Id;
     private int player2Id;
     private int playerWinnerId;
-    private LocalTime startTime= LocalTime.now();
+    private LocalTime startTime = LocalTime.now();
     private LocalTime endTime;
 
     public Match(int matchId, int player1Id, int player2Id, int playerWinnerId, LocalTime startTime, LocalTime endTime) {
