@@ -3,7 +3,7 @@
 ###
 
 GET {{url}} HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJjaGVzc19nYW1lIiwic3ViIjoiU3VwZXJNYXJpbyIsImlkIjoxLCJyb2xlcyI6IkFETUlOIiwiZXhwIjoxNjM2NTc4OTY1fQ.Rwr1iu6tuPyuc80EP_huflN7q2aFOxwFuLJq5-6Z4oM
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJjaGVzc19nYW1lIiwic3ViIjoiU3VwZXJNYXJpbyIsImlkIjoxLCJyb2xlcyI6IkFETUlOIiwiZXhwIjoxNjM2NjAyOTQwfQ.EVNLYB4G90F0ijqZmVvMl5xIj2bVtSpgXgqeXItsdi8
 
 ###
 Get {{url}}/ranking HTTP/1.1
@@ -15,6 +15,7 @@ Get {{url}}/1 HTTP/1.1
 POST {{url}} HTTP/1.1
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJjaGVzc19nYW1lIiwic3ViIjoiU3VwZXJNYXJpbyIsImlkIjoxLCJyb2xlcyI6IkFETUlOIiwiZXhwIjoxNjM2NjQzODIzfQ.4AVRUZGVxAjrxR0z-K1d2lOxCYmgiWfxuBlq8CLyYT8
+
 
 {
   "matchId": 0,
