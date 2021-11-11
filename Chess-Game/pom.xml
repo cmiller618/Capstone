@@ -50,7 +50,7 @@
         </dependency>
 
 
-         <!-- JWT -->
+        <!-- JWT -->
 
         <dependency>
             <groupId>io.jsonwebtoken</groupId>
@@ -67,7 +67,7 @@
             <groupId>io.jsonwebtoken</groupId>
             <artifactId>jjwt-jackson</artifactId>
 
-           
+
 
             <version>0.11.2</version>
 

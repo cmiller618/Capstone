@@ -10,7 +10,7 @@ function Nav(){
 
   return(
     <nav className="nav">
-      <h1 className="col fst-italic" id="title">Chess and Friends Online</h1>
+      <h1 className="font-weight-bold" id="title">ChessMaster</h1>
       
       <div className="d-grid gap-2 d-md-block">
         

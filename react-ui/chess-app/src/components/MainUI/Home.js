@@ -12,7 +12,7 @@ function Home(){
   return(
     <>
     <div className="container">
-      <h2 id="pageHeader">Welcome To Chess Online by Team "Oops, we pushed to master"</h2>
+      <h2 id="pageHeader">Welcome To ChessMaster by Team "Oops, we pushed to master"</h2>
       <h4 id="rankHeader">Global Player Ranking</h4>
       <table className="table table-dark table-striped">
         <thead>
