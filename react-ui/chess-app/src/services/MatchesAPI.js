@@ -52,6 +52,9 @@ export async function addMatch(match, auth){
   if(response.status !== 201){
     return Promise.reject("response not 201 CREATED");
   }
+
+  debugger;
+  return response.json();
 }
 
 export async function updateMatch(match, auth){

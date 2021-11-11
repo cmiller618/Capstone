@@ -22,6 +22,9 @@ public class SocketHandler extends TextWebSocketHandler {
         for (WebSocketSession s : sessions) {
             // application state update - make a move/update
             // send the current state of the application to each connected client
+            if(message.getPayload().toString().equals("game over")){
+                System.out.println("game over");
+            }
             if (!s.equals(session)) {
                 s.sendMessage(message);
             }

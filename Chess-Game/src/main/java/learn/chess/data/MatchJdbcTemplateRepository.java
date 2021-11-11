@@ -88,7 +88,7 @@ public class MatchJdbcTemplateRepository implements MatchRepository {
                 PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
                 ps.setInt(1,match.getPlayer1Id());
                 ps.setInt(2, match.getPlayer2Id());
-                ps.setTime(3, Time.valueOf(match.getStartTime()));
+                ps.setTime(3, Time.valueOf(LocalTime.now()));
                 return ps;
         }, keyHolder);
 
