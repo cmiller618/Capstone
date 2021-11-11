@@ -5,7 +5,7 @@ import AuthContext from "./context/AuthContext";
 import Home from "./components/MainUI/Home";
 import Nav from "./components/MainUI/Nav";
 import Login from "./components/Login";
-import BoardPvP from "./components/BoardPvP";
+import BoardHost from "./components/BoardHost";
 import BoardJoin from "./components/BoardJoin";
 import Register from "./components/Register"
 import Profile from "./components/PlayerProfileUI/Profile";
@@ -72,7 +72,6 @@ function App() {
   return(
     <AuthContext.Provider value={auth}>
       <Router>
-
         <div className="header">
           <div className="container">
             <div className="row pt-2">
@@ -101,7 +100,7 @@ function App() {
           </Route>
 
           <Route path="/game/board">
-            {user ? <BoardPvP /> : <Redirect to="/login" />}
+            {user ? <BoardHost /> : <Redirect to="/login" />}
           </Route>
           <Route path="/game/boardJoin">
             {user ? <BoardJoin /> : <Redirect to="/login" />}

@@ -4,6 +4,7 @@ import React, { useContext, useEffect } from 'react';
 import { Link } from "react-router-dom"
 import AuthContext from "../context/AuthContext";
 import Chess from 'chess.js';
+import './Board.css'
 
 const socketUrl = "ws:localhost:8080/messages"
 
@@ -16,6 +17,8 @@ export default function BoardJoin({ boardWidth }) {
   const [matchId, setMatchId] = useState();
   const [gameOver, setGameOver] = useState();
   const [player1Id, setPlayer1Id] = useState();
+  const [player1Name, setPlayer1Name] = useState();
+
 
   const wsRef = useRef(null);
 
@@ -49,6 +52,7 @@ export default function BoardJoin({ boardWidth }) {
         setGame(new Chess(dataFromServer.fen));
         setMatchId(dataFromServer.matchId);
         setPlayer1Id(dataFromServer.id);
+        setPlayer1Name(dataFromServer.username);
         if(dataFromServer.gameOver){
           console.log("game is over");
           setGameOver(dataFromServer.gameOver);
@@ -103,10 +107,11 @@ export default function BoardJoin({ boardWidth }) {
   }
 
   return (
-    <div>
+    <div className="card text-center">
       {gameOver ? <h3>Game Over</h3> :
-        <div className="container">
-          <h2>You're Black</h2>
+        <div id="blackBoard" className="card-body">
+        <div className="row">
+        <div id="container">
           <Chessboard
             id="PlayVsPlay"
             animationDuration={200}
@@ -119,7 +124,11 @@ export default function BoardJoin({ boardWidth }) {
             }}
             ref={chessboardRef}
           />
-          <Link to="/" onClick={EndGameButton} className="btn btn-warning" >End Game</Link>
+          </div>
+          <h5 className="YouAreBlack">Me: {auth.user.username} <br/>Opponent: {player1Name ? player1Name : "????"}</h5>
+          <h2 className="YouAreBlack"><strong>Your pieces are: Black</strong></h2>
+          <Link to="/" onClick={EndGameButton} className="btn btn-warning" >Forfeit</Link>
+          </div>
         </div>
       }
     </div>
