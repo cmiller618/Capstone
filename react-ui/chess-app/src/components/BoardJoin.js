@@ -1,7 +1,7 @@
 import { useRef, useState } from 'react';
 import { Chessboard } from 'react-chessboard';
 import React, { useContext, useEffect } from 'react';
-import { updateMatch, addMatch } from '../services/MatchesAPI'
+// import { addMatch } from '../services/MatchesAPI'
 import { Link } from "react-router-dom"
 import AuthContext from "../context/AuthContext";
 import Chess from 'chess.js';
@@ -9,51 +9,43 @@ import Chess from 'chess.js';
 const socketUrl = "ws:localhost:8080/messages"
 const ws = new WebSocket(socketUrl)
 
-export default function BoardPvP({ boardWidth }) {
-  const myColor = 'b';
+
+export default function BoardJoin({ boardWidth }) {
+  const chessboardRef = useRef();
+  const myColor = 'w';
   const auth = useContext(AuthContext);
 
-  const chessboardRef = useRef();
   const [game, setGame] = useState(new Chess());
   const [match, setMatch] = useState({
     "matchId": "",
-    "player1Id": auth.id,
-    "player2Id": "",
+    "player1Id": "",
+    "player2Id": auth.id,
     "playerWinnerId": "",
     "startTime": "00:00:00",
     "endTime": null
   });
 
+
   useEffect(() => {
     ws.onopen = () => {
       console.log("websocket successfully connected.")
       ws.send(JSON.stringify({
+        type: "userInfo",
         id: auth.user.id,
         username: auth.user.username
       }))
-    };
+    }
+
 
     ws.onmessage = function (message) {
       const dataFromServer = JSON.parse(message.data);
       console.log(dataFromServer);
-      
       if(dataFromServer.type === "message"){
         setGame(new Chess(dataFromServer.fen));
+        setMatch(dataFromServer.match);
         if(game.game_over()){
           console.log("game is over");
         }
-      }
-
-      if(dataFromServer.type === "userInfo"){
-        const newMatch = {
-          "matchId": 0,
-          "player1Id": auth.id,
-          "player2Id": dataFromServer.id,
-          "playerWinnerId": "",
-          "startTime": "00:00:00",
-          "endTime": null
-        }
-        setMatch(addMatch(newMatch, auth));
       }
     };
   }, []);
@@ -65,6 +57,7 @@ export default function BoardPvP({ boardWidth }) {
       to: targetSquare,
       promotion: 'q' 
     });
+
     
     if(gameCopy.turn() === myColor){
       if(move){
@@ -77,10 +70,11 @@ export default function BoardPvP({ boardWidth }) {
 
       if(game.game_over()){
         console.log("game is over");
-      }
+      } 
 
       setGame(gameCopy);
       return move;
+
     }else{
       return false;
     }
@@ -94,7 +88,7 @@ export default function BoardPvP({ boardWidth }) {
 
   return (
     <div>
-      <h2>You're White</h2>
+      <h2>You're Black</h2>
       <Chessboard
         id="PlayVsPlay"
         animationDuration={200}

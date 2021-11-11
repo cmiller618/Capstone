@@ -12,17 +12,9 @@ public class SocketHandler extends TextWebSocketHandler {
     private HashSet<WebSocketSession> sessions = new HashSet<>();
 
     @Override
-    public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
-        System.out.println("WebSocket connection closed. Id:" + session.getId());
-        System.out.println("Status: " + status);
-        sessions.remove(session);
-    }
-
-    @Override
-    public void handleTransportError(WebSocketSession session, Throwable exception) throws Exception {
-        System.out.println("WebSocket message error. Id:" + session.getId());
-        System.out.println("Reason: ");
-        System.out.println(exception.getMessage());
+    public void afterConnectionEstablished(WebSocketSession session) throws Exception {
+        System.out.println("WebSocket connection established. Id:" + session.getId());
+        sessions.add(session);
     }
 
     @Override
@@ -37,8 +29,16 @@ public class SocketHandler extends TextWebSocketHandler {
     }
 
     @Override
-    public void afterConnectionEstablished(WebSocketSession session) throws Exception {
-        System.out.println("WebSocket connection established. Id:" + session.getId());
-        sessions.add(session);
+    public void handleTransportError(WebSocketSession session, Throwable exception) throws Exception {
+        System.out.println("WebSocket message error. Id:" + session.getId());
+        System.out.println("Reason: ");
+        System.out.println(exception.getMessage());
+    }
+
+    @Override
+    public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
+        System.out.println("WebSocket connection closed. Id:" + session.getId());
+        System.out.println("Status: " + status);
+        sessions.remove(session);
     }
 }

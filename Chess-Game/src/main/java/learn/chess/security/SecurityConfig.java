@@ -34,6 +34,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         http.authorizeRequests()
                 .antMatchers("/login").permitAll()
+                .antMatchers("/messages").permitAll()
                 .antMatchers(HttpMethod.GET,"/game/players/matches/ranking").permitAll()
                 .antMatchers(HttpMethod.POST,"/game/players").permitAll()
                 .antMatchers(HttpMethod.GET, "/game/**").authenticated()

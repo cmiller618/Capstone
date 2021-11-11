@@ -37,11 +37,12 @@ export async function findMatchesByProfileId(profileId, auth){
   return response.json();
 }
 
-export async function addMatch(match){
+export async function addMatch(match, auth){
   const init = {
     method: "POST",
     headers: {
       "Content-type": "application/json",
+      'Authorization': `Bearer ${auth.user.token}`
     },
     body: JSON.stringify(match),
   };
@@ -53,11 +54,12 @@ export async function addMatch(match){
   }
 }
 
-export async function updateMatch(match){
+export async function updateMatch(match, auth){
   const init = {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
+      'Authorization': `Bearer ${auth.user.token}`
     },
     body: JSON.stringify(match),
   };

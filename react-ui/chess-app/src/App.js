@@ -1,12 +1,12 @@
 import {BrowserRouter as Router, Route, Switch, Redirect} from "react-router-dom";
 import { useEffect, useState } from "react";
 import jwt_decode from 'jwt-decode';
-import WebsocketTest from './components/WebsocketTest';
 import AuthContext from "./context/AuthContext";
 import Home from "./components/MainUI/Home";
 import Nav from "./components/MainUI/Nav";
 import Login from "./components/Login";
 import BoardPvP from "./components/BoardPvP";
+import BoardJoin from "./components/BoardJoin";
 import Register from "./components/Register"
 import Profile from "./components/PlayerProfileUI/Profile";
 import './App.css';
@@ -103,8 +103,8 @@ function App() {
           <Route path="/game/board">
             {user ? <BoardPvP /> : <Redirect to="/login" />}
           </Route>
-          <Route path="/game/chat">
-            {user ? <WebsocketTest /> : <Redirect to="/login" />}
+          <Route path="/game/boardJoin">
+            {user ? <BoardJoin /> : <Redirect to="/login" />}
           </Route>
         </Switch>
 
