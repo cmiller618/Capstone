@@ -114,6 +114,7 @@ export default function BoardPvP({ boardWidth }) {
       if(gameCopy.game_over()){
         console.log("game is over with game info");
         ws.send("game over," + matchId + "," + auth.user.id);
+        setGameOver(true);
         ws.close();
       }
 
