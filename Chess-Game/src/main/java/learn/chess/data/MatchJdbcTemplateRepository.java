@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.sql.PreparedStatement;
 import java.sql.Statement;
 import java.sql.Time;
+import java.time.LocalTime;
 import java.util.List;
 
 @Repository
@@ -106,7 +107,7 @@ public class MatchJdbcTemplateRepository implements MatchRepository {
                 "match_end_time = ? " +
                 "where match_id = ?; ";
 
-        return jdbcTemplate.update(sql, match.getPlayerWinnerId(), Time.valueOf(match.getEndTime()), match.getMatchId()) > 0;
+        return jdbcTemplate.update(sql, match.getPlayerWinnerId(), Time.valueOf(LocalTime.now()), match.getMatchId()) > 0;
     }
 
     private void addPlayerTies(List<PlayerStats> playerStatsList) {
