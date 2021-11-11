@@ -29,3 +29,11 @@ GET {{url}}/currentboard HTTP/1.1
 PUT {{url}} HTTP/1.1
 
 ###
+
+POST http://localhost:8080/authenticate HTTP/1.1
+Content-Type: application/json
+
+{
+  "username": "SuperCaroline",
+  "password": "P@ssw0rd!"
+}
