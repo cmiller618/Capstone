@@ -44,7 +44,7 @@ function Profile(){
 
   return(
       <div className="card text-center">
-        <div class="card-header">
+        <div className="card-header">
           <h1 id="usernameTitle" className="card-title">{username} Profile</h1>
         </div>
         <div class="card-footer text-muted">

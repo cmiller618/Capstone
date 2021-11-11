@@ -53,8 +53,11 @@ export async function addMatch(match, auth){
     return Promise.reject("response not 201 CREATED");
   }
 
-  debugger;
-  return response.json();
+  
+
+  if(response.json() && response.json().matchId !== null){
+    return response.json();
+  }
 }
 
 export async function updateMatch(match, auth){
