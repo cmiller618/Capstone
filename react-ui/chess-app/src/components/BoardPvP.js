@@ -15,14 +15,7 @@ export default function BoardPvP({ boardWidth }) {
 
   const chessboardRef = useRef();
   const [game, setGame] = useState(new Chess());
-  const [match, setMatch] = useState({
-    "matchId": "",
-    "player1Id": auth.id,
-    "player2Id": "",
-    "playerWinnerId": "",
-    "startTime": "00:00:00",
-    "endTime": null
-  });
+  const [match, setMatch] = useState({});
 
   useEffect(() => {
     ws.onopen = () => {
@@ -34,26 +27,31 @@ export default function BoardPvP({ boardWidth }) {
     };
 
     ws.onmessage = function (message) {
-      const dataFromServer = JSON.parse(message.data);
-      console.log(dataFromServer);
-      
+      if(message.data.substring(0,10) === 'game over'){
+        return;
+      }
+
+      const dataFromServer = JSON.parse(message.data);      
       if(dataFromServer.type === "message"){
         setGame(new Chess(dataFromServer.fen));
-        if(game.game_over()){
+        if(dataFromServer.gameOver){
           console.log("game is over");
+          ws.send("game over, " + match.matchId);
         }
       }
 
       if(dataFromServer.type === "userInfo"){
         const newMatch = {
           "matchId": 0,
-          "player1Id": auth.id,
+          "player1Id": auth.user.id,
           "player2Id": dataFromServer.id,
           "playerWinnerId": "",
-          "startTime": "00:00:00",
+          "startTime": null,
           "endTime": null
         }
+        
         setMatch(addMatch(newMatch, auth));
+        console.log(match);
       }
     };
   }, []);
@@ -71,12 +69,14 @@ export default function BoardPvP({ boardWidth }) {
         ws.send(JSON.stringify({
           type:"message",
           fen: game.fen(),
+          gameOver: game.game_over(),
           match: match
         }))
       }
 
-      if(game.game_over()){
+      if(gameCopy.game_over()){
         console.log("game is over");
+        ws.send("game over, " + match.matchId);
       }
 
       setGame(gameCopy);

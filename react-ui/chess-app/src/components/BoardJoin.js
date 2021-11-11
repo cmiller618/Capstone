@@ -38,13 +38,18 @@ export default function BoardJoin({ boardWidth }) {
 
 
     ws.onmessage = function (message) {
+      if(message.data.substring(0,10) === 'game over'){
+        return;
+      }
+
       const dataFromServer = JSON.parse(message.data);
       console.log(dataFromServer);
       if(dataFromServer.type === "message"){
         setGame(new Chess(dataFromServer.fen));
         setMatch(dataFromServer.match);
-        if(game.game_over()){
+        if(dataFromServer.gameOver){
           console.log("game is over");
+          ws.send("game over, " + match.matchId);
         }
       }
     };
@@ -64,12 +69,14 @@ export default function BoardJoin({ boardWidth }) {
         ws.send(JSON.stringify({
           type:"message",
           fen: game.fen(),
+          gameOver: game.game_over(),
           match: match
         }))
       }
 
-      if(game.game_over()){
+      if(gameCopy.game_over()){
         console.log("game is over");
+        ws.send("game over, " + match.matchId);
       } 
 
       setGame(gameCopy);
