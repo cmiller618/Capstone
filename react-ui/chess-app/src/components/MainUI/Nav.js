@@ -19,6 +19,7 @@ function Nav(){
           <Link to="/" className="btn btn-primary ms-1">Home</Link>
           <Link to="/register" className="btn btn-info ms-1">Register</Link>
           <Link to="/login" className="btn btn-success ms-1">Login</Link> 
+          <Link to="/game/boardCPU" className="btn btn-success ms-1">Play vs CPU</Link>
           </div>
         )}
 
@@ -28,6 +29,7 @@ function Nav(){
             <Link to="/" className="btn btn-primary ms-1">Home</Link>
             <Link to={`/profile/${auth.user.id}`} className="btn btn-dark ms-1">View Profile</Link>
             <button onClick={() => auth.logout()} className="btn btn-danger ms-1">Logout</button>
+            <Link to="/game/boardCPU" className="btn btn-success ms-1">Play vs CPU</Link>
           </div>
         )}
 

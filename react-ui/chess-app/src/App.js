@@ -9,6 +9,7 @@ import BoardHost from "./components/BoardHost";
 import BoardJoin from "./components/BoardJoin";
 import Register from "./components/Register"
 import Profile from "./components/PlayerProfileUI/Profile";
+import BoardCPU from "./components/BoardCPU";
 import './App.css';
 
 const TOKEN_KEY = "chess-api-token";
@@ -104,6 +105,9 @@ function App() {
           </Route>
           <Route path="/game/boardJoin">
             {user ? <BoardJoin /> : <Redirect to="/login" />}
+          </Route>
+          <Route path="/game/boardCPU">
+            <BoardCPU />
           </Route>
         </Switch>
 
