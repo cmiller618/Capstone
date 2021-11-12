@@ -31,11 +31,7 @@ function App() {
 
 
   const login = (token) => {
-    console.log(token);
     localStorage.setItem(TOKEN_KEY, token);
-
-    const tokenObj = jwt_decode(token);
-    console.log(tokenObj)
 
     const { id, sub: username, roles: rolesString } = jwt_decode(token);
     const roles = rolesString.split(',');

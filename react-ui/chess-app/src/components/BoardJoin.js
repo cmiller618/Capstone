@@ -60,7 +60,7 @@ export default function BoardJoin({ boardWidth }) {
         }
       }
     };
-  }, []);
+  }, [auth.user]);
 
   function onDrop(sourceSquare, targetSquare) {
     const ws = wsRef.current;
