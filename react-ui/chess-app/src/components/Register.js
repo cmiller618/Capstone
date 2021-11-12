@@ -108,8 +108,6 @@ function Register(){
             .catch(error => console.log(error));
 
         } else {
-
-          console.log(data);
           setError(data);
         }
       })

@@ -51,7 +51,6 @@ function Login(){
           auth.login(data.jwt_token);
           history.push('/');
         } else {
-          // we have error messages
           setErrors(['login failure']);
         }
       })

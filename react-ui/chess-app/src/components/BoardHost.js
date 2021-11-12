@@ -90,7 +90,7 @@ export default function BoardHost({ boardWidth }) {
       }
     };
 
-  }, []);
+  }, [auth.user]);
 
   function onDrop(sourceSquare, targetSquare) {
     const ws = wsRef.current;
@@ -130,7 +130,6 @@ export default function BoardHost({ boardWidth }) {
   const EndGameButton = () => {
     wsRef.current.send("game over," + matchId + "," + player2Id);
     setGameOver(true);
-    console.log(gameOver);
     wsRef.current.close();
   }
 
