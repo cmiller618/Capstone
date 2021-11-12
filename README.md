@@ -18,39 +18,61 @@
 # controllers folder
 
 -AuthController, has calls to create account and add authentication
+
 -BoardController(unimplemented), has calls to get new board, get the current state of the board, and to update the board
+
 -ErrorResponse
+
 -GlobalErrorHandler
+
 -MatchController - to add and update matches and their statistics
+
 -PlayerController - to add, update, and remove player profiles
 
 # data folder
 
 -AppUserTemplateRepository
+
 -AppUserRespository interface
+
 -DataAccessException
+
 -MatchJdbcTemplateRepository
+
 -MatchRepository interface
+
 -PlayerJdbcTemplateRepository
+
 -PlayerRepository
 
 # domain folder
 
 -AppUserService
+
 -MatchService
+
 -PlayerService
+
 -Result
+
 -ResultType enum
 
 # mappers folder
 
 -AppUserMapper
+
 -MatchMapper
+
 -PlayerProfileMapper
+
 -PlayerStatsGlobalMapper
+
 -PlayerStatsLossesMapper
+
 -PlayerStatsMapper
+
 -PlayerStatsTiesMapper
+
 -PlayerStatesWinsMapper
 
 # model folder
