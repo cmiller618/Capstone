@@ -1,7 +1,7 @@
 import { useState , useContext } from "react";
 import { Link, useHistory } from "react-router-dom";
 import AuthContext from "../context/AuthContext";
-import Errors from "./Errors";
+import Errors from "./MainUI/Errors";
 
 function Login(){
 
@@ -37,7 +37,7 @@ function Login(){
       body: JSON.stringify(authAttempt)
     };
 
-    fetch('http://localhost:8080/game/authenticate', init)
+    fetch('http://localhost:8080/authenticate', init)
       .then(response => {
         if (response.status === 200) {
           return response.json();

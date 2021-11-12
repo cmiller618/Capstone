@@ -44,6 +44,10 @@ public class AppUserService implements UserDetailsService {
     }
 
     private void validate(String username) {
+        if(repository.findByUsername(username) != null){
+            throw new ValidationException("username already exists");
+        }
+
         if (username == null || username.isBlank()) {
             throw new ValidationException("username is required");
         }

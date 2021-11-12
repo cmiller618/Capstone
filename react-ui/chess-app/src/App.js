@@ -1,16 +1,16 @@
 import {BrowserRouter as Router, Route, Switch, Redirect} from "react-router-dom";
 import { useEffect, useState } from "react";
-//import jwt_decode from 'jwt_decode';
-
+import jwt_decode from 'jwt-decode';
 import AuthContext from "./context/AuthContext";
-import Home from "./components/Home";
-import Nav from "./components/Nav";
+import Home from "./components/MainUI/Home";
+import Nav from "./components/MainUI/Nav";
 import Login from "./components/Login";
-import Board from "./components/Board";
-import RegisterAccountInfo from "./components/RegisterAccountInfo";
+import BoardPvP from "./components/BoardPvP";
+import BoardJoin from "./components/BoardJoin";
 import Register from "./components/Register"
+import Profile from "./components/PlayerProfileUI/Profile";
+import BoardCPU from "./components/BoardCPU";
 import './App.css';
-
 
 const TOKEN_KEY = "chess-api-token";
 
@@ -34,10 +34,10 @@ function App() {
     console.log(token);
     localStorage.setItem(TOKEN_KEY, token);
 
-    const tokenObj = null//jwt_decode(token);
+    const tokenObj = jwt_decode(token);
     console.log(tokenObj)
 
-    const { id, sub: username, roles: rolesString } = null//jwt_decode(token);
+    const { id, sub: username, roles: rolesString } = jwt_decode(token);
     const roles = rolesString.split(',');
     const user = {
       id,
@@ -54,6 +54,7 @@ function App() {
     return user;
   }
 
+
   const logout = () => {
     localStorage.removeItem(TOKEN_KEY);
     setUser(null);
@@ -68,7 +69,6 @@ function App() {
   if(!initialized){
     return null;
   }
-
 
   return(
     <AuthContext.Provider value={auth}>
@@ -97,12 +97,18 @@ function App() {
             <Register />
           </Route>
 
-          <Route path="/registerInfo">
-            <RegisterAccountInfo />
+          <Route path="/profile/:id">
+            {user ? <Profile /> : <Redirect to="/login" />}
           </Route>
 
           <Route path="/game/board">
-             <Board /> 
+            {user ? <BoardPvP /> : <Redirect to="/login" />}
+          </Route>
+          <Route path="/game/boardJoin">
+            {user ? <BoardJoin /> : <Redirect to="/login" />}
+          </Route>
+          <Route path="/game/boardCPU">
+            {<BoardCPU />}
           </Route>
         </Switch>
 

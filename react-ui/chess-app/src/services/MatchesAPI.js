@@ -20,8 +20,15 @@ export async function findTopFive(){
   return response.json();
 }
 
-export async function findMatchesByProfileId(profileId){
-  const response = await fetch(`${APIURL}/${profileId}`);
+export async function findMatchesByProfileId(profileId, auth){
+
+  const init = {
+    headers: {
+      'Authorization' : `Bearer ${auth.user.token}`
+    }
+  }
+
+  const response = await fetch(`${APIURL}/${profileId}`, init);
 
   if(response.status !== 200){
     return Promise.reject("response is not 200 OK")
@@ -30,11 +37,12 @@ export async function findMatchesByProfileId(profileId){
   return response.json();
 }
 
-export async function addMatch(match){
+export async function addMatch(match, auth){
   const init = {
     method: "POST",
     headers: {
       "Content-type": "application/json",
+      'Authorization': `Bearer ${auth.user.token}`
     },
     body: JSON.stringify(match),
   };
@@ -44,13 +52,17 @@ export async function addMatch(match){
   if(response.status !== 201){
     return Promise.reject("response not 201 CREATED");
   }
+
+  debugger;
+  return response.json();
 }
 
-export async function updateMatch(match){
+export async function updateMatch(match, auth){
   const init = {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
+      'Authorization': `Bearer ${auth.user.token}`
     },
     body: JSON.stringify(match),
   };

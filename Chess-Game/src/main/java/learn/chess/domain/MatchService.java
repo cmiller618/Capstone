@@ -97,10 +97,6 @@ public class MatchService {
             result.addMessage("Player 2 must have a valid id", ResultType.INVALID);
             return result;
         }
-        if(match.getStartTime() == null) {
-            result.addMessage("Match start time cannot be null", ResultType.INVALID);
-            return result;
-        }
         return result;
     }
 }

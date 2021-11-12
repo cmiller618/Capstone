@@ -22,31 +22,33 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         this.jwtConverter = jwtConverter;
     }
 
-    // This method allows configuring web based security for specific http requests.
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        // We're not using HTML forms in our app so disable CSRF (Cross Site Request Forgery).
+
         http.csrf().disable();
 
-        // This configures Spring Security to allow CORS related requests (such as preflight checks).
+
         http.cors();
 
-        // The order of the antMatchers() method calls is important
-        // as they're evaluated in the order that they're added.
+
         http.authorizeRequests()
                 .antMatchers("/login").permitAll()
+                .antMatchers("/messages").permitAll()
                 .antMatchers(HttpMethod.GET,"/game/players/matches/ranking").permitAll()
                 .antMatchers(HttpMethod.POST,"/game/players").permitAll()
                 .antMatchers(HttpMethod.GET, "/game/**").authenticated()
-                .antMatchers(HttpMethod.POST, "/game/matches").authenticated()
-                .antMatchers(HttpMethod.PUT,"/game/players/*").authenticated()
-                .antMatchers(HttpMethod.PUT, "/game/matches/*").authenticated()
-                .antMatchers(HttpMethod.DELETE,"/game/players/*").authenticated()
+                .antMatchers(HttpMethod.GET, "/game/players/matches/*").hasAnyAuthority("USER","ADMIN")
+                .antMatchers(HttpMethod.POST, "/game/matches").hasAnyAuthority("USER", "ADMIN")
+                .antMatchers(HttpMethod.PUT,"/game/players/*").hasAnyAuthority("USER", "ADMIN")
+                .antMatchers(HttpMethod.PUT, "/game/matches/*").hasAnyAuthority("USER", "ADMIN")
+                .antMatchers(HttpMethod.DELETE,"/game/players/*").hasAnyAuthority("USER", "ADMIN")
                 .antMatchers(HttpMethod.POST, "/authenticate").permitAll()
                 .antMatchers(HttpMethod.POST, "/refresh_token").authenticated()
-                .antMatchers(HttpMethod.PUT, "/game/board").authenticated()
+                .antMatchers(HttpMethod.PUT, "/game/board").hasAnyAuthority("USER", "ADMIN")
 
             .and()
+                .addFilter(new JwtRequestFilter(authenticationManager(), jwtConverter))
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
     }
@@ -65,9 +67,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     public WebMvcConfigurer corsConfigurer() {
 
-        // Configure CORS globally versus
-        // controller-by-controller.
-        // Can be combined with @CrossOrigin.
+
         return new WebMvcConfigurer() {
 
             @Override
