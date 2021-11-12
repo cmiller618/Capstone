@@ -56,17 +56,25 @@
 # model folder
 
 -AppUser
+
 -Board(Unimplemented)
+
 -ComputerPlayer(unimplemented)
+
 -Match
+
 -Pieces enum (unimplemented)
+
 -PlayerProfile
+
 -PlayerStats
 
 # security folder
 
 -JwtConverter
+
 -JwtRequestFilter
+
 -SecurityConfig
 
 # Front-End:
@@ -77,20 +85,33 @@
 
 # PlayerProfileUI
 -Matches
+
 -Profile
+
 -ProfileMatches
 
 -BoardPVP - The board starts the game
+
 -BoardJoin - The board that joins the game
+
 -Error
+
 -Errors
+
 -Home
+
 -Login
+
 -Nav
+
 -pieceRenderer(unimplemented)
+
 -PlayerListing
+
 -Register
+
 -RegisterAccountInfo
+
 -TopFive
 
 # context folder
@@ -105,7 +126,10 @@
 # services folder
 
 -BoardAPI
+
 -MatchesAPI
+
 -PlayersAPI
+
 
 
